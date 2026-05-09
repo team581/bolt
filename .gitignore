@@ -9,3 +9,4 @@ node_modules/
 # GitHub App private key (never commit)
 *.pem
 github-app-private-key.*
+.vercel
