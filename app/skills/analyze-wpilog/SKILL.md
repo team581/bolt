@@ -8,6 +8,10 @@ license: MIT
 
 WPILOG is the binary log format used by logging libraries in the FRC ecosystem. The wpilog-parser library makes it easy to read and analyze the log files using TS/JS.
 
+## Locating the user's log file
+
+When the user attaches a `.wpilog` to a Slack message, it has already been uploaded into the sandbox before this turn started. Look for an `<attachment>` block in the user's prompt with a `sandbox_path:` field. Read the file directly from that path with `node:fs/promises` — do not try to download or re-fetch it.
+
 ## Creating a project
 
 1. Init a project using `bun init` or similar

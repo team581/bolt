@@ -1,0 +1,103 @@
+diff --git a/dist/app.js b/dist/app.js
+index 486fc362c7fc940f829418d11a597ded235bf829..9e4afae24fe4fa94c746e4050fcbd5f90268597a 100644
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -15509,6 +15509,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+         data = attachment.data;
+       }
+       if (!data) continue;
++      if (context.sandboxWriter) {
++        const sandboxPath = await context.sandboxWriter({
++          filename: attachment.name,
++          mediaType,
++          data
++        });
++        logInfo(
++          "attachment_uploaded_to_sandbox",
++          {
++            slackThreadId: context.threadId,
++            slackUserId: context.requesterId,
++            slackChannelId: context.channelId,
++            runId: context.runId,
++            assistantUserName: botConfig.userName,
++            modelId: botConfig.modelId
++          },
++          {
++            "file.size": data.byteLength,
++            "file.mime_type": mediaType,
++            "file.path": sandboxPath
++          },
++          "Uploaded user attachment into the sandbox"
++        );
++        resolvedAttachment.promptText = [
++          "<attachment>",
++          `filename: ${attachment.name ?? "unnamed"}`,
++          `media_type: ${mediaType}`,
++          `sandbox_path: ${sandboxPath}`,
++          "encoding: file",
++          `size: ${data.byteLength}`,
++          "</attachment>"
++        ].join("\n");
++        results.push(resolvedAttachment);
++        continue;
++      }
+       if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
+         logWarn(
+           "attachment_skipped_size_limit",
+@@ -16029,6 +16064,46 @@ function createReplyToThread(deps) {
+         if (resolvedUserName) {
+           setTags({ slackUserName: resolvedUserName });
+         }
++        let attachmentSandboxRef = preparedState.sandboxId
++          ? { sandboxId: preparedState.sandboxId }
++          : null;
++        const sandboxWriter = async ({ filename, mediaType, data }) => {
++          const sandboxCredentials = getVercelSandboxCredentials();
++          let sandbox;
++          if (attachmentSandboxRef?.sandboxId) {
++            try {
++              sandbox = await Sandbox.get({
++                sandboxId: attachmentSandboxRef.sandboxId,
++                ...sandboxCredentials ?? {}
++              });
++            } catch {
++              attachmentSandboxRef = null;
++            }
++          }
++          if (!sandbox) {
++            sandbox = await Sandbox.create({
++              timeout: 1e3 * 60 * 30,
++              ...sandboxCredentials ?? {}
++            });
++            attachmentSandboxRef = { sandboxId: sandbox.sandboxId };
++            preparedState.sandboxId = sandbox.sandboxId;
++            await persistThreadState(thread, {
++              sandboxId: sandbox.sandboxId
++            });
++          }
++          const safeName = (filename ?? "attachment").replace(
++            /[^A-Za-z0-9._-]/g,
++            "_"
++          );
++          const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
++          const sandboxPath = `${uploadDir}/${safeName}`;
++          try {
++            await sandbox.mkDir(uploadDir);
++          } catch {
++          }
++          await sandbox.writeFiles([{ path: sandboxPath, content: data }]);
++          return sandboxPath;
++        };
+         const userAttachments = await deps.resolveUserAttachments(
+           message.attachments,
+           {
+@@ -16037,7 +16112,8 @@ function createReplyToThread(deps) {
+             channelId,
+             runId,
+             conversation: preparedState.conversation,
+-            messageTs: slackMessageTs
++            messageTs: slackMessageTs,
++            sandboxWriter
+           }
+         );
+         const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;

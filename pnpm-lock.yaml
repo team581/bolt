@@ -4,16 +4,19 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@sentry/junior': cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a
+
 importers:
 
   .:
     dependencies:
       '@sentry/junior':
         specifier: latest
-        version: 0.39.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
+        version: 0.39.0(patch_hash=cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
       '@sentry/junior-github':
         specifier: latest
-        version: 0.39.0
+        version: 0.38.0
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.52.0
@@ -785,8 +788,8 @@ packages:
     resolution: {integrity: sha512-VA/kAqLhkMnRWY2RXdBLyTemR9D4m7MVRy/gyapoq9yvllVPx9WXbvKgnMP2LQp7mFgT/oLFvw58aQKaYTGn3A==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-github@0.39.0':
-    resolution: {integrity: sha512-kpKQqeIYdh6U7VKK1k67Zfs1KB1K4RpBtz1gSO226fiEhmMIgb6D4q8ZzzazlO4FQYB3oCqFewY5YvHwolyQsg==}
+  '@sentry/junior-github@0.38.0':
+    resolution: {integrity: sha512-qFdEuqAXTUfz75G7gE9ddgohB9HSUnHKeB1w62nw8PL/F3CXbhXiPVlVTkS61TBwfPpap3A9FU1HoMxA5uaCRQ==}
 
   '@sentry/junior@0.39.0':
     resolution: {integrity: sha512-BJOcVW051evHt33uq/0KCqJCvQdziTe8JJ0tEaNWPcxrJYhwheew/ED4lWZcUF03mCz5hAScrah+6tC7V4SOkg==}
@@ -3819,9 +3822,9 @@ snapshots:
 
   '@sentry/core@10.52.0': {}
 
-  '@sentry/junior-github@0.39.0': {}
+  '@sentry/junior-github@0.38.0': {}
 
-  '@sentry/junior@0.39.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
+  '@sentry/junior@0.39.0(patch_hash=cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.112(zod@4.4.3)
       '@chat-adapter/slack': 4.27.0

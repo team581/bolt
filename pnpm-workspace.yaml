@@ -3,3 +3,5 @@ allowBuilds:
   '@mongodb-js/zstd': true
   node-liblzma: true
   protobufjs: true
+patchedDependencies:
+  '@sentry/junior': patches/@sentry__junior.patch
