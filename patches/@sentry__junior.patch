@@ -1,8 +1,48 @@
 diff --git a/dist/app.js b/dist/app.js
-index 486fc362c7fc940f829418d11a597ded235bf829..9e4afae24fe4fa94c746e4050fcbd5f90268597a 100644
+index 486fc362c7fc940f829418d11a597ded235bf829..88929b5b6b51e6743c1349ebb9bb161fb3d47e3c 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -15509,6 +15509,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -11554,9 +11554,38 @@ async function generateAssistantReply(messageText, context = {}) {
+         turnContext: { traceId: getActiveTraceId() }
+       }
+     );
++    let resolvedUserAttachments = context.userAttachments;
++    if (context.resolveAttachmentsLazily) {
++      const sandboxAttachmentWriter = async ({ filename, mediaType, data }) => {
++        const workspaceSandbox = await getSandbox({
++          trigger: "attachment.upload",
++          path: filename
++        });
++        const sandboxCredentials = getVercelSandboxCredentials();
++        const rawSandbox = await Sandbox.get({
++          sandboxId: workspaceSandbox.sandboxId,
++          ...sandboxCredentials ?? {}
++        });
++        const safeName = (filename ?? "attachment").replace(
++          /[^A-Za-z0-9._-]/g,
++          "_"
++        );
++        const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
++        const sandboxPath = `${uploadDir}/${safeName}`;
++        try {
++          await rawSandbox.mkDir(uploadDir);
++        } catch {
++        }
++        await rawSandbox.writeFiles([{ path: sandboxPath, content: data }]);
++        return sandboxPath;
++      };
++      resolvedUserAttachments = await context.resolveAttachmentsLazily(
++        sandboxAttachmentWriter
++      );
++    }
+     const { routerBlocks, userContentParts } = buildUserTurnInput({
+       omittedImageAttachmentCount: context.omittedImageAttachmentCount ?? 0,
+-      userAttachments: context.userAttachments,
++      userAttachments: resolvedUserAttachments,
+       userTurnText
+     });
+     thinkingSelection = await selectTurnThinkingLevel({
+@@ -15509,6 +15538,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -44,60 +84,36 @@ index 486fc362c7fc940f829418d11a597ded235bf829..9e4afae24fe4fa94c746e4050fcbd5f9
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -16029,6 +16064,46 @@ function createReplyToThread(deps) {
+@@ -16029,17 +16093,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
-+        let attachmentSandboxRef = preparedState.sandboxId
-+          ? { sandboxId: preparedState.sandboxId }
-+          : null;
-+        const sandboxWriter = async ({ filename, mediaType, data }) => {
-+          const sandboxCredentials = getVercelSandboxCredentials();
-+          let sandbox;
-+          if (attachmentSandboxRef?.sandboxId) {
-+            try {
-+              sandbox = await Sandbox.get({
-+                sandboxId: attachmentSandboxRef.sandboxId,
-+                ...sandboxCredentials ?? {}
-+              });
-+            } catch {
-+              attachmentSandboxRef = null;
-+            }
-+          }
-+          if (!sandbox) {
-+            sandbox = await Sandbox.create({
-+              timeout: 1e3 * 60 * 30,
-+              ...sandboxCredentials ?? {}
-+            });
-+            attachmentSandboxRef = { sandboxId: sandbox.sandboxId };
-+            preparedState.sandboxId = sandbox.sandboxId;
-+            await persistThreadState(thread, {
-+              sandboxId: sandbox.sandboxId
-+            });
-+          }
-+          const safeName = (filename ?? "attachment").replace(
-+            /[^A-Za-z0-9._-]/g,
-+            "_"
-+          );
-+          const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
-+          const sandboxPath = `${uploadDir}/${safeName}`;
-+          try {
-+            await sandbox.mkDir(uploadDir);
-+          } catch {
-+          }
-+          await sandbox.writeFiles([{ path: sandboxPath, content: data }]);
-+          return sandboxPath;
-+        };
-         const userAttachments = await deps.resolveUserAttachments(
-           message.attachments,
-           {
-@@ -16037,7 +16112,8 @@ function createReplyToThread(deps) {
+-        const userAttachments = await deps.resolveUserAttachments(
+-          message.attachments,
+-          {
++        const resolveAttachmentsLazily = async (sandboxWriter) => {
++          return await deps.resolveUserAttachments(message.attachments, {
+             threadId,
+             requesterId: message.author.userId,
              channelId,
              runId,
              conversation: preparedState.conversation,
 -            messageTs: slackMessageTs
+-          }
+-        );
 +            messageTs: slackMessageTs,
 +            sandboxWriter
-           }
-         );
++          });
++        };
++        const userAttachments = void 0;
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
+         const status = createSlackAdapterAssistantStatusSession({
+           channelId: assistantThreadContext?.channelId,
+@@ -16106,6 +16171,7 @@ function createReplyToThread(deps) {
+             inboundAttachmentCount: message.attachments.length,
+             omittedImageAttachmentCount,
+             userAttachments,
++            resolveAttachmentsLazily,
+             correlation: {
+               conversationId,
+               threadId,

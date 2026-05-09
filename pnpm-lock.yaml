@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@sentry/junior': cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a
+  '@sentry/junior': a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2
 
 importers:
 
@@ -13,7 +13,7 @@ importers:
     dependencies:
       '@sentry/junior':
         specifier: latest
-        version: 0.39.0(patch_hash=cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
+        version: 0.39.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
       '@sentry/junior-github':
         specifier: latest
         version: 0.38.0
@@ -3824,7 +3824,7 @@ snapshots:
 
   '@sentry/junior-github@0.38.0': {}
 
-  '@sentry/junior@0.39.0(patch_hash=cfb49590359e28f1ccb8a29a3e0b9cf057eed3ed4ea44e2bbefff89fe73aeb9a)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
+  '@sentry/junior@0.39.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.112(zod@4.4.3)
       '@chat-adapter/slack': 4.27.0
