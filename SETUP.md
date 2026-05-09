@@ -26,21 +26,23 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
    - App Name: `Bolt`
    - Workspace: Team 581
 2. **Basic Information** → copy the **Signing Secret** → save as `SLACK_SIGNING_SECRET`.
-3. **OAuth & Permissions** → Bot Token Scopes, add at least:
+3. **OAuth & Permissions** → Bot Token Scopes. For student safety we deliberately scope Bolt to **public channels only** — no DMs, no group DMs, no private channels. Add **only**:
    - `app_mentions:read`
    - `chat:write`
    - `channels:history`
-   - `groups:history`
-   - `im:history`
-   - `mpim:history`
    - `users:read`
    - `files:read`
    - `reactions:write`
+
+   Do **not** add `groups:history`, `im:history`, or `mpim:history`. Without those scopes, Slack will not deliver private-channel, DM, or group-DM messages to Bolt at all, even if a student tries to invite the bot into one.
 4. **Install to Workspace** → copy the **Bot User OAuth Token** (starts with `xoxb-`) → save as `SLACK_BOT_TOKEN`.
 5. **Event Subscriptions** → Enable Events. Request URL placeholder: `https://<temporary-tunnel>/api/webhooks/slack` (we'll replace this with the Railway URL in Phase 5).
-   - Subscribe to bot events: `app_mention`, `message.channels`, `message.groups`, `message.im`, `message.mpim`.
+   - Subscribe to bot events: `app_mention`, `message.channels`.
+   - Do **not** subscribe to `message.groups`, `message.im`, or `message.mpim`. These would require the disallowed scopes anyway, and skipping them is a second layer of safety.
 6. **Interactivity & Shortcuts** → Enable. Request URL: same as Event Subscriptions.
-7. **App Home** → enable the Messages tab so users can DM Bolt.
+7. **App Home** → leave the **Messages tab disabled** so students cannot open a 1:1 DM with Bolt from the sidebar. The Home and About tabs are fine.
+
+> **Student safety guarantee.** With the scopes and event subscriptions above, Slack will never deliver a DM, group DM, or private-channel message to Bolt's webhook. This is enforced by Slack itself; nothing in Bolt's code needs to filter messages. If a future operator ever re-enables any of `groups:history` / `im:history` / `mpim:history`, that protection is lost — treat those scopes as restricted.
 
 ## Phase 3.5 — Vercel Sandbox (code execution)
 
