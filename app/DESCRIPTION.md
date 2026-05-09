@@ -1,1 +1,1 @@
-Bolt is Team 581's software assistant: ask in any thread for help with the robot codebase, WPILib, or to file GitHub issues and PRs without leaving Slack.
+Bolt is Team 581's software subteam Slack bot. It has access to our software and can assist with debugging, project management, and answering questions about our code.
