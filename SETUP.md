@@ -42,6 +42,22 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
 6. **Interactivity & Shortcuts** → Enable. Request URL: same as Event Subscriptions.
 7. **App Home** → enable the Messages tab so users can DM Bolt.
 
+## Phase 3.5 — Vercel Sandbox (code execution)
+
+Junior runs all shell/git/test commands inside per-turn [Vercel Sandbox](https://vercel.com/docs/vercel-sandbox) microVMs. Even though Bolt itself is on Railway, Junior's runtime imports `@vercel/sandbox` directly and there is no built-in alternative. Setting the three Vercel credentials below unlocks Bolt's code-execution capabilities (cloning a repo, running `./gradlew`, opening a PR from a branch, etc.).
+
+If these are left unset, Bolt still works for Q&A, GitHub issue/PR REST calls, comments, and labels — but anything that needs a shell will fail at runtime.
+
+1. <https://vercel.com/signup> — create or sign in to a Vercel account.
+2. Make sure you have (or create) a **team** on Vercel; note the **Team ID** (Team Settings → General → Team ID, looks like `team_…`).
+3. Create a **placeholder project** on that team — Add New → Project → "Create Empty Project" or import any small stub repo. **Do not** import the bolt repo here; nothing will deploy from it. Open the project → Settings → General → copy the **Project ID** (`prj_…`).
+4. Account avatar → **Account Settings** → **Tokens** → create a token named `bolt-sandbox`, scope **Full Account** (Sandbox needs broad access), expiration of your choice. Save the value (`vercel_…`) — Vercel only shows it once.
+5. Confirm the team has billing/allowance for Sandbox compute (Team Settings → Billing).
+6. Save the three values:
+   - `VERCEL_TOKEN`
+   - `VERCEL_TEAM_ID`
+   - `VERCEL_PROJECT_ID`
+
 ## Phase 4 — GitHub App (org-wide)
 
 1. <https://github.com/organizations/team581/settings/apps> → **New GitHub App**.
@@ -94,7 +110,8 @@ In a test channel, invite Bolt and try:
 3. Add a **Redis** database to the project. Railway exposes a `REDIS_URL` automatically.
 4. In the Bolt service → **Variables**, add everything from `.env.example` plus:
    - `JUNIOR_BASE_URL=https://<railway-domain>` (set after first deploy assigns one)
-   - `REDIS_URL` — reference Railway's variable from the Redis plugin.
+   - `REDIS_URL` — reference Railway's variable from the Redis plugin (e.g. `${{Redis.REDIS_URL}}`).
+   - `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, `VERCEL_PROJECT_ID` from Phase 3.5.
 5. Confirm `railway.json` is being respected:
    - Build: `pnpm install --frozen-lockfile && pnpm build`
    - Start: `pnpm start` (runs `node .output/server/index.mjs`)
