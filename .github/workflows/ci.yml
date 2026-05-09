@@ -21,5 +21,7 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies with pnpm
         run: pnpm install --frozen-lockfile
+      - name: Check Junior skills and plugins
+        run: pnpm exec junior check
       - name: Build
         run: pnpm build
