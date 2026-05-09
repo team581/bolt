@@ -1,0 +1,23 @@
+{
+  "name": "bolt",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "junior snapshot create && vite build",
+    "start": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@sentry/junior": "latest",
+    "@sentry/junior-github": "latest",
+    "@sentry/node": "^10.0.0",
+    "hono": "^4.12.0"
+  },
+  "devDependencies": {
+    "jiti": "^2.6.1",
+    "nitro": "3.0.260311-beta",
+    "typescript": "^5.9.0",
+    "vite": "^8.0.3"
+  }
+}

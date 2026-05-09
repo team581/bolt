@@ -1,0 +1,11 @@
+node_modules/
+.vercel/
+.output/
+.nitro/
+.env
+.env.local
+.env.*.local
+
+# GitHub App private key (never commit)
+*.pem
+github-app-private-key.*
