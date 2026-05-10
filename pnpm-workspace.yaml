@@ -1,8 +1,22 @@
 allowBuilds:
-  '@google/genai': true
-  '@mongodb-js/zstd': true
-  '@sentry/cli': true
+  "@google/genai": true
+  "@mongodb-js/zstd": true
+  "@sentry/cli": true
   node-liblzma: true
   protobufjs: true
 patchedDependencies:
-  '@sentry/junior': patches/@sentry__junior.patch
+  "@sentry/junior": patches/@sentry__junior.patch
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@latest
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
+  vite-plus: latest
+overrides:
+  vite: "catalog:"
+  vitest: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: "*"
+    vitest: "*"

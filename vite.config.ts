@@ -1,9 +1,14 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vite-plus";
 import { nitro } from "nitro/vite";
 
 export default defineConfig({
-  server: {
-    allowedHosts: true,
-  },
-  plugins: [nitro()],
+	staged: {
+		"*": "vp check --fix",
+	},
+	fmt: { useTabs: true, printWidth: 120 },
+	lint: { options: { typeAware: true, typeCheck: true } },
+	server: {
+		allowedHosts: true,
+	},
+	plugins: [nitro()],
 });

@@ -19,10 +19,10 @@ When the user attaches a `.wpilog` to a Slack message, it has already been uploa
 3. Create a `.ts` file for catalogging the records in the WPILOG file
 
    ```ts
-   import { readFile } from 'node:fs/promises';
-   import { readRecords, catalogEntries } from 'wpilog-parser';
+   import { readFile } from "node:fs/promises";
+   import { readRecords, catalogEntries } from "wpilog-parser";
 
-   const bytes = await readFile('./example.wpilog');
+   const bytes = await readFile("./example.wpilog");
 
    for (const catalogEntry of catalogEntries(readRecords(bytes))) {
    	console.log(catalogEntry);
@@ -40,15 +40,15 @@ When the user attaches a `.wpilog` to a Slack message, it has already been uploa
 Use `decodeRecords` to parse record contents. Filter by `name` and narrow on `type`:
 
 ```ts
-import { readFile } from 'node:fs/promises';
-import { readRecords, decodeRecords, isDataRecord, RecordType } from 'wpilog-parser';
+import { readFile } from "node:fs/promises";
+import { readRecords, decodeRecords, isDataRecord, RecordType } from "wpilog-parser";
 
-const bytes = await readFile('./example.wpilog');
+const bytes = await readFile("./example.wpilog");
 
 for (const record of decodeRecords(readRecords(bytes))) {
 	if (!isDataRecord(record)) continue;
 
-	if (record.name === '/Robot/Intake/Voltage' && record.type === RecordType.Double) {
+	if (record.name === "/Robot/Intake/Voltage" && record.type === RecordType.Double) {
 		console.log(record.timestamp, record.payload);
 	}
 }
@@ -57,10 +57,10 @@ for (const record of decodeRecords(readRecords(bytes))) {
 ### Decoding structs
 
 ```ts
-import { structPayloadToJson, RecordType } from 'wpilog-parser';
+import { structPayloadToJson, RecordType } from "wpilog-parser";
 
 for (const record of decodeRecords(readRecords(bytes))) {
-	if (record.type === RecordType.Struct && record.name === '/Robot/Localization/EstimatedPose') {
+	if (record.type === RecordType.Struct && record.name === "/Robot/Localization/EstimatedPose") {
 		console.log(record.timestamp, structPayloadToJson(record.payload));
 		// 18688018n {
 		//   translation: { x: 10.289, y: 0.47 },
@@ -94,13 +94,13 @@ The mode flags (`autonomous`, `test`) reflect what the DS _would_ run if enabled
 ### Tracking enable/mode durations
 
 ```ts
-import { readRecords, decodeRecords, isDataRecord, RecordType } from 'wpilog-parser';
+import { readRecords, decodeRecords, isDataRecord, RecordType } from "wpilog-parser";
 
-type Mode = 'auto' | 'teleop' | 'test';
+type Mode = "auto" | "teleop" | "test";
 function modeOf(auto: boolean, test: boolean): Mode {
-	if (test) return 'test';
-	if (auto) return 'auto';
-	return 'teleop';
+	if (test) return "test";
+	if (auto) return "auto";
+	return "teleop";
 }
 
 let enabled = false;
@@ -115,9 +115,9 @@ for (const r of decodeRecords(readRecords(bytes))) {
 	const wasEnabled = enabled;
 	const prevMode = modeOf(auto, test);
 
-	if (r.name === '/DS:enabled') enabled = r.payload;
-	else if (r.name === '/DS:autonomous') auto = r.payload;
-	else if (r.name === '/DS:test') test = r.payload;
+	if (r.name === "/DS:enabled") enabled = r.payload;
+	else if (r.name === "/DS:autonomous") auto = r.payload;
+	else if (r.name === "/DS:test") test = r.payload;
 	else continue;
 
 	if (wasEnabled && (!enabled || modeOf(auto, test) !== prevMode)) {

@@ -35,6 +35,7 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
    - `reactions:write`
 
    Do **not** add `groups:history`, `im:history`, or `mpim:history`. Without those scopes, Slack will not deliver private-channel, DM, or group-DM messages to Bolt at all, even if a student tries to invite the bot into one.
+
 4. **Install to Workspace** → copy the **Bot User OAuth Token** (starts with `xoxb-`) → save as `SLACK_BOT_TOKEN`.
 5. **Event Subscriptions** → Enable Events. Request URL placeholder: `https://<temporary-tunnel>/api/webhooks/slack` (we'll replace this with the Railway URL in Phase 5).
    - Subscribe to bot events: `app_mention`, `message.channels`.

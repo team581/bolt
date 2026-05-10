@@ -1,29 +1,31 @@
 {
-  "name": "bolt",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "vite build",
-    "build:release": "vite build && sentry-cli sourcemaps inject .output/server && sentry-cli sourcemaps upload .output/server",
-    "dev": "vite dev",
-    "start": "node .output/server/index.mjs"
-  },
-  "dependencies": {
-    "@sentry/junior": "latest",
-    "@sentry/junior-github": "latest",
-    "@sentry/node": "^10.0.0",
-    "hono": "^4.12.0"
-  },
-  "devDependencies": {
-    "@sentry/cli": "^3.4.1",
-    "jiti": "^2.6.1",
-    "nitro": "3.0.260311-beta",
-    "typescript": "^5.9.0",
-    "vite": "^8.0.3"
-  },
-  "packageManager": "pnpm@11.0.9",
-  "engines": {
-    "node": ">=24"
-  }
+	"name": "bolt",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "vp build",
+		"build:release": "vp build && sentry-cli sourcemaps inject .output/server && sentry-cli sourcemaps upload .output/server",
+		"dev": "vp dev",
+		"prepare": "vp config",
+		"start": "node .output/server/index.mjs"
+	},
+	"dependencies": {
+		"@sentry/junior": "latest",
+		"@sentry/junior-github": "latest",
+		"@sentry/node": "^10.0.0",
+		"hono": "^4.12.0"
+	},
+	"devDependencies": {
+		"@sentry/cli": "^3.4.1",
+		"jiti": "^2.6.1",
+		"nitro": "3.0.260311-beta",
+		"typescript": "^5.9.0",
+		"vite": "catalog:",
+		"vite-plus": "catalog:"
+	},
+	"engines": {
+		"node": ">=24"
+	},
+	"packageManager": "pnpm@11.0.9"
 }
