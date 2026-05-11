@@ -4,7 +4,7 @@ import type { PromptGenerator } from "../generate-prompts.ts";
 
 const OWNER = "team581";
 
-const SKILL_DIR = join(import.meta.dirname, "..", "..", "..", "app", "skills", "manage-github-projects");
+const SKILL_DIR = join(import.meta.dirname, "..", "..", "app", "skills", "manage-github-projects");
 
 // Names of built-in fields that ship with every GitHub project.
 // Anything outside this set was added by us and is worth documenting.
