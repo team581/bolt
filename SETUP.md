@@ -81,6 +81,9 @@ If these are left unset, Bolt still works for Q&A, GitHub issue/PR REST calls, c
    - **Generate a private key** → downloads a `.pem`. Move it somewhere safe outside this repo. The full file contents go into `GITHUB_APP_PRIVATE_KEY` (yes, multi-line, including BEGIN/END lines).
 6. Sidebar → **Install App** → install on **All repositories** under team581. When prompted, accept the new **Projects: Read and write** organization permission — if you're upgrading an existing install rather than creating a fresh app, GitHub will require the org owner to re-approve the install before the new permission takes effect.
 7. After install, the URL bar shows `/installations/<NUMBER>`. That number is `GITHUB_INSTALLATION_ID`.
+8. For CI (autofix.ci regenerates prompts from `gh project`), expose the app credentials to GitHub Actions as repository secrets — the default `GITHUB_TOKEN` cannot read org-level Projects V2 regardless of `permissions:` settings:
+   - `BOLT_GITHUB_APP_ID` — same value as the local env var
+   - `BOLT_GITHUB_APP_PRIVATE_KEY` — full `.pem` contents including BEGIN/END lines
 
 ## Phase 5 — Local verification (optional)
 

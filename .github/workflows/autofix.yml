@@ -16,9 +16,16 @@ jobs:
         uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
+      - name: Generate GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.BOLT_GITHUB_APP_ID }}
+          private-key: ${{ secrets.BOLT_GITHUB_APP_PRIVATE_KEY }}
+          owner: team581
       - name: Regenerate prompt files
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: vp run generate:prompts
       - name: Apply lint and formatting fixes
         run: vp check --fix
