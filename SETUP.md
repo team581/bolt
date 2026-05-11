@@ -10,7 +10,7 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
 - **Deploy target:** Railway, not Vercel (the documented path). Nitro preset is `node-server`. The runtime is a long-lived Node process, so Slack's 3s ack and Vercel's `maxDuration` ceiling don't apply.
 - **AI provider:** Vercel AI Gateway (`AI_GATEWAY_API_KEY`), Anthropic models. Junior's runtime is hardcoded to route all model traffic through the gateway — there is no direct-Anthropic path. Pay-as-you-go via Vercel credits for now.
 - **Plugins enabled:** `@sentry/junior-github` only. No Linear/Notion/Sentry/Datadog/Hex. Agent-browser deferred.
-- **GitHub Projects:** deferred. The packaged GitHub plugin only covers issues and PRs.
+- **GitHub Projects:** handled by the local `manage-github-projects` skill (not the packaged plugin). Driven through `gh project` over the same GitHub App installation token, which requires the extra org-level Projects permission below.
 
 ## Phase 2 — Vercel AI Gateway
 
@@ -73,12 +73,14 @@ If these are left unset, Bolt still works for Q&A, GitHub issue/PR REST calls, c
    - Issues: Read and write
    - Metadata: Read-only (required, default)
    - Pull requests: Read and write
-3. Where can this app be installed? **Only on this account** (team581 org).
-4. Create the app. On the resulting page:
+3. Organization permissions:
+   - Projects: Read and write (required by the `manage-github-projects` skill — `gh project` calls fail with `Resource not accessible by integration` without it).
+4. Where can this app be installed? **Only on this account** (team581 org).
+5. Create the app. On the resulting page:
    - Note the **App ID** → save as `GITHUB_APP_ID`.
    - **Generate a private key** → downloads a `.pem`. Move it somewhere safe outside this repo. The full file contents go into `GITHUB_APP_PRIVATE_KEY` (yes, multi-line, including BEGIN/END lines).
-5. Sidebar → **Install App** → install on **All repositories** under team581.
-6. After install, the URL bar shows `/installations/<NUMBER>`. That number is `GITHUB_INSTALLATION_ID`.
+6. Sidebar → **Install App** → install on **All repositories** under team581. When prompted, accept the new **Projects: Read and write** organization permission — if you're upgrading an existing install rather than creating a fresh app, GitHub will require the org owner to re-approve the install before the new permission takes effect.
+7. After install, the URL bar shows `/installations/<NUMBER>`. That number is `GITHUB_INSTALLATION_ID`.
 
 ## Phase 5 — Local verification (optional)
 
@@ -140,6 +142,5 @@ In Slack (production workspace):
 
 ## What's deliberately not set up yet
 
-- **GitHub Projects** — the packaged `@sentry/junior-github` plugin handles issues and PRs only. To add Projects v2 board moves, we'll either write a local plugin under `app/plugins/` that calls the GitHub GraphQL Projects API using the same App installation token, or switch project tracking to Linear (which Junior supports out of the box).
 - **Other plugins** — Linear, Notion, Sentry, Agent Browser. Add later as needs arise; each one needs its own credential setup.
 - **Sentry monitoring** — `SENTRY_DSN` is in `.env.example` but unset; create a Sentry project for Bolt before going to prod.

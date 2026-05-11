@@ -5,7 +5,7 @@ export default defineConfig({
 	staged: {
 		"*": "vp check --fix",
 	},
-	fmt: { useTabs: true, printWidth: 120 },
+	fmt: { useTabs: true, printWidth: 120, ignorePatterns: ["**/*.hbs"] },
 	lint: { options: { typeAware: true, typeCheck: true } },
 	server: {
 		allowedHosts: true,

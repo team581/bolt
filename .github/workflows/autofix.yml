@@ -16,6 +16,10 @@ jobs:
         uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
+      - name: Regenerate prompt files
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: vp run generate:prompts
       - name: Apply lint and formatting fixes
         run: vp check --fix
       - name: Run autofix.ci

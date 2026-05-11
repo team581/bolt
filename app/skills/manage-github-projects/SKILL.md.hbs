@@ -1,0 +1,69 @@
+---
+name: manage-github-projects
+description: Read and update our GitHub Projects board via the gh CLI. Use when users ask about project management, task tracking, milestones, etc.
+license: MIT
+---
+
+# Manage GitHub Projects
+
+Drive Team 581's GitHub Projects (v2) boards through the `gh project` CLI.
+
+## Team 581 conventions
+
+- The org is always `team581`. Pass `--owner team581` on every `gh project` command.
+- Projects belong to the org, not a repo. The repo on an issue/PR is independent of which project it's on.
+- The active project is **{{project.title}}** (`--number {{project.number}}`, project ID `{{project.id}}`, <{{project.url}}>).
+
+## Active project: {{project.title}}
+
+Field IDs and single-select option IDs below are baked in for the {{project.title}} project.
+
+| Field | Field ID |
+| --- | --- |
+{{#each fields}}
+| {{name}} | `{{id}}` |
+{{/each}}
+
+{{#each singleSelectFields}}
+{{name}} options:
+
+| Name | Option ID |
+| --- | --- |
+{{#each options}}
+| {{name}} | `{{id}}` |
+{{/each}}
+
+{{/each}}
+Item IDs are per-item and always have to be looked up. List the board's items to find the one you want:
+
+```sh
+gh project item-list {{project.number}} --owner team581 --format json --limit 200
+```
+
+## Operations
+
+Add an issue or PR (works for both URL types):
+
+```sh
+gh project item-add {{project.number}} --owner team581 --url <issue-or-pr-url>
+```
+
+Edit a field on an item — one value flag per call, matching the field type: `--text`, `--number`, `--date YYYY-MM-DD`, `--iteration-id`, `--single-select-option-id`, or `--clear`.
+
+{{#if example}}
+```sh
+gh project item-edit \
+  --id <item-id> \
+  --project-id {{project.id}} \
+  --field-id {{example.fieldId}} \
+  --single-select-option-id {{example.optionId}}
+```
+
+{{/if}}
+If the user names a value for a single-select field that isn't in the tables above, ask rather than picking the closest match.
+
+Create a draft item:
+
+```sh
+gh project item-create {{project.number}} --owner team581 --title "<title>" --body "<body>"
+```
