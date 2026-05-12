@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2
+  '@sentry/junior': 639bd25bf04af36e8afccffda0119b3f7d3607bb93dc40a0f6f6937a8035eaf2
   '@vercel/sandbox@1.10.1': 037834afd6769ce8904cfd6c96d8248bbd20f80c4a688858d53c4b595e27ec5c
 
 importers:
@@ -23,8 +23,8 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.40.0
-        version: 0.40.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
+        specifier: 0.41.0
+        version: 0.41.0(patch_hash=639bd25bf04af36e8afccffda0119b3f7d3607bb93dc40a0f6f6937a8035eaf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
       '@sentry/junior-github':
         specifier: 0.41.0
         version: 0.41.0
@@ -1052,8 +1052,8 @@ packages:
   '@sentry/junior-github@0.41.0':
     resolution: {integrity: sha512-KnL/BUUiZ87zyOg/XFXlS+hj0aR5XNDsOu6MHGLQMAhzWKx5STOO7JPutEdEt1fQfRhmrbiMiOfP2FuYvwACjQ==}
 
-  '@sentry/junior@0.40.0':
-    resolution: {integrity: sha512-NyuptvRS3nRkrBhARyjSEs7iKm5SvL/3EzaFO7yMaU36Hl44yBVqNYAmI+QhtzeXJjlf8qBfmKc7+K49ajGKaA==}
+  '@sentry/junior@0.41.0':
+    resolution: {integrity: sha512-U+WPyGw/D8BpFLR8iadqw11/0WmdMaVPWokPnJAylrQdUqqHgCgd5gbEMnOlQ5QG6lEWmTZRNjoi2ZdZMKr7RQ==}
     hasBin: true
     peerDependencies:
       '@sentry/node': '>=10.0.0'
@@ -4403,7 +4403,7 @@ snapshots:
 
   '@sentry/junior-github@0.41.0': {}
 
-  '@sentry/junior@0.40.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
+  '@sentry/junior@0.41.0(patch_hash=639bd25bf04af36e8afccffda0119b3f7d3607bb93dc40a0f6f6937a8035eaf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.112(zod@4.4.3)
       '@chat-adapter/slack': 4.27.0
