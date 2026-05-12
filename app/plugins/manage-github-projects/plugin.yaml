@@ -7,6 +7,9 @@ capabilities:
   - repository-projects.read
   - repository-projects.write
   - issues.read
+  - issues.write
+  - pull-requests.read
+  - pull-requests.write
 
 credentials:
   type: github-app
