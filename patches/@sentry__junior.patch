@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index 486fc362c7fc940f829418d11a597ded235bf829..88929b5b6b51e6743c1349ebb9bb161fb3d47e3c 100644
+index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd303f6d8f5 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -11554,9 +11554,38 @@ async function generateAssistantReply(messageText, context = {}) {
+@@ -11678,9 +11678,38 @@ async function generateAssistantReply(messageText, context = {}) {
          turnContext: { traceId: getActiveTraceId() }
        }
      );
@@ -42,7 +42,7 @@ index 486fc362c7fc940f829418d11a597ded235bf829..88929b5b6b51e6743c1349ebb9bb161f
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -15509,6 +15538,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -15553,6 +15582,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,7 +84,7 @@ index 486fc362c7fc940f829418d11a597ded235bf829..88929b5b6b51e6743c1349ebb9bb161f
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -16029,17 +16093,18 @@ function createReplyToThread(deps) {
+@@ -16141,17 +16205,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -109,7 +109,7 @@ index 486fc362c7fc940f829418d11a597ded235bf829..88929b5b6b51e6743c1349ebb9bb161f
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -16106,6 +16171,7 @@ function createReplyToThread(deps) {
+@@ -16218,6 +16283,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,
