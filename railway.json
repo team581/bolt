@@ -4,6 +4,7 @@
 		"buildCommand": "pnpm build:release"
 	},
 	"deploy": {
+		"startCommand": "node .output/server/index.mjs",
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 100,
 		"restartPolicyType": "ON_FAILURE",
