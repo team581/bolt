@@ -6,7 +6,7 @@ export default defineConfig({
 	sourcemap: true,
 	modules: [
 		juniorNitro({
-			pluginPackages: ["@sentry/junior-github"],
+			pluginPackages: ["@sentry/junior-github", "@team581/manage-github-projects"],
 		}),
 	],
 	routes: {
