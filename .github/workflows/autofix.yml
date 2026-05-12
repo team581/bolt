@@ -18,7 +18,7 @@ jobs:
           cache: true
       - name: Generate GitHub App installation token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.BOLT_GITHUB_APP_ID }}
           private-key: ${{ secrets.BOLT_GITHUB_APP_PRIVATE_KEY }}
