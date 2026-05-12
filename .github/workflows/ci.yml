@@ -12,16 +12,13 @@ jobs:
     steps:
       - name: Checkout git repository
         uses: actions/checkout@v6
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
         with:
-          node-version-file: ".node-version"
-          cache: "pnpm"
-      - name: Install dependencies with pnpm
-        run: pnpm install --frozen-lockfile
+          cache: true
       - name: Check Junior skills and plugins
-        run: pnpm exec junior check
+        run: vp exec junior check
+      - name: Check lint and formatting
+        run: vp check
       - name: Build
-        run: pnpm build
+        run: vp build
