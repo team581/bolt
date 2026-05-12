@@ -117,3 +117,15 @@ index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd3
              correlation: {
                conversationId,
                threadId,
+diff --git a/dist/chunk-SCE5C645.js b/dist/chunk-SCE5C645.js
+index f1fe04e8c399c9c5eb5dc1201522528a3dbc4c4c..cbb10bc36a4f75d0390c076db551e3ed9fbe0856 100644
+--- a/dist/chunk-SCE5C645.js
++++ b/dist/chunk-SCE5C645.js
+@@ -2181,6 +2181,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
+   "environments",
+   "issues",
+   "metadata",
++  "organization_projects",
+   "packages",
+   "pages",
+   "pull_requests",

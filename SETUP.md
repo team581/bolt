@@ -10,7 +10,7 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
 - **Deploy target:** Railway, not Vercel (the documented path). Nitro preset is `node-server`. The runtime is a long-lived Node process, so Slack's 3s ack and Vercel's `maxDuration` ceiling don't apply.
 - **AI provider:** Vercel AI Gateway (`AI_GATEWAY_API_KEY`), Anthropic models. Junior's runtime is hardcoded to route all model traffic through the gateway — there is no direct-Anthropic path. Pay-as-you-go via Vercel credits for now.
 - **Plugins enabled:** `@sentry/junior-github` only. No Linear/Notion/Sentry/Datadog/Hex. Agent-browser deferred.
-- **GitHub Projects:** handled by the local `manage-github-projects` skill (not the packaged plugin). Driven through `gh project` over the same GitHub App installation token, which requires the extra org-level Projects permission below.
+- **GitHub Projects:** handled by the local `manage-github-projects` plugin in `app/plugins/` (not the packaged `@sentry/junior-github`). It drives `gh project` over its own GitHub App installation token scoped to org-level Projects permissions. The patched `@sentry/junior` build adds `organization_projects` to the supported GitHub App capability scopes — see `patches/@sentry__junior.patch`.
 
 ## Phase 2 — Vercel AI Gateway
 
@@ -74,7 +74,7 @@ If these are left unset, Bolt still works for Q&A, GitHub issue/PR REST calls, c
    - Metadata: Read-only (required, default)
    - Pull requests: Read and write
 3. Organization permissions:
-   - Projects: Read and write (required by the `manage-github-projects` skill — `gh project` calls fail with `Resource not accessible by integration` without it).
+   - Projects: Read and write (required by the `manage-github-projects` plugin — `gh project` calls fail with `Resource not accessible by integration` without it).
 4. Where can this app be installed? **Only on this account** (team581 org).
 5. Create the app. On the resulting page:
    - Note the **App ID** → save as `GITHUB_APP_ID`.

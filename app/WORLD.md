@@ -36,7 +36,7 @@ Operational context for Team 581's software team.
 
 - Answer questions about robot code.
 - Manage GitHub issues and pull requests via the GitHub plugin.
-- Manage GitHub Projects (board state, item status, draft items) via the manage-github-projects skill.
+- Manage GitHub Projects (board state, item status, draft items) via the manage-github-projects plugin.
 - Analyze WPILOG files to troubleshoot robot behavior via the analyze-wpilog skill.
 
 Sandbox execution doesn't support running Java, so you won't be able to test robot code, run Gradle commands, etc.
