@@ -6,7 +6,8 @@
 	"deploy": {
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 100,
+		"restartPolicyMaxRetries": 10,
 		"restartPolicyType": "ON_FAILURE",
-		"restartPolicyMaxRetries": 10
+		"startCommand": "node .output/server/index.mjs"
 	}
 }
