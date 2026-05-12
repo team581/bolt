@@ -25,8 +25,8 @@ importers:
         specifier: 0.40.0
         version: 0.40.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)
       '@sentry/junior-github':
-        specifier: 0.40.0
-        version: 0.40.0
+        specifier: 0.41.0
+        version: 0.41.0
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.52.0
@@ -1048,8 +1048,8 @@ packages:
     resolution: {integrity: sha512-VA/kAqLhkMnRWY2RXdBLyTemR9D4m7MVRy/gyapoq9yvllVPx9WXbvKgnMP2LQp7mFgT/oLFvw58aQKaYTGn3A==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-github@0.40.0':
-    resolution: {integrity: sha512-fQuHtG5z5XuAClrOM1cQH+ziYs2OHk2iy5XHx+HTr/dKXq4TsGR4KCK6gUV1dB3uGld5ogqq/IBtYFgy8/EqdQ==}
+  '@sentry/junior-github@0.41.0':
+    resolution: {integrity: sha512-KnL/BUUiZ87zyOg/XFXlS+hj0aR5XNDsOu6MHGLQMAhzWKx5STOO7JPutEdEt1fQfRhmrbiMiOfP2FuYvwACjQ==}
 
   '@sentry/junior@0.40.0':
     resolution: {integrity: sha512-NyuptvRS3nRkrBhARyjSEs7iKm5SvL/3EzaFO7yMaU36Hl44yBVqNYAmI+QhtzeXJjlf8qBfmKc7+K49ajGKaA==}
@@ -4400,7 +4400,7 @@ snapshots:
 
   '@sentry/core@10.52.0': {}
 
-  '@sentry/junior-github@0.40.0': {}
+  '@sentry/junior-github@0.41.0': {}
 
   '@sentry/junior@0.40.0(patch_hash=a95da6011a8a40b41b50e6ed182a2d88280ed44444d579f304fc32cad8c4bcf2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.52.0)(ws@8.20.0)':
     dependencies:
