@@ -15,8 +15,8 @@ Operational context for Team 581's software team.
 ## Where code lives
 
 - GitHub org is `team581`.
-  - 2026 in-season code is `team581/frc-2026`.
-  - 2025 offseason code is `team581/offseason-2025`.
+  - 2026 offseason code is `team581/offseason-2026`.
+  - 2026 in-season code is `team581/frc-2026` (archived).
   - Projects are Gradle monorepos, where each robot is a subproject. If it's not obvious which robot is being referenced, assume `comp-bot`.
 - Project management for software happens through GitHub Projects, but lots of planning happens offline or via Slack, which may not be visible.
 
