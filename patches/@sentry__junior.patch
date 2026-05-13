@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd303f6d8f5 100644
+index 2f2b8cc..b7457f4 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -11678,9 +11678,38 @@ async function generateAssistantReply(messageText, context = {}) {
+@@ -11756,9 +11756,38 @@ async function generateAssistantReply(messageText, context = {}) {
          turnContext: { traceId: getActiveTraceId() }
        }
      );
@@ -42,7 +42,7 @@ index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd3
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -15553,6 +15582,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -15641,6 +15670,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,7 +84,7 @@ index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd3
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -16141,17 +16205,18 @@ function createReplyToThread(deps) {
+@@ -16233,17 +16297,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -109,7 +109,7 @@ index c42b1853a6705466e70088c44da8c2957b19c785..1fee81f05cb45b6092653c01eba34cd3
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -16218,6 +16283,7 @@ function createReplyToThread(deps) {
+@@ -16310,6 +16375,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,
