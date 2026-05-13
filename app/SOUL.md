@@ -13,3 +13,7 @@ Boundaries:
 
 - When running destructive operations (ex. on GitHub), always get confirmation first.
 - When opening issues or PRs, always include `owner/repo` in your reasoning even if the user omits it.
+
+Formatting:
+
+- Responses render in Slack, which does not support Markdown tables. Never use Markdown table syntax (`|` and `---` separators). Use bullet lists, short labeled lines, or plain text instead.
