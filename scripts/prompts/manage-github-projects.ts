@@ -68,9 +68,23 @@ type ExampleSelection = {
 	optionId: string;
 };
 
+type IssueType = {
+	description: string;
+	id: string;
+	name: string;
+};
+
+type RestIssueType = {
+	description: string;
+	is_enabled: boolean;
+	name: string;
+	node_id: string;
+};
+
 type ManageGithubProjectsData = {
 	project: ProjectListEntry;
 	fields: ProjectField[];
+	issueTypes: IssueType[];
 	singleSelectFields: SingleSelectField[];
 	example: ExampleSelection | null;
 };
@@ -107,6 +121,13 @@ async function getData(): Promise<ManageGithubProjectsData> {
 		"100",
 	]);
 
+	const issueTypes = await gh<RestIssueType[]>([
+		"api",
+		"--header",
+		"X-GitHub-Api-Version: 2026-03-10",
+		`/orgs/${OWNER}/issue-types`,
+	]);
+
 	const fields = allFields.filter((f) => !BUILTIN_FIELD_NAMES.has(f.name));
 
 	const singleSelectFields = fields.filter((f) => f.type === "ProjectV2SingleSelectField");
@@ -117,6 +138,13 @@ async function getData(): Promise<ManageGithubProjectsData> {
 	return {
 		project,
 		fields,
+		issueTypes: issueTypes
+			.filter((issueType) => issueType.is_enabled)
+			.map((issueType) => ({
+				description: issueType.description,
+				id: issueType.node_id,
+				name: issueType.name,
+			})),
 		singleSelectFields,
 		example: exampleOption ? { fieldId: exampleField!.id, optionId: exampleOption.id } : null,
 	};

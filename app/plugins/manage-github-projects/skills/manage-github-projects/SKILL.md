@@ -18,6 +18,19 @@ Drive Team 581's GitHub Projects (v2) boards through the `gh project` CLI.
 
 Field IDs and single-select option IDs below are baked in for the 2026 Offseason project.
 
+## Issue types
+
+Enabled issue types for the `team581` org:
+
+| Name      | ID                    | Description                                         |
+| --------- | --------------------- | --------------------------------------------------- |
+| Task      | `IT_kwDOAgSHEs4AaBHS` | A specific piece of work                            |
+| Bug       | `IT_kwDOAgSHEs4AaBHW` | An unexpected problem or behavior                   |
+| Feature   | `IT_kwDOAgSHEs4AaBHZ` | A request, idea, or new functionality               |
+| Milestone | `IT_kwDOAgSHEs4BauCN` | A large body of work or project that is broken down |
+
+Use these exact type names when creating or updating issues. If the user names an issue type that isn't in this table, ask rather than picking the closest match.
+
 | Field    | Field ID                         |
 | -------- | -------------------------------- |
 | Status   | `PVTSSF_lADOAgSHEs4BXoJzzhSzwN0` |
