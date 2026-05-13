@@ -33,6 +33,10 @@ This file is the operator runbook. Phase 1 (local scaffold) is already done in t
    - `users:read`
    - `files:read`
    - `reactions:write`
+   - `canvases:read`
+   - `canvases:write`
+
+   Junior calls `canvases.create` / `canvases.edit` for long-form output; without `canvases:write` (and `canvases:read` for the read/update tools) the runtime throws `SlackActionError: missing_scope` mid-turn.
 
    Do **not** add `groups:history`, `im:history`, or `mpim:history`. Without those scopes, Slack will not deliver private-channel, DM, or group-DM messages to Bolt at all, even if a student tries to invite the bot into one.
 
