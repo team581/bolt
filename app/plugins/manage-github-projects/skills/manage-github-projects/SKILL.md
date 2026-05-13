@@ -12,17 +12,17 @@ Drive Team 581's GitHub Projects (v2) boards through the `gh project` CLI.
 
 - The org is always `team581`. Pass `--owner team581` on every `gh project` command.
 - Projects belong to the org, not a repo. The repo on an issue/PR is independent of which project it's on.
-- The active project is **2026 Season** (`--number 15`, project ID `PVT_kwDOAgSHEs4BJE8i`, <https://github.com/orgs/team581/projects/15>).
+- The active project is **2026 Offseason** (`--number 16`, project ID `PVT_kwDOAgSHEs4BXoJz`, <https://github.com/orgs/team581/projects/16>).
 
-## Active project: 2026 Season
+## Active project: 2026 Offseason
 
-Field IDs and single-select option IDs below are baked in for the 2026 Season project.
+Field IDs and single-select option IDs below are baked in for the 2026 Offseason project.
 
 | Field    | Field ID                         |
 | -------- | -------------------------------- |
-| Status   | `PVTSSF_lADOAgSHEs4BJE8izg5WRhk` |
-| Priority | `PVTSSF_lADOAgSHEs4BJE8izg5WS5U` |
-| Deadline | `PVTF_lADOAgSHEs4BJE8izg5WTIE`   |
+| Status   | `PVTSSF_lADOAgSHEs4BXoJzzhSzwN0` |
+| Priority | `PVTSSF_lADOAgSHEs4BXoJzzhSzwOk` |
+| Deadline | `PVTF_lADOAgSHEs4BXoJzzhSzwOo`   |
 
 Status options:
 
@@ -45,7 +45,7 @@ Priority options:
 Item IDs are per-item and always have to be looked up. List the board's items to find the one you want:
 
 ```sh
-gh project item-list 15 --owner team581 --format json --limit 200
+gh project item-list 16 --owner team581 --format json --limit 200
 ```
 
 ## Operations
@@ -53,7 +53,7 @@ gh project item-list 15 --owner team581 --format json --limit 200
 Add an issue or PR (works for both URL types):
 
 ```sh
-gh project item-add 15 --owner team581 --url <issue-or-pr-url>
+gh project item-add 16 --owner team581 --url <issue-or-pr-url>
 ```
 
 Edit a field on an item — one value flag per call, matching the field type: `--text`, `--number`, `--date YYYY-MM-DD`, `--iteration-id`, `--single-select-option-id`, or `--clear`.
@@ -61,8 +61,8 @@ Edit a field on an item — one value flag per call, matching the field type: `-
 ```sh
 gh project item-edit \
   --id <item-id> \
-  --project-id PVT_kwDOAgSHEs4BJE8i \
-  --field-id PVTSSF_lADOAgSHEs4BJE8izg5WRhk \
+  --project-id PVT_kwDOAgSHEs4BXoJz \
+  --field-id PVTSSF_lADOAgSHEs4BXoJzzhSzwN0 \
   --single-select-option-id f75ad846
 ```
 
@@ -71,5 +71,5 @@ If the user names a value for a single-select field that isn't in the tables abo
 Create a draft item:
 
 ```sh
-gh project item-create 15 --owner team581 --title "<title>" --body "<body>"
+gh project item-create 16 --owner team581 --title "<title>" --body "<body>"
 ```
