@@ -34,6 +34,9 @@ When creating issues always assign a type if it's obvious which one to use. Leav
 | Field    | Field ID                         |
 | -------- | -------------------------------- |
 | Status   | `PVTSSF_lADOAgSHEs4BXoJzzhSzwN0` |
+| Created  | `PVTF_lADOAgSHEs4BXoJzzhSzwOY`   |
+| Updated  | `PVTF_lADOAgSHEs4BXoJzzhSzwOc`   |
+| Closed   | `PVTF_lADOAgSHEs4BXoJzzhSzwOg`   |
 | Priority | `PVTSSF_lADOAgSHEs4BXoJzzhSzwOk` |
 | Deadline | `PVTF_lADOAgSHEs4BXoJzzhSzwOo`   |
 
