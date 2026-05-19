@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index 2f2b8cc..b7457f4 100644
+index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fbae8033903 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -11756,9 +11756,38 @@ async function generateAssistantReply(messageText, context = {}) {
+@@ -12189,9 +12189,38 @@ async function generateAssistantReply(messageText, context = {}) {
          turnContext: { traceId: getActiveTraceId() }
        }
      );
@@ -42,7 +42,7 @@ index 2f2b8cc..b7457f4 100644
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -15641,6 +15670,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -16627,6 +16656,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,7 +84,7 @@ index 2f2b8cc..b7457f4 100644
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -16233,17 +16297,18 @@ function createReplyToThread(deps) {
+@@ -17219,17 +17283,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -109,7 +109,7 @@ index 2f2b8cc..b7457f4 100644
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -16310,6 +16375,7 @@ function createReplyToThread(deps) {
+@@ -17288,6 +17353,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,
@@ -117,11 +117,11 @@ index 2f2b8cc..b7457f4 100644
              correlation: {
                conversationId,
                threadId,
-diff --git a/dist/chunk-SCE5C645.js b/dist/chunk-SCE5C645.js
-index f1fe04e8c399c9c5eb5dc1201522528a3dbc4c4c..cbb10bc36a4f75d0390c076db551e3ed9fbe0856 100644
---- a/dist/chunk-SCE5C645.js
-+++ b/dist/chunk-SCE5C645.js
-@@ -2181,6 +2181,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
+diff --git a/dist/chunk-BCG3I2T2.js b/dist/chunk-BCG3I2T2.js
+index 29d71fe7c6f86cd576f66554ff659db3f11662fd..d2c36e2a135e2eb9a44aca237be8efc358698dd2 100644
+--- a/dist/chunk-BCG3I2T2.js
++++ b/dist/chunk-BCG3I2T2.js
+@@ -2283,6 +2283,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
    "environments",
    "issues",
    "metadata",
