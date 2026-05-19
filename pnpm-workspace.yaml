@@ -5,8 +5,7 @@ allowBuilds:
   node-liblzma: true
   protobufjs: true
 patchedDependencies:
-  "@sentry/junior": patches/@sentry__junior.patch
-  "@vercel/sandbox@1.10.1": patches/@vercel__sandbox@1.10.1.patch
+  { "@sentry/junior": patches/@sentry__junior.patch, "@vercel/sandbox": patches/@vercel__sandbox.patch }
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: npm:@voidzero-dev/vite-plus-test@latest

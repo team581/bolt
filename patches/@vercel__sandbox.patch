@@ -1,14 +1,14 @@
 diff --git a/dist/api-client/api-client.cjs b/dist/api-client/api-client.cjs
-index 81ec6a827d23309f11819b0b2ae2f111ece09c81..47f0182bdaf2bde26f15e9cda10ab4c4ff583b4e 100644
+index a1ba371ec94f562b3ac8ddcdada8d62fd6cee2fc..9e50595ec5f2430aeec6ad398d949415acf8e93b 100644
 --- a/dist/api-client/api-client.cjs
 +++ b/dist/api-client/api-client.cjs
-@@ -117,10 +117,16 @@ var APIClient = class extends require_base_client.BaseClient {
+@@ -120,10 +120,16 @@ var APIClient = class extends require_base_client.BaseClient {
  				signal: params.signal
  			});
  			if (!response.ok) await require_base_client.parseOrThrow(zod.z.any(), response);
 -			if (response.headers.get("content-type") !== "application/x-ndjson") throw new require_api_error.APIError(response, {
 -				message: "Expected a stream of command data",
--				sandboxId: params.sandboxId
+-				sessionId: params.sessionId
 -			});
 +			if (response.headers.get("content-type") !== "application/x-ndjson") {
 +				const actualContentType = response.headers.get("content-type") ?? "<missing>";
@@ -17,23 +17,23 @@ index 81ec6a827d23309f11819b0b2ae2f111ece09c81..47f0182bdaf2bde26f15e9cda10ab4c4
 +				throw new require_api_error.APIError(response, {
 +					message: `Expected a stream of command data; got content-type=${actualContentType} status=${response.status} body=${bodyText.slice(0, 1024)}`,
 +					text: bodyText,
-+					sandboxId: params.sandboxId
++					sessionId: params.sessionId
 +				});
 +			}
  			if (response.body === null) throw new require_api_error.APIError(response, {
  				message: "No response body",
- 				sandboxId: params.sandboxId
+ 				sessionId: params.sessionId
 diff --git a/dist/api-client/api-client.js b/dist/api-client/api-client.js
-index 76265728b0135c7b3555cea33d6ad7e88a36bbf8..de4df1be583d616a4d9607e2d752635f79e1409a 100644
+index 5b3933842c4bacb7f6539552d18ff28f7de10073..ce4229711973cb2549e63fbd934b05fe49afb703 100644
 --- a/dist/api-client/api-client.js
 +++ b/dist/api-client/api-client.js
-@@ -114,10 +114,16 @@ var APIClient = class extends BaseClient {
+@@ -117,10 +117,16 @@ var APIClient = class extends BaseClient {
  				signal: params.signal
  			});
  			if (!response.ok) await parseOrThrow(z.any(), response);
 -			if (response.headers.get("content-type") !== "application/x-ndjson") throw new APIError(response, {
 -				message: "Expected a stream of command data",
--				sandboxId: params.sandboxId
+-				sessionId: params.sessionId
 -			});
 +			if (response.headers.get("content-type") !== "application/x-ndjson") {
 +				const actualContentType = response.headers.get("content-type") ?? "<missing>";
@@ -42,9 +42,9 @@ index 76265728b0135c7b3555cea33d6ad7e88a36bbf8..de4df1be583d616a4d9607e2d752635f
 +				throw new APIError(response, {
 +					message: `Expected a stream of command data; got content-type=${actualContentType} status=${response.status} body=${bodyText.slice(0, 1024)}`,
 +					text: bodyText,
-+					sandboxId: params.sandboxId
++					sessionId: params.sessionId
 +				});
 +			}
  			if (response.body === null) throw new APIError(response, {
  				message: "No response body",
- 				sandboxId: params.sandboxId
+ 				sessionId: params.sessionId
