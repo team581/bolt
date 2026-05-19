@@ -19,6 +19,8 @@ const SKILL_DIR = join(
 // Anything outside this set was added by us and is worth documenting.
 const BUILTIN_FIELD_NAMES = new Set([
 	"Assignees",
+	"Closed",
+	"Created",
 	"Labels",
 	"Linked pull requests",
 	"Milestone",
@@ -27,6 +29,7 @@ const BUILTIN_FIELD_NAMES = new Set([
 	"Reviewers",
 	"Sub-issues progress",
 	"Title",
+	"Updated",
 ]);
 
 type ProjectListEntry = {
