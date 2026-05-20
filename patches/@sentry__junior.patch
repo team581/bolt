@@ -118,7 +118,7 @@ index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fba
                conversationId,
                threadId,
 diff --git a/dist/chunk-BCG3I2T2.js b/dist/chunk-BCG3I2T2.js
-index 29d71fe7c6f86cd576f66554ff659db3f11662fd..d2c36e2a135e2eb9a44aca237be8efc358698dd2 100644
+index 29d71fe7c6f86cd576f66554ff659db3f11662fd..93d37d99dceeb4a3e7b145ed5e6da5ede55b65f6 100644
 --- a/dist/chunk-BCG3I2T2.js
 +++ b/dist/chunk-BCG3I2T2.js
 @@ -2283,6 +2283,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
@@ -129,3 +129,14 @@ index 29d71fe7c6f86cd576f66554ff659db3f11662fd..d2c36e2a135e2eb9a44aca237be8efc3
    "packages",
    "pages",
    "pull_requests",
+@@ -2720,9 +2721,7 @@ function registerPluginManifest(state, raw, pluginDir) {
+   for (const domain of providerDomains(manifest)) {
+     const owner = state.domainToPlugin.get(domain);
+     if (owner) {
+-      throw new Error(
+-        `Duplicate provider domain "${domain}" in plugin "${manifest.name}" already declared by plugin "${owner}"`
+-      );
++      logWarn("duplicate_provider_domain", {}, { "app.plugin.name": manifest.name, "app.plugin.domain": domain, "app.plugin.owner": owner }, `Plugin "${manifest.name}" shares provider domain "${domain}" with plugin "${owner}"`);
+     }
+   }
+   const definition = {

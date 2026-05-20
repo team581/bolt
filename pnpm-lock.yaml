@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': 45b7a350b3a6e484047dca0830fcf0578c1e24f7af5cdc94041a6c2da6f4e1f2
+  '@sentry/junior': b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -24,7 +24,7 @@ importers:
     dependencies:
       '@sentry/junior':
         specifier: 0.45.0
-        version: 0.45.0(patch_hash=45b7a350b3a6e484047dca0830fcf0578c1e24f7af5cdc94041a6c2da6f4e1f2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)
+        version: 0.45.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)
       '@sentry/junior-github':
         specifier: 0.45.0
         version: 0.45.0
@@ -4401,7 +4401,7 @@ snapshots:
 
   '@sentry/junior-github@0.45.0': {}
 
-  '@sentry/junior@0.45.0(patch_hash=45b7a350b3a6e484047dca0830fcf0578c1e24f7af5cdc94041a6c2da6f4e1f2)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)':
+  '@sentry/junior@0.45.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)':
     dependencies:
       '@ai-sdk/gateway': 3.0.112(zod@4.4.3)
       '@chat-adapter/slack': 4.28.1

@@ -6,11 +6,6 @@ capabilities:
   - organization-projects.write
   - repository-projects.read
   - repository-projects.write
-  - issues.read
-  - issues.write
-  - pull-requests.read
-  - pull-requests.write
-  - contents.read
 
 credentials:
   type: github-app
