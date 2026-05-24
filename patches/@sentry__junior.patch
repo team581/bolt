@@ -1,8 +1,7 @@
 diff --git a/dist/app.js b/dist/app.js
-index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fbae8033903 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -12189,9 +12189,38 @@ async function generateAssistantReply(messageText, context = {}) {
+@@ -13205,9 +13205,38 @@ async function generateAssistantReply(messageText, context = {}) {
          turnContext: { traceId: getActiveTraceId() }
        }
      );
@@ -42,7 +41,7 @@ index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fba
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -16627,6 +16656,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -17908,6 +17937,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,7 +83,7 @@ index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fba
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -17219,17 +17283,18 @@ function createReplyToThread(deps) {
+@@ -18646,17 +18710,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -107,9 +106,9 @@ index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fba
 +        };
 +        const userAttachments = void 0;
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
-         const status = createSlackAdapterAssistantStatusSession({
-           channelId: assistantThreadContext?.channelId,
-@@ -17288,6 +17353,7 @@ function createReplyToThread(deps) {
+         const piMessages = await loadPiMessagesForTurn({
+           conversationId,
+@@ -18721,6 +18786,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,
@@ -117,26 +116,3 @@ index 3f6014ce5638c3c8a8709f2532405f2d744d197f..ddfed9c0598886cea993d512f9c67fba
              correlation: {
                conversationId,
                threadId,
-diff --git a/dist/chunk-BCG3I2T2.js b/dist/chunk-BCG3I2T2.js
-index 29d71fe7c6f86cd576f66554ff659db3f11662fd..93d37d99dceeb4a3e7b145ed5e6da5ede55b65f6 100644
---- a/dist/chunk-BCG3I2T2.js
-+++ b/dist/chunk-BCG3I2T2.js
-@@ -2283,6 +2283,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
-   "environments",
-   "issues",
-   "metadata",
-+  "organization_projects",
-   "packages",
-   "pages",
-   "pull_requests",
-@@ -2720,9 +2721,7 @@ function registerPluginManifest(state, raw, pluginDir) {
-   for (const domain of providerDomains(manifest)) {
-     const owner = state.domainToPlugin.get(domain);
-     if (owner) {
--      throw new Error(
--        `Duplicate provider domain "${domain}" in plugin "${manifest.name}" already declared by plugin "${owner}"`
--      );
-+      logWarn("duplicate_provider_domain", {}, { "app.plugin.name": manifest.name, "app.plugin.domain": domain, "app.plugin.owner": owner }, `Plugin "${manifest.name}" shares provider domain "${domain}" with plugin "${owner}"`);
-     }
-   }
-   const definition = {
