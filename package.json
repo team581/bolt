@@ -12,7 +12,7 @@
 		"start": "node .output/server/index.mjs"
 	},
 	"dependencies": {
-		"@sentry/junior": "0.45.0",
+		"@sentry/junior": "0.53.0",
 		"@sentry/junior-github": "0.53.0",
 		"@sentry/node": "^10.0.0",
 		"hono": "^4.12.0"

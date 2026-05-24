@@ -23,8 +23,8 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.45.0
-        version: 0.45.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)
+        specifier: 0.53.0
+        version: 0.53.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)
       '@sentry/junior-github':
         specifier: 0.53.0
         version: 0.53.0
@@ -1053,8 +1053,8 @@ packages:
   '@sentry/junior-github@0.53.0':
     resolution: {integrity: sha512-eR+LmaMkA8k2SCcMyFk4IPcwsareA/m/Lm+n7R4HpVLeo3lnrB1bqNa+WkYUf8GKbM4jfMVWOPtuGKn54jEUjg==}
 
-  '@sentry/junior@0.45.0':
-    resolution: {integrity: sha512-Eavc/GFlCkp04YReesQ6LuHtFjU2rok475YxHUL2m1RwT4+ujMXOsnLI/cxx15PFYVENEkRq2fUztl/yfYpQ+w==}
+  '@sentry/junior@0.53.0':
+    resolution: {integrity: sha512-yXTMGTmdMIP5HSfA/jNARb+DVLJMw9lK/dXF2IZAyq6eI1g3H99j+MRZD1BlDFCAoyn8XPumKYCPlGPhYZkS4g==}
     hasBin: true
     peerDependencies:
       '@sentry/node': '>=10.0.0'
@@ -4407,7 +4407,7 @@ snapshots:
 
   '@sentry/junior-github@0.53.0': {}
 
-  '@sentry/junior@0.45.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)':
+  '@sentry/junior@0.53.0(patch_hash=b790efaf9ddae67b4251a88c4a34ebbdbad913060783d58d3624bea4565c6129)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.53.1)(ws@8.20.1)':
     dependencies:
       '@ai-sdk/gateway': 3.0.112(zod@4.4.3)
       '@chat-adapter/slack': 4.28.1
