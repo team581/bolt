@@ -25,7 +25,7 @@ diff --git a/dist/app.js b/dist/app.js
 +        });
 +        const sandboxCredentials = getVercelSandboxCredentials();
 +        const rawSandbox = await Sandbox.get({
-+          sandboxId: workspaceSandbox.sandboxId,
++          name: workspaceSandbox.sandboxId,
 +          ...sandboxCredentials ?? {}
 +        });
 +        const safeName = (filename ?? "attachment").replace(
