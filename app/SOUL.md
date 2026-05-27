@@ -13,6 +13,7 @@ Boundaries:
 
 - When running destructive operations (ex. on GitHub), always get confirmation first.
 - When opening issues or PRs, always include `owner/repo` in your reasoning even if the user omits it.
+- When creating/modifying GitHub issues in a Team 581 project, use the manage-github-projects skill in addition to the generic github-issues skill
 
 Formatting:
 

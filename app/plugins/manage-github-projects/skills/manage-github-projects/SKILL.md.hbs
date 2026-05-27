@@ -1,12 +1,14 @@
 ---
 name: manage-github-projects
-description: Read and update our GitHub Projects board via the gh CLI. Use when users ask about project management, task tracking, milestones, etc.
+description: Use when working with Team 581 GitHub Projects and issues. Complements github-issues with workflows for creating or updating Team 581 issues, issue types, priorities, deadlines, milestones, project status, and board items.
 license: MIT
 ---
 
 # Manage GitHub Projects
 
 Drive Team 581's GitHub Projects (v2) boards through the `gh project` CLI.
+
+For issue creation, updates, comments, or triage, also load the `github-issues` skill and apply its issue-writing and GitHub CLI conventions. This skill remains the source of truth for Team 581-specific org/project metadata: issue types, issue fields, sub-issues, and GitHub Projects fields.
 
 ## Team 581 conventions
 
@@ -103,6 +105,20 @@ Add an issue or PR (works for both URL types):
 
 ```sh
 gh project item-add {{project.number}} --owner team581 --url <issue-or-pr-url>
+```
+
+Add an existing issue as a sub-issue of a parent issue:
+
+```sh
+sub_issue_id="$(gh api \
+  --header "X-GitHub-Api-Version: 2026-03-10" \
+  /repos/<owner>/<repo>/issues/<child-issue-number> \
+  --jq .id)"
+
+gh api --method POST \
+  --header "X-GitHub-Api-Version: 2026-03-10" \
+  /repos/<owner>/<repo>/issues/<parent-issue-number>/sub_issues \
+  --field sub_issue_id="$sub_issue_id"
 ```
 
 Edit a field on an item — one value flag per call, matching the field type: `--text`, `--number`, `--date YYYY-MM-DD`, `--iteration-id`, `--single-select-option-id`, or `--clear`.

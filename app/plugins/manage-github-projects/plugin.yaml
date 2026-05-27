@@ -1,5 +1,5 @@
 name: manage-github-projects
-description: GitHub Projects (v2) management for the team581 org
+description: Team 581 GitHub projects & issues management
 
 runtime-dependencies:
   - type: system
