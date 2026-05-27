@@ -14,3 +14,12 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+## Junior Bot Context
+
+This repository packages and deploys a [Junior](https://junior.sentry.dev/start-here/quickstart/) Slack bot using `@sentry/junior`.
+Changes can affect how the bot reads Slack events, plans work, comments on issues or pull requests, and applies fixes.
+
+- Treat bug fixes as agent-behavior changes: first understand the Slack event, prompt, tool, and runtime path involved, then make the smallest change that fixes the observed behavior.
+- Keep public surfaces small and behavior obvious: prefer existing Junior patterns, direct imports, and simple composition over new infrastructure.
+- If a fix attempt fails, stop and trace the full path from input to output before trying another patch; avoid stacking symptom fixes.
