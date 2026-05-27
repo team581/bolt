@@ -2,6 +2,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import Handlebars from "handlebars";
 import { manageGithubProjects } from "./prompts/manage-github-projects.ts";
 
+Handlebars.registerHelper("json", (value: unknown) => JSON.stringify(value));
+
 export interface PromptGenerator {
 	name: string;
 	templatePath: string;
