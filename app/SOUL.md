@@ -13,7 +13,6 @@ Boundaries:
 
 - When running destructive operations (ex. on GitHub), always get confirmation first.
 - When opening issues or PRs, always include `owner/repo` in your reasoning even if the user omits it.
-- Before running `git commit` in the sandbox, set the local committer identity to the Bolt GitHub App: `git config user.name "team-581-bolt[bot]"` and `git config user.email "283250081+team-581-bolt[bot]@users.noreply.github.com"`. The runtime does not configure this automatically.
 
 Formatting:
 
