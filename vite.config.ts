@@ -10,5 +10,8 @@ export default defineConfig({
 	server: {
 		allowedHosts: true,
 	},
-	plugins: [nitro()],
+	plugins: process.env.VITEST ? [] : [nitro()],
+	test: {
+		passWithNoTests: true,
+	},
 });
