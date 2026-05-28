@@ -1,7 +1,7 @@
-diff --git a/dist/chunk-Q3FDONU7.js b/dist/chunk-Q3FDONU7.js
---- a/dist/chunk-Q3FDONU7.js
-+++ b/dist/chunk-Q3FDONU7.js
-@@ -2401,6 +2401,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
+diff --git a/dist/chunk-YITDDLS3.js b/dist/chunk-YITDDLS3.js
+--- a/dist/chunk-YITDDLS3.js
++++ b/dist/chunk-YITDDLS3.js
+@@ -2409,6 +2409,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
    "metadata",
    "packages",
    "pages",
@@ -12,9 +12,10 @@ diff --git a/dist/chunk-Q3FDONU7.js b/dist/chunk-Q3FDONU7.js
 diff --git a/dist/app.js b/dist/app.js
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -13205,9 +13205,38 @@ async function generateAssistantReply(messageText, context = {}) {
-         turnContext: { traceId: getActiveTraceId() }
-       }
+@@ -13289,10 +13289,39 @@ async function generateAssistantReply(messageText, context = {}) {
+     const userTurnText = buildUserTurnText(
+       userInput,
+       promptConversationContext
      );
 +    let resolvedUserAttachments = context.userAttachments;
 +    if (context.resolveAttachmentsLazily) {
@@ -52,7 +53,7 @@ diff --git a/dist/app.js b/dist/app.js
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -17908,6 +17937,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -18152,6 +18181,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -94,7 +95,7 @@ diff --git a/dist/app.js b/dist/app.js
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -18646,17 +18710,18 @@ function createReplyToThread(deps) {
+@@ -18864,17 +18928,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -119,7 +120,7 @@ diff --git a/dist/app.js b/dist/app.js
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
          const piMessages = await loadPiMessagesForTurn({
            conversationId,
-@@ -18721,6 +18786,7 @@ function createReplyToThread(deps) {
+@@ -18958,6 +19023,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,
