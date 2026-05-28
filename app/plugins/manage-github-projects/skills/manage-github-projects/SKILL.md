@@ -8,7 +8,7 @@ license: MIT
 
 Drive Team 581's GitHub Projects (v2) boards through the `gh project` CLI.
 
-For issue creation, updates, comments, or triage, also load the `github-issues` skill and apply its issue-writing and GitHub CLI conventions. This skill remains the source of truth for Team 581-specific org/project metadata: issue types, issue fields, and GitHub Projects fields.
+For issue creation, updates, comments, or triage, also load the `github-issues` skill and apply its issue-writing and GitHub CLI conventions. This skill remains the source of truth for Team 581-specific org/project metadata: issue types, issue fields, sub-issues, and GitHub Projects fields.
 
 ## Team 581 conventions
 
