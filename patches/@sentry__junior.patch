@@ -1,18 +1,7 @@
-diff --git a/dist/chunk-YITDDLS3.js b/dist/chunk-YITDDLS3.js
---- a/dist/chunk-YITDDLS3.js
-+++ b/dist/chunk-YITDDLS3.js
-@@ -2409,6 +2409,7 @@ var KNOWN_SCOPES = /* @__PURE__ */ new Set([
-   "metadata",
-   "packages",
-   "pages",
-+  "organization_projects",
-   "pull_requests",
-   "repository_hooks",
-   "repository_projects",
 diff --git a/dist/app.js b/dist/app.js
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -13289,10 +13289,39 @@ async function generateAssistantReply(messageText, context = {}) {
+@@ -14292,10 +14292,39 @@ async function generateAssistantReply(messageText, context = {}) {
      const userTurnText = buildUserTurnText(
        userInput,
        promptConversationContext
@@ -53,7 +42,7 @@ diff --git a/dist/app.js b/dist/app.js
        userTurnText
      });
      thinkingSelection = await selectTurnThinkingLevel({
-@@ -18152,6 +18181,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -20477,6 +20506,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -95,7 +84,7 @@ diff --git a/dist/app.js b/dist/app.js
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -18864,17 +18928,18 @@ function createReplyToThread(deps) {
+@@ -21209,17 +21273,18 @@ function createReplyToThread(deps) {
          if (resolvedUserName) {
            setTags({ slackUserName: resolvedUserName });
          }
@@ -120,7 +109,7 @@ diff --git a/dist/app.js b/dist/app.js
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
          const piMessages = await loadPiMessagesForTurn({
            conversationId,
-@@ -18958,6 +19023,7 @@ function createReplyToThread(deps) {
+@@ -21283,6 +21348,7 @@ function createReplyToThread(deps) {
              inboundAttachmentCount: message.attachments.length,
              omittedImageAttachmentCount,
              userAttachments,

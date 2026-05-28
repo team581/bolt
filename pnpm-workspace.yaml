@@ -20,3 +20,8 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+# Temporarily doing this to get a change out before I forget
+minimumReleaseAgeExclude:
+  - "@sentry/junior@0.55.0"
+  - "@sentry/junior-plugin-api@0.55.0"
+  - "@sentry/junior-github@0.55.0"

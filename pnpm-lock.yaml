@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': a04b14c518278c32d130f02a36195be8493875e392511d44e7f8e62d6e42a115
+  '@sentry/junior': 1c3dde4d1c8116d1b4f693bb6bfc52bb8283c32b1463f900d018816db35f9f49
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -23,11 +23,11 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.54.0
-        version: 0.54.0(patch_hash=a04b14c518278c32d130f02a36195be8493875e392511d44e7f8e62d6e42a115)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.54.0)(ws@8.20.1)
+        specifier: 0.55.0
+        version: 0.55.0(patch_hash=1c3dde4d1c8116d1b4f693bb6bfc52bb8283c32b1463f900d018816db35f9f49)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.54.0)(ws@8.20.1)
       '@sentry/junior-github':
-        specifier: 0.54.0
-        version: 0.54.0
+        specifier: 0.55.0
+        version: 0.55.0
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.54.0
@@ -904,11 +904,14 @@ packages:
     resolution: {integrity: sha512-yC/bc8N5ut6vk9X/ugTnIFAbzaSZ2uGoKiHRGzt7VseDIrjXk5ENDJP0m7Rbchuozr41kBv2QB3mPcHUhfB43w==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-github@0.54.0':
-    resolution: {integrity: sha512-9p0rkzGo/EC3Nlhmch8n4GIa6p30OTZ7onLPfXEPV/49Qjl8p7n9Qqyecrzs39+7VFf5JVtAZkIgHuTE7M2eTQ==}
+  '@sentry/junior-github@0.55.0':
+    resolution: {integrity: sha512-6HGLZxIVNo7NxESDgZq8F3yq0++cJyGcgBK1XT9vXGuzsSGKOLzJEUgJYCTOGfNbnerCtzy/BBK+Wsl+BI/Hxg==}
 
-  '@sentry/junior@0.54.0':
-    resolution: {integrity: sha512-aatV0gi/cffxuPIm4MeI/yjhwvL6keQBHdhaMLP+2hUkDBsMC1UUCSNa75ThuIeHtrXw1ZK+VZNu0FkRz187NA==}
+  '@sentry/junior-plugin-api@0.55.0':
+    resolution: {integrity: sha512-RLARs6YeoPSYBhr372JTSiDP6qEi0P3p/GVDeBSujebAgBBCwOiEpi/3oFsLUyb6n8hGuXRevlKXVdVqtD2fuA==}
+
+  '@sentry/junior@0.55.0':
+    resolution: {integrity: sha512-vXWfZ57qBhA7eQCUztoMLn5aQRTJ+TrnJAQEHMmiYgvvu0P3OK1koW4dORw/UrqmO6qn+v+6XBhfl63Gx4TlxA==}
     hasBin: true
     peerDependencies:
       '@sentry/node': '>=10.0.0'
@@ -964,10 +967,6 @@ packages:
   '@slack/types@2.21.1':
     resolution: {integrity: sha512-I8vmSjNYWsaxuWPx6dz4yeh0h7vRBWbgAMK14LEmblbZ404BtrPbXs6jDPx4cYgGf8msDGF4A9opLZBu21FViQ==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
-
-  '@slack/web-api@7.15.2':
-    resolution: {integrity: sha512-/m9qVFkiq85Oa/FSQwYIRDa/AO4qNYkDh4sRBK1WqEc2+RyG7w4tbU6rBIwUOcc/TmWOIr24Nraquxg7um5mYw==}
-    engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@slack/web-api@7.16.0':
     resolution: {integrity: sha512-68SAV77uuGKuhyyaRytX8UijVnqSLsTSKslGXw17cjQYXn+jtNl7gbaEjHgC5x2rhCuFdahBrEC2VCLppbzReg==}
@@ -3455,7 +3454,7 @@ snapshots:
     dependencies:
       '@chat-adapter/shared': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
       '@slack/socket-mode': 2.0.7
-      '@slack/web-api': 7.15.2
+      '@slack/web-api': 7.16.0
       chat: 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
     transitivePeerDependencies:
       - ai
@@ -3945,9 +3944,13 @@ snapshots:
 
   '@sentry/core@10.54.0': {}
 
-  '@sentry/junior-github@0.54.0': {}
+  '@sentry/junior-github@0.55.0':
+    dependencies:
+      '@sentry/junior-plugin-api': 0.55.0
 
-  '@sentry/junior@0.54.0(patch_hash=a04b14c518278c32d130f02a36195be8493875e392511d44e7f8e62d6e42a115)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.54.0)(ws@8.20.1)':
+  '@sentry/junior-plugin-api@0.55.0': {}
+
+  '@sentry/junior@0.55.0(patch_hash=1c3dde4d1c8116d1b4f693bb6bfc52bb8283c32b1463f900d018816db35f9f49)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@sentry/node@10.54.0)(ws@8.20.1)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
@@ -3957,6 +3960,7 @@ snapshots:
       '@earendil-works/pi-ai': 0.74.2(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.20.1)(zod@4.4.3)
       '@logtape/logtape': 2.1.1
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
+      '@sentry/junior-plugin-api': 0.55.0
       '@sentry/node': 10.54.0
       '@sinclair/typebox': 0.34.49
       '@slack/web-api': 7.16.0
@@ -4029,7 +4033,7 @@ snapshots:
   '@slack/socket-mode@2.0.7':
     dependencies:
       '@slack/logger': 4.0.1
-      '@slack/web-api': 7.15.2
+      '@slack/web-api': 7.16.0
       '@types/node': 24.12.4
       '@types/ws': 8.18.1
       eventemitter3: 5.0.4
@@ -4040,23 +4044,6 @@ snapshots:
       - utf-8-validate
 
   '@slack/types@2.21.1': {}
-
-  '@slack/web-api@7.15.2':
-    dependencies:
-      '@slack/logger': 4.0.1
-      '@slack/types': 2.21.1
-      '@types/node': 24.12.4
-      '@types/retry': 0.12.0
-      axios: 1.16.0
-      eventemitter3: 5.0.4
-      form-data: 4.0.5
-      is-electron: 2.2.2
-      is-stream: 2.0.1
-      p-queue: 6.6.2
-      p-retry: 4.6.2
-      retry: 0.13.1
-    transitivePeerDependencies:
-      - debug
 
   '@slack/web-api@7.16.0':
     dependencies:
