@@ -1,19 +1,10 @@
 import ky from "ky";
 
-const juniorBaseUrl = process.env.JUNIOR_BASE_URL?.trim();
-const schedulerSecret = process.env.JUNIOR_SCHEDULER_SECRET?.trim();
-
-if (!juniorBaseUrl) {
-	throw new RangeError("JUNIOR_BASE_URL is required for the scheduler heartbeat.");
-}
-
-if (!schedulerSecret) {
-	throw new RangeError("JUNIOR_SCHEDULER_SECRET is required for the scheduler heartbeat.");
-}
+import { env } from "./env";
 
 export const http = ky.create({
-	baseUrl: juniorBaseUrl,
+	baseUrl: env.JUNIOR_BASE_URL,
 	headers: {
-		Authorization: `Bearer ${schedulerSecret}`,
+		Authorization: `Bearer ${env.JUNIOR_SCHEDULER_SECRET}`,
 	},
 });
