@@ -1,8 +1,6 @@
-diff --git a/dist/app.js b/dist/app.js
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -14292,10 +14292,39 @@ async function generateAssistantReply(messageText, context = {}) {
-     const userTurnText = buildUserTurnText(
+@@ -12746,9 +12746,38 @@
        userInput,
        promptConversationContext
      );
@@ -41,8 +39,8 @@ diff --git a/dist/app.js b/dist/app.js
 +      userAttachments: resolvedUserAttachments,
        userTurnText
      });
-     thinkingSelection = await selectTurnThinkingLevel({
-@@ -20477,6 +20506,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
+@@ -19338,6 +19367,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,15 +82,15 @@ diff --git a/dist/app.js b/dist/app.js
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -21209,17 +21273,18 @@ function createReplyToThread(deps) {
-         if (resolvedUserName) {
-           setTags({ slackUserName: resolvedUserName });
-         }
+@@ -20168,17 +20232,18 @@
+           message,
+           options.queuedMessages
+         );
 -        const userAttachments = await deps.resolveUserAttachments(
--          message.attachments,
+-          turnAttachments,
 -          {
 +        const resolveAttachmentsLazily = async (sandboxWriter) => {
-+          return await deps.resolveUserAttachments(message.attachments, {
++          return await deps.resolveUserAttachments(turnAttachments, {
              threadId,
              requesterId: message.author.userId,
              channelId,
@@ -106,14 +104,14 @@ diff --git a/dist/app.js b/dist/app.js
 +          });
 +        };
 +        const userAttachments = void 0;
-         const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(message.attachments) ? countPotentialImageAttachments(message.attachments) : 0;
-         const piMessages = await loadPiMessagesForTurn({
-           conversationId,
-@@ -21283,6 +21348,7 @@ function createReplyToThread(deps) {
-             inboundAttachmentCount: message.attachments.length,
-             omittedImageAttachmentCount,
-             userAttachments,
-+            resolveAttachmentsLazily,
-             correlation: {
-               conversationId,
-               threadId,
+         const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
+         const status = createSlackAdapterAssistantStatusSession({
+           channelId: assistantThreadContext?.channelId,
+@@ -20271,6 +20336,7 @@
+               inboundAttachmentCount: turnAttachments.length,
+               omittedImageAttachmentCount,
+               userAttachments,
++              resolveAttachmentsLazily,
+               correlation: {
+                 conversationId,
+                 threadId,
