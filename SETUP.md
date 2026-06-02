@@ -11,7 +11,8 @@ Work through these pages, applying the deviations below as you go:
 1. [Quickstart](https://junior.sentry.dev/start-here/quickstart/) — app shape, env, running locally.
 2. [Slack App Setup](https://junior.sentry.dev/start-here/slack-app-setup/) — but use our restricted scopes.
 3. [GitHub Plugin](https://junior.sentry.dev/extend/github-plugin/) — but create the app org-wide with org Projects permission.
-4. Skip [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/), we run on Railway.
+4. [Scheduler Plugin](https://junior.sentry.dev/extend/scheduler-plugin/) — but use Bolt's built-in Railway heartbeat instead of Vercel Cron.
+5. Skip [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/), we run on Railway.
 
 ## Team 581 deviations
 
@@ -27,6 +28,7 @@ We deploy to Railway with the Nitro `node-server` preset (a long-lived Node proc
 - Add a **Redis** plugin and reference it as `REDIS_URL=${{Redis.REDIS_URL}}`.
 - Set `JUNIOR_BASE_URL` after the first deploy assigns a domain.
 - We use `JUNIOR_SCHEDULER_SECRET` for the scheduled-task heartbeat in place of the docs' Vercel-Cron `CRON_SECRET`.
+- Bolt's long-lived Node service self-calls `/api/internal/heartbeat` once per minute, so no separate Railway cron service is required. `JUNIOR_SCHEDULER_SECRET` is required at startup; set `JUNIOR_TIMEZONE` if schedule authoring should use a default other than `America/Los_Angeles`.
 - Point Slack's Event Subscriptions, Interactivity, and `/jr` URLs at `https://<railway-domain>/api/webhooks/slack`.
 
 > Snapshot warmup (`junior snapshot create`) needs `REDIS_URL` at build time. Railway injects service variables into builds that reference the same project, so this works as-is. If the build fails on snapshot creation, fall back to a pure-Nitro build and let Bolt warm at first request.
@@ -62,4 +64,4 @@ Junior routes all model traffic through Vercel AI Gateway. Create a key, set `AI
 
 ## What's deliberately not set up yet
 
-- **Other plugins** — Linear, Notion, Sentry, Datadog, Hex, Agent Browser. Only `@sentry/junior-github` is enabled.
+- **Other plugins** — Linear, Notion, Sentry, Datadog, Hex, Agent Browser. Only `@sentry/junior-github` and `@sentry/junior-scheduler` are enabled.

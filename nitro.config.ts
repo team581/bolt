@@ -11,7 +11,7 @@ export default defineConfig({
 		}),
 		juniorNitro({
 			plugins: {
-				packages: ["@sentry/junior-github"],
+				packages: ["@sentry/junior-github", "@sentry/junior-scheduler"],
 			},
 		}),
 	],
