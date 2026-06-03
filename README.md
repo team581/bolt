@@ -1,17 +1,10 @@
 # Bolt
 
-Team 581's instance of [Junior](https://junior.sentry.dev) — a Slack bot that answers coding questions and manages GitHub issues/PRs.
+Bolt is Team 581's instance of [Junior](https://junior.sentry.dev/), a Slack bot which helps our software team with project management, answering questions about robot code, debugging log files, and more.
 
-See [SETUP.md](./SETUP.md) for the operator runbook.
+To learn more about Bolt check out:
 
-## Development
-
-```sh
-pnpm install
-cp .env.example .env.local
-pnpm dev
-```
-
-## Deployment
-
-Deployed to Railway. See [SETUP.md](./SETUP.md) for full deployment instructions.
+- [SOUL.md](./app/SOUL.md), which defines high-level guidelines for Bolt's responsibilities and behavior
+- [WORLD.md](./app/WORLD.md), which contains context on how the Team 581 software team operates
+- [SETUP.md](./SETUP.md), our internal deploy guide for running Bolt on Railway
+- [Junior docs](https://junior.sentry.dev/)
