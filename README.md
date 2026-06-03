@@ -1,6 +1,6 @@
 # Bolt
 
-Bolt is Team 581's instance of [Junior](https://junior.sentry.dev/), a Slack bot which helps our software team with project management, answering questions about robot code, debugging log files, and more.
+Bolt <img src="./bolt.png" alt="Image of Bolt the dog" width="24px"/> is Team 581's instance of [Junior](https://junior.sentry.dev/), a Slack bot which helps our software team with project management, answering questions about robot code, debugging log files, and more.
 
 To learn more about Bolt check out:
 
