@@ -1,7 +1,18 @@
 {
 	"$schema": "https://railway.app/railway.schema.json",
 	"build": {
-		"buildCommand": "pnpm build:release"
+		"buildCommand": "pnpm build:release",
+		"watchPatterns": [
+			"app/**/*",
+			"patches/**/*",
+			"src/**/*",
+			"tsconfig.json",
+			"vite.config.ts",
+			"nitro.config.ts",
+			"package.json",
+			"pnpm-lock.yaml",
+			".node-version"
+		]
 	},
 	"deploy": {
 		"healthcheckPath": "/health",
