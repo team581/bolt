@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776cb0bc338 100644
+index 94d95ad..dfb2b12 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -12746,9 +12746,38 @@ async function generateAssistantReply(messageText2, context = {}) {
+@@ -12170,9 +12170,33 @@ async function generateAssistantReply(messageText2, context = {}) {
        userInput,
        promptConversationContext
      );
@@ -13,11 +13,6 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
 +          trigger: "attachment.upload",
 +          path: filename
 +        });
-+        const sandboxCredentials = getVercelSandboxCredentials();
-+        const rawSandbox = await Sandbox.get({
-+          name: workspaceSandbox.sandboxId,
-+          ...sandboxCredentials ?? {}
-+        });
 +        const safeName = (filename ?? "attachment").replace(
 +          /[^A-Za-z0-9._-]/g,
 +          "_"
@@ -25,10 +20,10 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
 +        const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
 +        const sandboxPath = `${uploadDir}/${safeName}`;
 +        try {
-+          await rawSandbox.mkDir(uploadDir);
++          await workspaceSandbox.mkDir(uploadDir);
 +        } catch {
 +        }
-+        await rawSandbox.writeFiles([{ path: sandboxPath, content: data }]);
++        await workspaceSandbox.writeFiles([{ path: sandboxPath, content: data }]);
 +        return sandboxPath;
 +      };
 +      resolvedUserAttachments = await context.resolveAttachmentsLazily(
@@ -42,7 +37,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
-@@ -19338,6 +19367,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -18761,6 +18785,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -84,7 +79,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -20168,17 +20232,18 @@ function createReplyToThread(deps) {
+@@ -19598,17 +19657,18 @@ function createReplyToThread(deps) {
            message,
            options.queuedMessages
          );
@@ -109,7 +104,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -20271,6 +20336,7 @@ function createReplyToThread(deps) {
+@@ -19701,6 +19761,7 @@ function createReplyToThread(deps) {
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
@@ -117,7 +112,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
                correlation: {
                  conversationId,
                  threadId,
-@@ -21280,7 +21346,7 @@ async function handleUnlink(event, provider) {
+@@ -20710,7 +20771,7 @@ async function handleUnlink(event, provider) {
      "slash_command_unlink",
      { slackUserId: event.user.userId },
      { "app.credential.provider": provider },
@@ -126,7 +121,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
    );
    await postEphemeral(
      event,
-@@ -21292,12 +21358,12 @@ async function handleSlashCommand(event) {
+@@ -20722,12 +20783,12 @@ async function handleSlashCommand(event) {
    if (!subcommand || !["link", "unlink"].includes(subcommand)) {
      await postEphemeral(
        event,
@@ -141,7 +136,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
      return;
    }
    const normalized = provider.toLowerCase();
-@@ -21375,7 +21441,7 @@ function registerProductionHandlers(bot, slackRuntime) {
+@@ -20805,7 +20866,7 @@ function registerProductionHandlers(bot, slackRuntime) {
      (event) => slackRuntime.handleAssistantContextChanged(event)
    );
    bot.onSlashCommand(
@@ -151,7 +146,7 @@ index f3f781b55c31c640b24411301b9b62e22b50b689..b5787a09766b396a5e6c5397759ac776
        "chat.slash_command",
        "chat.slash_command",
 diff --git a/dist/chat/ingress/slash-command.d.ts b/dist/chat/ingress/slash-command.d.ts
-index fce314aa9a4c7e28947eb9320b564c2ba3f329ae..01f5d376654d9239543b95ed391845c437585380 100644
+index fce314a..01f5d37 100644
 --- a/dist/chat/ingress/slash-command.d.ts
 +++ b/dist/chat/ingress/slash-command.d.ts
 @@ -1,3 +1,3 @@

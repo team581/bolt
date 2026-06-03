@@ -2,7 +2,6 @@ import { initSentry } from "@sentry/junior/instrumentation";
 initSentry();
 
 import { createApp } from "@sentry/junior";
-import { schedulerPlugin } from "@sentry/junior-scheduler";
 import * as Sentry from "@sentry/node";
 
 import { startSchedulerHeartbeat } from "./scheduler";
@@ -21,7 +20,6 @@ function waitUntil(task: BackgroundTask) {
 }
 
 const app = await createApp({
-	plugins: [schedulerPlugin()],
 	waitUntil,
 });
 startSchedulerHeartbeat();
