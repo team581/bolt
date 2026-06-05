@@ -32,6 +32,10 @@ export const env = cleanEnv(process.env, {
 		desc: "Display name used by Junior.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
+	JUNIOR_SLASH_COMMAND: str({
+		desc: "Slash command used to trigger Junior in Slack.",
+		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
+	}),
 	JUNIOR_LOADING_MESSAGES: json<string[]>({
 		desc: "JSON array of loading messages shown by Junior.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
