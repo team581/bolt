@@ -23,17 +23,17 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.65.0
-        version: 0.65.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+        specifier: 0.68.0
+        version: 0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
-        specifier: 0.65.0
-        version: 0.65.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
+        specifier: 0.68.0
+        version: 0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
       '@sentry/junior-github':
-        specifier: 0.65.0
-        version: 0.65.0
+        specifier: 0.68.0
+        version: 0.68.0
       '@sentry/junior-scheduler':
-        specifier: 0.65.0
-        version: 0.65.0
+        specifier: 0.68.0
+        version: 0.68.0
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.56.0
@@ -1270,20 +1270,20 @@ packages:
     resolution: {integrity: sha512-L+u1dIz5SANrmST5jhIwETtt4apILgKrylv12X4hKJU0PvZl+NorjeV/ty3MwzpKQPg6b6q6qMOSLc1rLpy3iQ==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-dashboard@0.65.0':
-    resolution: {integrity: sha512-8Z/jB1fJS48ySWRJEys01qQjc8QXt0N4g9Dv0zJMoq0GdDaggTKNSgLkz2c5Qls7y+DQGBEZcU44aoMcZdrTBg==}
+  '@sentry/junior-dashboard@0.68.0':
+    resolution: {integrity: sha512-oW2s668TAkG/BeWtynTSq54rLj2/F6CgpTKIqO01FMNHNE0Ug5aJ4gcaGAfd5yY+MQ/H59n7HonQKH3h43qr2w==}
 
-  '@sentry/junior-github@0.65.0':
-    resolution: {integrity: sha512-APR4DzYQ/hSR+uZTHn7atEtqDMqpsIyjdBsCdBQ27r6J1kFGK7V4/znx7WO6xOraarWflB+7CxatqLYAKsPWvA==}
+  '@sentry/junior-github@0.68.0':
+    resolution: {integrity: sha512-GZcjlO3jbntlTG6fgAPzF84XWdZ/To9EoUrHK6ybcLYKsa6a8JKD9s+7RYrF+Xwn6iXAPZI7UIn6VZRYbJ8BOQ==}
 
-  '@sentry/junior-plugin-api@0.65.0':
-    resolution: {integrity: sha512-Xw1cmSQpGlHz3tPmfOoElW9iLSuAHcaSZIWuyFmVDQVFIyDn5NZRathhuUdMsSGWtgaKqaERyHtS6cu6A/q6Ig==}
+  '@sentry/junior-plugin-api@0.68.0':
+    resolution: {integrity: sha512-Jqs4RU0VQx56sbGWviB55BEZJIYhKOXHZzK9DFuB4e3oZLSVsfurk6sFmEcCEtA7vc/asGfbZjDL9o3qMgBGEA==}
 
-  '@sentry/junior-scheduler@0.65.0':
-    resolution: {integrity: sha512-aclikYiCRR/Iuedjc1NIJTdQ86uctXGUch4kB8LBUtI5VfTHwmJMOMMv2ieSknV6cbkoUHSif5Kn+HXcxhLO2w==}
+  '@sentry/junior-scheduler@0.68.0':
+    resolution: {integrity: sha512-iOKxYr/69Wnpu1rkj8PmaoCoh1wuO/d+xPCN6H2GMhs4OpASfaREE9k2qx26UTgJI6M8ObMI9Pb7fARoOfb5Xw==}
 
-  '@sentry/junior@0.65.0':
-    resolution: {integrity: sha512-NDtEsBvUwz+/wEQ8SmyEHVEXWG9teYlDi7DP1hPXZ6YsoHo8ef2EQvcnAXFFp2CCNALMyzIOIYpAjgbKdF7PwA==}
+  '@sentry/junior@0.68.0':
+    resolution: {integrity: sha512-LbV2VeO2VtGjkA4RsuePanZZKigi6EAkqS5z2iRbMPWAvBFPZaDJZHMfwj9kA7r35cwGg6UyqzRfpRlRxwZ8zQ==}
     hasBin: true
 
   '@sentry/node-core@10.53.1':
@@ -1716,6 +1716,10 @@ packages:
   '@vercel/oidc@3.4.1':
     resolution: {integrity: sha512-H6B+/ig/GoahccL3WZjiHayHw1H5KhvTJNceqYulwfK9kkz5iul2hTmYzcJ7tTCQzyd0dutuL9xYFZCyLUqsog==}
     engines: {node: '>= 20'}
+
+  '@vercel/queue@0.2.1':
+    resolution: {integrity: sha512-18jVWNj/jroyQ+/GM3XFyr1/deFkinosg7RKjovrJbgQRRjusq9Y+pSGOKfpzus6vVRun2mqDlNI82hm5Rwi5Q==}
+    engines: {node: '>=20.0.0'}
 
   '@vercel/sandbox@2.0.0':
     resolution: {integrity: sha512-fmg6lNfDJdhQ43Njc0jUIXTQP2wKPY6tJszeVq5C25v1XsDK3wwnlFBQfSKzZfkMkh1N269pPgOopjTEqJJamA==}
@@ -2983,6 +2987,10 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
+  mixpart@0.0.6:
+    resolution: {integrity: sha512-CRdXtgfQH2jARmtNmPR0Q7jL20fiESbaYk1b0KvLD0jCdUuemepREtsbd8nbiY6BHV9OGGddAZITNXklupUPUQ==}
+    engines: {node: '>=20.0.0'}
 
   mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
@@ -5173,15 +5181,15 @@ snapshots:
 
   '@sentry/core@10.56.0': {}
 
-  '@sentry/junior-dashboard@0.65.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
+  '@sentry/junior-dashboard@0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.65.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
-      '@sentry/junior-plugin-api': 0.65.0
+      '@sentry/junior': 0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+      '@sentry/junior-plugin-api': 0.68.0
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       hono: 4.12.23
       lucide-react: 1.17.0(react@19.2.6)
-      nitro: 3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)
+      nitro: 3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
       react-router: 7.16.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -5256,18 +5264,18 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@sentry/junior-github@0.65.0':
+  '@sentry/junior-github@0.68.0':
     dependencies:
-      '@sentry/junior-plugin-api': 0.65.0
+      '@sentry/junior-plugin-api': 0.68.0
 
-  '@sentry/junior-plugin-api@0.65.0': {}
+  '@sentry/junior-plugin-api@0.68.0': {}
 
-  '@sentry/junior-scheduler@0.65.0':
+  '@sentry/junior-scheduler@0.68.0':
     dependencies:
-      '@sentry/junior-plugin-api': 0.65.0
+      '@sentry/junior-plugin-api': 0.68.0
       '@sinclair/typebox': 0.34.49
 
-  '@sentry/junior@0.65.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
+  '@sentry/junior@0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
@@ -5277,11 +5285,12 @@ snapshots:
       '@earendil-works/pi-ai': 0.74.2(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)
       '@logtape/logtape': 2.1.1
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
-      '@sentry/junior-plugin-api': 0.65.0
+      '@sentry/junior-plugin-api': 0.68.0
       '@sentry/node': 10.53.1
       '@sinclair/typebox': 0.34.49
       '@slack/web-api': 7.16.0
       '@vercel/functions': 3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38)
+      '@vercel/queue': 0.2.1
       '@vercel/sandbox': 2.0.0(patch_hash=d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c)
       ai: 6.0.191(zod@4.4.3)
       bash-tool: 1.3.16(@vercel/sandbox@2.0.0(patch_hash=d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c))(ai@6.0.191(zod@4.4.3))(just-bash@3.0.1)
@@ -5894,6 +5903,13 @@ snapshots:
 
   '@vercel/oidc@3.4.1': {}
 
+  '@vercel/queue@0.2.1':
+    dependencies:
+      '@vercel/oidc': 3.4.1
+      minimatch: 10.2.5
+      mixpart: 0.0.6
+      picocolors: 1.1.1
+
   '@vercel/sandbox@2.0.0(patch_hash=d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c)':
     dependencies:
       '@vercel/oidc': 3.2.0
@@ -6348,12 +6364,14 @@ snapshots:
       httpxy: 0.5.1
       srvx: 0.11.15
 
-  env-runner@0.1.9:
+  env-runner@0.1.9(@vercel/queue@0.2.1):
     dependencies:
       crossws: 0.4.5(srvx@0.11.15)
       exsolve: 1.0.8
       httpxy: 0.5.3
       srvx: 0.11.15
+    optionalDependencies:
+      '@vercel/queue': 0.2.1
 
   envalid@8.1.1:
     dependencies:
@@ -7191,6 +7209,8 @@ snapshots:
 
   minimist@1.2.8: {}
 
+  mixpart@0.0.6: {}
+
   mkdirp-classic@0.5.3:
     optional: true
 
@@ -7265,12 +7285,12 @@ snapshots:
       - sqlite3
       - uploadthing
 
-  nitro@3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0):
+  nitro@3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0):
     dependencies:
       consola: 3.4.2
       crossws: 0.4.5(srvx@0.11.15)
       db0: 0.3.4
-      env-runner: 0.1.9
+      env-runner: 0.1.9(@vercel/queue@0.2.1)
       h3: 2.0.1-rc.22(crossws@0.4.5(srvx@0.11.15))
       hookable: 6.1.1
       nf3: 0.3.17
@@ -7282,6 +7302,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       unstorage: 2.0.0-alpha.7(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(db0@0.3.4)(ofetch@2.0.0-alpha.3)
     optionalDependencies:
+      '@vercel/queue': 0.2.1
       jiti: 2.7.0
       vite: '@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0)'
     transitivePeerDependencies:
