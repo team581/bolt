@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index 94d95ad..dfb2b12 100644
+index 33f19b6..f4f8090 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -12170,9 +12170,33 @@ async function generateAssistantReply(messageText2, context = {}) {
+@@ -11600,9 +11600,33 @@ async function generateAssistantReply(messageText2, context = {}) {
        userInput,
        promptConversationContext
      );
@@ -37,7 +37,7 @@ index 94d95ad..dfb2b12 100644
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
-@@ -18761,6 +18785,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -19283,6 +19307,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -79,7 +79,7 @@ index 94d95ad..dfb2b12 100644
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -19598,17 +19657,18 @@ function createReplyToThread(deps) {
+@@ -20134,17 +20193,18 @@ function createReplyToThread(deps) {
            message,
            options.queuedMessages
          );
@@ -104,53 +104,11 @@ index 94d95ad..dfb2b12 100644
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -19701,6 +19761,7 @@ function createReplyToThread(deps) {
+@@ -20268,6 +20328,7 @@ function createReplyToThread(deps) {
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
 +              resolveAttachmentsLazily,
-               correlation: {
-                 conversationId,
-                 threadId,
-@@ -20710,7 +20771,7 @@ async function handleUnlink(event, provider) {
-     "slash_command_unlink",
-     { slackUserId: event.user.userId },
-     { "app.credential.provider": provider },
--    `Unlinked ${formatProviderLabel(provider)} account via /jr slash command`
-+    `Unlinked ${formatProviderLabel(provider)} account via /bolt slash command`
-   );
-   await postEphemeral(
-     event,
-@@ -20722,12 +20783,12 @@ async function handleSlashCommand(event) {
-   if (!subcommand || !["link", "unlink"].includes(subcommand)) {
-     await postEphemeral(
-       event,
--      "Usage: `/jr link <provider>` or `/jr unlink <provider>`"
-+      "Usage: `/bolt link <provider>` or `/bolt unlink <provider>`"
-     );
-     return;
-   }
-   if (!provider || rest.length > 0) {
--    await postEphemeral(event, `Usage: \`/jr ${subcommand} <provider>\``);
-+    await postEphemeral(event, `Usage: \`/bolt ${subcommand} <provider>\``);
-     return;
-   }
-   const normalized = provider.toLowerCase();
-@@ -20805,7 +20866,7 @@ function registerProductionHandlers(bot, slackRuntime) {
-     (event) => slackRuntime.handleAssistantContextChanged(event)
-   );
-   bot.onSlashCommand(
--    "/jr",
-+    "/bolt",
-     (event) => withSpan(
-       "chat.slash_command",
-       "chat.slash_command",
-diff --git a/dist/chat/ingress/slash-command.d.ts b/dist/chat/ingress/slash-command.d.ts
-index fce314a..01f5d37 100644
---- a/dist/chat/ingress/slash-command.d.ts
-+++ b/dist/chat/ingress/slash-command.d.ts
-@@ -1,3 +1,3 @@
- import type { SlashCommandEvent } from "chat";
--/** Route `/jr link` and `/jr unlink` slash commands to the appropriate OAuth flow. */
-+/** Route `/bolt link` and `/bolt unlink` slash commands to the appropriate OAuth flow. */
- export declare function handleSlashCommand(event: SlashCommandEvent): Promise<void>;
+               slackConversation,
+               surface: "slack",
+               turnDeadlineAtMs: getTurnRequestDeadline()?.deadlineAtMs,

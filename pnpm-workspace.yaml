@@ -20,9 +20,3 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
-minimumReleaseAgeExclude:
-  - "@sentry/junior-dashboard@0.65.0"
-  - "@sentry/junior-github@0.65.0"
-  - "@sentry/junior-plugin-api@0.65.0"
-  - "@sentry/junior-scheduler@0.65.0"
-  - "@sentry/junior@0.65.0"

@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': 42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4
+  '@sentry/junior': dc648151f0d7804ca83cfff29604456c258b2b02291cf1fe2ebb1de73b067856
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -24,7 +24,7 @@ importers:
     dependencies:
       '@sentry/junior':
         specifier: 0.68.0
-        version: 0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+        version: 0.68.0(patch_hash=dc648151f0d7804ca83cfff29604456c258b2b02291cf1fe2ebb1de73b067856)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
         specifier: 0.68.0
         version: 0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
@@ -5183,7 +5183,7 @@ snapshots:
 
   '@sentry/junior-dashboard@0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.0)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+      '@sentry/junior': 0.68.0(patch_hash=dc648151f0d7804ca83cfff29604456c258b2b02291cf1fe2ebb1de73b067856)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
       '@sentry/junior-plugin-api': 0.68.0
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -5275,7 +5275,7 @@ snapshots:
       '@sentry/junior-plugin-api': 0.68.0
       '@sinclair/typebox': 0.34.49
 
-  '@sentry/junior@0.68.0(patch_hash=42bd5797f54c9d586a276e1bd140dd0a8578a5de55fbd415ba357aa9ad45e2c4)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
+  '@sentry/junior@0.68.0(patch_hash=dc648151f0d7804ca83cfff29604456c258b2b02291cf1fe2ebb1de73b067856)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
