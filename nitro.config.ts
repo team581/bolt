@@ -2,7 +2,7 @@ import { defineConfig } from "nitro";
 import { juniorNitro } from "@sentry/junior/nitro";
 
 export default defineConfig({
-	preset: "node-server",
+	preset: "vercel",
 	sourcemap: true,
 	modules: [
 		juniorNitro({

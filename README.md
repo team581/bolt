@@ -6,5 +6,5 @@ To learn more about Bolt check out:
 
 - [SOUL.md](./app/SOUL.md), which defines high-level guidelines for Bolt's responsibilities and behavior
 - [WORLD.md](./app/WORLD.md), which contains context on how the Team 581 software team operates
-- [SETUP.md](./SETUP.md), our internal deploy guide for running Bolt on Railway
+- [SETUP.md](./SETUP.md), our internal deploy guide for running Bolt on Vercel
 - [Junior docs](https://junior.sentry.dev/)

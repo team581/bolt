@@ -11,8 +11,8 @@ Work through these pages, applying the deviations below as you go:
 1. [Quickstart](https://junior.sentry.dev/start-here/quickstart/) — app shape, env, running locally.
 2. [Slack App Setup](https://junior.sentry.dev/start-here/slack-app-setup/) — but use our restricted scopes.
 3. [GitHub Plugin](https://junior.sentry.dev/extend/github-plugin/) — but create the app org-wide with org Projects permission.
-4. [Scheduler Plugin](https://junior.sentry.dev/extend/scheduler-plugin/) — but use Bolt's built-in Railway heartbeat instead of Vercel Cron.
-5. Skip [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/), we run on Railway.
+4. [Scheduler Plugin](https://junior.sentry.dev/extend/scheduler-plugin/) — Bolt uses Junior's Vercel Cron heartbeat.
+5. [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/) — use the Team 581 `bolt` Vercel project.
 
 ## Team 581 deviations
 
@@ -20,18 +20,20 @@ Work through these pages, applying the deviations below as you go:
 
 This repo uses Vite+ (`vp`). Wherever the docs say `pnpm dev` / `pnpm build` / `pnpm check`, run `vp dev` / `vp build` / `vp check`.
 
-### Deploy target: Railway, not Vercel
+### Deploy target: Vercel
 
-We deploy to Railway with the Nitro `node-server` preset (a long-lived Node process), so Slack's 3s ack and Vercel's `maxDuration` ceiling don't apply, and there is no Vercel Cron.
+We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. The project is linked locally with the Vercel CLI, but `.vercel/` must stay uncommitted.
 
-- `railway.json` defines the build, start, and `/health` healthcheck. The `build:release` script also injects and uploads Sentry source maps.
-- Add a **Redis** plugin and reference it as `REDIS_URL=${{Redis.REDIS_URL}}`.
-- Set `JUNIOR_BASE_URL` after the first deploy assigns a domain.
-- We use `JUNIOR_SCHEDULER_SECRET` for the scheduled-task heartbeat in place of the docs' Vercel-Cron `CRON_SECRET`.
-- Bolt's long-lived Node service self-calls `/api/internal/heartbeat` once per minute, so no separate Railway cron service is required. `JUNIOR_SCHEDULER_SECRET` is required at startup; set `JUNIOR_TIMEZONE` if schedule authoring should use a default other than `America/Los_Angeles`.
-- Point Slack's Event Subscriptions, Interactivity, and `/jr` URLs at `https://<railway-domain>/api/webhooks/slack`.
+- `vercel.json` sets the Nitro framework and runs `pnpm build:release`, which builds Bolt and uploads Sentry source maps from `.vercel/output/functions/__server.func`.
+- Set the variables from `.env.example` in Vercel, including `REDIS_URL`, `CRON_SECRET`, and the Sentry build variables.
+- Use an external Redis provider or Vercel Marketplace Redis for `REDIS_URL`; Railway reference variables are not available on Vercel.
+- Set `JUNIOR_BASE_URL` to Bolt's final production/custom Vercel domain.
+- Junior's Nitro module emits the `/api/internal/heartbeat` Vercel Cron entry and queue trigger. Do not add a duplicate root-level `crons` entry to `vercel.json`.
+- `CRON_SECRET` is required for Vercel Cron to call `/api/internal/heartbeat`; set `JUNIOR_TIMEZONE` if schedule authoring should use a default other than `America/Los_Angeles`.
+- Point Slack's Event Subscriptions, Interactivity, and `/jr` URLs at `https://<vercel-domain>/api/webhooks/slack`.
+- Add Google OAuth redirect/callback URLs for the same Vercel domain when dashboard auth is enabled.
 
-> Snapshot warmup (`junior snapshot create`) needs `REDIS_URL` at build time. Railway injects service variables into builds that reference the same project, so this works as-is. If the build fails on snapshot creation, fall back to a pure-Nitro build and let Bolt warm at first request.
+> If you enable snapshot warmup (`junior snapshot create`), it needs `REDIS_URL` at build time. Make sure Vercel exposes it to the build environment. If snapshot creation fails, fall back to a pure-Nitro build and let Bolt warm at first request.
 
 ### Slack: public channels only (student safety)
 
@@ -50,9 +52,9 @@ When creating the app per the GitHub Plugin doc:
 - Install on **All repositories** under the team581 org, webhook disabled.
 - In addition to the doc's repository permissions, grant **Organization → Projects: Read and write**.
 
-### Vercel Sandbox still required
+### Vercel Sandbox
 
-Even on Railway, Junior imports `@vercel/sandbox` directly to run all shell/git/test commands in per-turn microVMs. Without the Vercel sandbox credentials, Bolt still handles Q&A, GitHub REST calls, comments, and labels, but anything needing a shell fails. Create a Vercel team plus a placeholder project (make sure to disable production builds/deploys if GitHub is linked) and a Full-Account token.
+Junior imports `@vercel/sandbox` directly to run all shell/git/test commands in per-turn microVMs. Without the Vercel sandbox credentials, Bolt still handles Q&A, GitHub REST calls, comments, and labels, but anything needing a shell fails. Use the Bolt Vercel project unless a separate sandbox project is intentionally preferred, and create a Full-Account token.
 
 ### AI provider: Vercel AI Gateway
 

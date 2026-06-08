@@ -5,11 +5,10 @@
 	"type": "module",
 	"scripts": {
 		"build": "vp build",
-		"build:release": "vp build && sentry-cli sourcemaps inject .output/server && sentry-cli sourcemaps upload .output/server",
+		"build:release": "vp build && sentry-cli sourcemaps inject .vercel/output/functions/__server.func && sentry-cli sourcemaps upload .vercel/output/functions/__server.func",
 		"dev": "vp dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
-		"prepare": "vp config",
-		"start": "node .output/server/index.mjs"
+		"prepare": "vp config"
 	},
 	"dependencies": {
 		"@sentry/junior": "0.68.0",
@@ -18,8 +17,7 @@
 		"@sentry/junior-scheduler": "0.68.0",
 		"@sentry/node": "^10.0.0",
 		"envalid": "^8.1.1",
-		"hono": "^4.12.0",
-		"ky": "^2.0.2"
+		"hono": "^4.12.0"
 	},
 	"devDependencies": {
 		"@sentry/cli": "^3.4.1",

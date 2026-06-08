@@ -24,8 +24,12 @@ export const env = cleanEnv(process.env, {
 	}),
 
 	// Junior runtime
+	CRON_SECRET: str({
+		desc: "Bearer token used by Vercel Cron to call Junior's heartbeat endpoint.",
+		docs: "https://junior.sentry.dev/extend/scheduler-plugin/#configure-environment-variables",
+	}),
 	JUNIOR_BASE_URL: url({
-		desc: "Base URL used by the scheduler heartbeat to call Bolt's Junior API.",
+		desc: "Canonical production URL for Bolt.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
 	JUNIOR_BOT_NAME: str({
@@ -53,12 +57,6 @@ export const env = cleanEnv(process.env, {
 	SLACK_SIGNING_SECRET: str({
 		desc: "Slack signing secret used by Junior.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
-	}),
-
-	// Scheduler
-	JUNIOR_SCHEDULER_SECRET: str({
-		desc: "Bearer token used by the scheduler heartbeat endpoint.",
-		docs: "https://junior.sentry.dev/extend/scheduler-plugin/#configure-environment-variables",
 	}),
 
 	// Dashboard auth

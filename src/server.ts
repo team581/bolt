@@ -2,26 +2,9 @@ import { initSentry } from "@sentry/junior/instrumentation";
 initSentry();
 
 import { createApp } from "@sentry/junior";
-import * as Sentry from "@sentry/node";
 
-import { startSchedulerHeartbeat } from "./scheduler";
+await import("./env");
 
-type BackgroundTask = Promise<unknown> | (() => Promise<unknown>);
-
-function waitUntil(task: BackgroundTask) {
-	try {
-		const promise = typeof task === "function" ? task() : task;
-		void promise.catch((error) => {
-			Sentry.captureException(error);
-		});
-	} catch (error) {
-		Sentry.captureException(error);
-	}
-}
-
-const app = await createApp({
-	waitUntil,
-});
-startSchedulerHeartbeat();
+const app = await createApp();
 
 export default app;
