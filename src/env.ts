@@ -106,18 +106,4 @@ export const env = cleanEnv(process.env, {
 		desc: "Sentry DSN used for error reporting.",
 		docs: "https://docs.sentry.io/platforms/javascript/guides/node/configuration/environments/#dsn",
 	}),
-
-	// Vercel Sandbox
-	VERCEL_PROJECT_ID: str({
-		desc: "Vercel project ID used by Junior sandbox execution.",
-		docs: "https://vercel.com/docs/vercel-sandbox/concepts/authentication#access-tokens",
-	}),
-	VERCEL_TEAM_ID: str({
-		desc: "Vercel team ID used by Junior sandbox execution.",
-		docs: "https://vercel.com/docs/vercel-sandbox/concepts/authentication#access-tokens",
-	}),
-	VERCEL_TOKEN: str({
-		desc: "Vercel token used by Junior sandbox execution.",
-		docs: "https://vercel.com/docs/vercel-sandbox/concepts/authentication#access-tokens",
-	}),
 });
