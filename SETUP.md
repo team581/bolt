@@ -24,7 +24,7 @@ This repo uses Vite+ (`vp`). Wherever the docs say `pnpm dev` / `pnpm build` / `
 
 We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. The project is linked locally with the Vercel CLI, but `.vercel/` must stay uncommitted.
 
-- `vercel.json` sets the Nitro framework and runs `pnpm build:release`, which builds Bolt and uploads Sentry source maps from `.vercel/output/functions/__server.func`.
+- `vercel.json` sets the Nitro framework and runs `pnpm build:release`, which creates the Junior sandbox snapshot, builds Bolt, and uploads Sentry source maps from `.vercel/output/functions/__server.func`.
 - Set the variables from `.env.example` in Vercel, including `REDIS_URL`, `CRON_SECRET`, and the Sentry build variables.
 - Use an external Redis provider or Vercel Marketplace Redis for `REDIS_URL`; Railway reference variables are not available on Vercel.
 - Set `JUNIOR_BASE_URL` to Bolt's final production/custom Vercel domain.
@@ -33,7 +33,7 @@ We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. Th
 - Point Slack's Event Subscriptions, Interactivity, and `/jr` URLs at `https://<vercel-domain>/api/webhooks/slack`.
 - Add Google OAuth redirect/callback URLs for the same Vercel domain when dashboard auth is enabled.
 
-> If you enable snapshot warmup (`junior snapshot create`), it needs `REDIS_URL` at build time. Make sure Vercel exposes it to the build environment. If snapshot creation fails, fall back to a pure-Nitro build and let Bolt warm at first request.
+> Snapshot warmup (`junior snapshot create`) needs `REDIS_URL` and Vercel Sandbox credentials at build time. Make sure Vercel exposes them to the build environment. If snapshot creation must be skipped temporarily, set `JUNIOR_SKIP_SNAPSHOT=1` and let Bolt warm at first request.
 
 ### Slack: public channels only (student safety)
 

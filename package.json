@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "vp build",
-		"build:release": "vp build && sentry-cli sourcemaps inject .vercel/output/functions/__server.func && sentry-cli sourcemaps upload .vercel/output/functions/__server.func",
+		"build:release": "vp exec junior snapshot create && vp build && sentry-cli sourcemaps inject .vercel/output/functions/__server.func && sentry-cli sourcemaps upload .vercel/output/functions/__server.func",
 		"dev": "vp dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config"
