@@ -26,7 +26,7 @@ We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. Th
 
 - `vercel.json` sets the Nitro framework and runs `pnpm build:release`, which creates the Junior sandbox snapshot, builds Bolt, and uploads Sentry source maps from `.vercel/output/functions/__server.func`.
 - Set the variables from `.env.example` in Vercel, including `REDIS_URL`, `CRON_SECRET`, and the Sentry build variables.
-- Use an external Redis provider or Vercel Marketplace Redis for `REDIS_URL`; Railway reference variables are not available on Vercel.
+- Use an external Redis provider or Vercel Marketplace Redis for `REDIS_URL`;
 - Set `JUNIOR_BASE_URL` to Bolt's final production/custom Vercel domain.
 - Junior's Nitro module emits the `/api/internal/heartbeat` Vercel Cron entry and queue trigger. Do not add a duplicate root-level `crons` entry to `vercel.json`.
 - `CRON_SECRET` is required for Vercel Cron to call `/api/internal/heartbeat`; set `JUNIOR_TIMEZONE` if schedule authoring should use a default other than `America/Los_Angeles`.
