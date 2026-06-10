@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': 8459b4dc8076e4d31ceb6e66704b5ced32771d8776b3352efda7df95bbb1b8c3
+  '@sentry/junior': 2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -23,17 +23,17 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.68.0
-        version: 0.68.0(patch_hash=8459b4dc8076e4d31ceb6e66704b5ced32771d8776b3352efda7df95bbb1b8c3)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+        specifier: 0.71.0
+        version: 0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
-        specifier: 0.68.0
-        version: 0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
+        specifier: 0.71.0
+        version: 0.71.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
       '@sentry/junior-github':
-        specifier: 0.68.0
-        version: 0.68.0
+        specifier: 0.71.0
+        version: 0.71.0
       '@sentry/junior-scheduler':
-        specifier: 0.68.0
-        version: 0.68.0
+        specifier: 0.71.0
+        version: 0.71.0
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.56.0
@@ -1169,20 +1169,20 @@ packages:
     resolution: {integrity: sha512-L+u1dIz5SANrmST5jhIwETtt4apILgKrylv12X4hKJU0PvZl+NorjeV/ty3MwzpKQPg6b6q6qMOSLc1rLpy3iQ==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-dashboard@0.68.0':
-    resolution: {integrity: sha512-oW2s668TAkG/BeWtynTSq54rLj2/F6CgpTKIqO01FMNHNE0Ug5aJ4gcaGAfd5yY+MQ/H59n7HonQKH3h43qr2w==}
+  '@sentry/junior-dashboard@0.71.0':
+    resolution: {integrity: sha512-BhAzA84jEPrdf1CzciKk6+IpNPmyLLv/PIVrzDegAsHD8RgS3ciDDL7WtU73iv+55jHLKe5Jbpcp0QNvXdpJuw==}
 
-  '@sentry/junior-github@0.68.0':
-    resolution: {integrity: sha512-GZcjlO3jbntlTG6fgAPzF84XWdZ/To9EoUrHK6ybcLYKsa6a8JKD9s+7RYrF+Xwn6iXAPZI7UIn6VZRYbJ8BOQ==}
+  '@sentry/junior-github@0.71.0':
+    resolution: {integrity: sha512-BptJ9EEdH/rWDWM71Ufu1sgVhGjE1aCXzaEanMrfALjxG7a72gV/yf3NqP13PD5oo0qIspfomMgEzwYwa0lJQQ==}
 
-  '@sentry/junior-plugin-api@0.68.0':
-    resolution: {integrity: sha512-Jqs4RU0VQx56sbGWviB55BEZJIYhKOXHZzK9DFuB4e3oZLSVsfurk6sFmEcCEtA7vc/asGfbZjDL9o3qMgBGEA==}
+  '@sentry/junior-plugin-api@0.71.0':
+    resolution: {integrity: sha512-SaYqgvb5efn9b2vKFRpHtwOl4DZ5JiGj76JvB1uUfsrNuClAwNpwFxBloFTpz4ev/i0Vpmvh4dq5EPo9HE1exw==}
 
-  '@sentry/junior-scheduler@0.68.0':
-    resolution: {integrity: sha512-iOKxYr/69Wnpu1rkj8PmaoCoh1wuO/d+xPCN6H2GMhs4OpASfaREE9k2qx26UTgJI6M8ObMI9Pb7fARoOfb5Xw==}
+  '@sentry/junior-scheduler@0.71.0':
+    resolution: {integrity: sha512-13cTruhSsZdnJi56WB+u5RxfkTPk7VYXBcA/E7gMdQ7gZ/h7MHB9xuKtfkYX6SDjKBfiu6aiGM/bjjGSiPll7w==}
 
-  '@sentry/junior@0.68.0':
-    resolution: {integrity: sha512-LbV2VeO2VtGjkA4RsuePanZZKigi6EAkqS5z2iRbMPWAvBFPZaDJZHMfwj9kA7r35cwGg6UyqzRfpRlRxwZ8zQ==}
+  '@sentry/junior@0.71.0':
+    resolution: {integrity: sha512-DGFSmkMdJdzT3JE4VhEYEW9pnmxAteCubZIlM7vNrd2qFDHkA4yxxbb3rhUi7dsLpcbKDXQi56GRc9kB3NNCbQ==}
     hasBin: true
 
   '@sentry/node-core@10.53.1':
@@ -5013,10 +5013,10 @@ snapshots:
 
   '@sentry/core@10.56.0': {}
 
-  '@sentry/junior-dashboard@0.68.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
+  '@sentry/junior-dashboard@0.71.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.68.0(patch_hash=8459b4dc8076e4d31ceb6e66704b5ced32771d8776b3352efda7df95bbb1b8c3)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
-      '@sentry/junior-plugin-api': 0.68.0
+      '@sentry/junior': 0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+      '@sentry/junior-plugin-api': 0.71.0
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       hono: 4.12.23
@@ -5096,18 +5096,20 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@sentry/junior-github@0.68.0':
+  '@sentry/junior-github@0.71.0':
     dependencies:
-      '@sentry/junior-plugin-api': 0.68.0
+      '@sentry/junior-plugin-api': 0.71.0
 
-  '@sentry/junior-plugin-api@0.68.0': {}
-
-  '@sentry/junior-scheduler@0.68.0':
+  '@sentry/junior-plugin-api@0.71.0':
     dependencies:
-      '@sentry/junior-plugin-api': 0.68.0
+      zod: 4.4.3
+
+  '@sentry/junior-scheduler@0.71.0':
+    dependencies:
+      '@sentry/junior-plugin-api': 0.71.0
       '@sinclair/typebox': 0.34.49
 
-  '@sentry/junior@0.68.0(patch_hash=8459b4dc8076e4d31ceb6e66704b5ced32771d8776b3352efda7df95bbb1b8c3)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
+  '@sentry/junior@0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
@@ -5117,7 +5119,7 @@ snapshots:
       '@earendil-works/pi-ai': 0.74.2(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)
       '@logtape/logtape': 2.1.1
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
-      '@sentry/junior-plugin-api': 0.68.0
+      '@sentry/junior-plugin-api': 0.71.0
       '@sentry/node': 10.53.1
       '@sinclair/typebox': 0.34.49
       '@slack/web-api': 7.16.0
@@ -6446,12 +6448,12 @@ snapshots:
 
   gopd@1.2.0: {}
 
-  h3@2.0.1-rc.22(crossws@0.4.5(srvx@0.11.15)):
+  h3@2.0.1-rc.22(crossws@0.4.5(srvx@0.11.16)):
     dependencies:
       rou3: 0.8.1
       srvx: 0.11.15
     optionalDependencies:
-      crossws: 0.4.5(srvx@0.11.15)
+      crossws: 0.4.5(srvx@0.11.16)
 
   handlebars@4.7.9:
     dependencies:
@@ -7063,17 +7065,17 @@ snapshots:
   nitro@3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0):
     dependencies:
       consola: 3.4.2
-      crossws: 0.4.5(srvx@0.11.15)
+      crossws: 0.4.5(srvx@0.11.16)
       db0: 0.3.4
       env-runner: 0.1.9(@vercel/queue@0.2.1)
-      h3: 2.0.1-rc.22(crossws@0.4.5(srvx@0.11.15))
+      h3: 2.0.1-rc.22(crossws@0.4.5(srvx@0.11.16))
       hookable: 6.1.1
       nf3: 0.3.17
       ocache: 0.1.4
       ofetch: 2.0.0-alpha.3
       ohash: 2.0.11
       rolldown: 1.0.3
-      srvx: 0.11.15
+      srvx: 0.11.16
       unenv: 2.0.0-rc.24
       unstorage: 2.0.0-alpha.7(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(db0@0.3.4)(ofetch@2.0.0-alpha.3)
     optionalDependencies:
@@ -7117,7 +7119,7 @@ snapshots:
       crossws: 0.4.5(srvx@0.11.16)
       db0: 0.3.4
       env-runner: 0.1.9(@vercel/queue@0.2.1)
-      h3: 2.0.1-rc.22(crossws@0.4.5(srvx@0.11.15))
+      h3: 2.0.1-rc.22(crossws@0.4.5(srvx@0.11.16))
       hookable: 6.1.1
       nf3: 0.3.17
       ocache: 0.1.4
