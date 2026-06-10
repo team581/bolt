@@ -23,17 +23,17 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.71.0
-        version: 0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+        specifier: 0.71.3
+        version: 0.71.3(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
-        specifier: 0.71.0
-        version: 0.71.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
+        specifier: 0.71.3
+        version: 0.71.3(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)
       '@sentry/junior-github':
-        specifier: 0.71.0
-        version: 0.71.0
+        specifier: 0.71.3
+        version: 0.71.3
       '@sentry/junior-scheduler':
-        specifier: 0.71.0
-        version: 0.71.0
+        specifier: 0.71.3
+        version: 0.71.3
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.56.0
@@ -1169,20 +1169,20 @@ packages:
     resolution: {integrity: sha512-L+u1dIz5SANrmST5jhIwETtt4apILgKrylv12X4hKJU0PvZl+NorjeV/ty3MwzpKQPg6b6q6qMOSLc1rLpy3iQ==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-dashboard@0.71.0':
-    resolution: {integrity: sha512-BhAzA84jEPrdf1CzciKk6+IpNPmyLLv/PIVrzDegAsHD8RgS3ciDDL7WtU73iv+55jHLKe5Jbpcp0QNvXdpJuw==}
+  '@sentry/junior-dashboard@0.71.3':
+    resolution: {integrity: sha512-SJjLHg6a9vbHP5mxoFc8HFsSescmqoYI11Q+UIMr625wXTEbBLzGmHlhqjFB5XFGTf8S+ejX3V0GcQkgTx4wXg==}
 
-  '@sentry/junior-github@0.71.0':
-    resolution: {integrity: sha512-BptJ9EEdH/rWDWM71Ufu1sgVhGjE1aCXzaEanMrfALjxG7a72gV/yf3NqP13PD5oo0qIspfomMgEzwYwa0lJQQ==}
+  '@sentry/junior-github@0.71.3':
+    resolution: {integrity: sha512-g+d0ovjif36xpbmwG/2B1zwyEjYzEAhikC+XiViQz4m21DpFkiY23Bzt8htYLTUShUGiwskHhFfFwfJar4h34w==}
 
-  '@sentry/junior-plugin-api@0.71.0':
-    resolution: {integrity: sha512-SaYqgvb5efn9b2vKFRpHtwOl4DZ5JiGj76JvB1uUfsrNuClAwNpwFxBloFTpz4ev/i0Vpmvh4dq5EPo9HE1exw==}
+  '@sentry/junior-plugin-api@0.71.3':
+    resolution: {integrity: sha512-xNKNEUe9VJTS7W5WaMAd6Jz88w5arte8tpaij5J6+pKhoYwcGY5D3GMEdurqR/it5tqfInB/ubcTclpaXHg/Tw==}
 
-  '@sentry/junior-scheduler@0.71.0':
-    resolution: {integrity: sha512-13cTruhSsZdnJi56WB+u5RxfkTPk7VYXBcA/E7gMdQ7gZ/h7MHB9xuKtfkYX6SDjKBfiu6aiGM/bjjGSiPll7w==}
+  '@sentry/junior-scheduler@0.71.3':
+    resolution: {integrity: sha512-vTntw+YdbE6SfYhA9roYBFaFN9kO1ZUSKOCRhvGxqQ77APRlJZkEHao42EETOaGovFJ7kk5AQeUAVRb/B4tiZA==}
 
-  '@sentry/junior@0.71.0':
-    resolution: {integrity: sha512-DGFSmkMdJdzT3JE4VhEYEW9pnmxAteCubZIlM7vNrd2qFDHkA4yxxbb3rhUi7dsLpcbKDXQi56GRc9kB3NNCbQ==}
+  '@sentry/junior@0.71.3':
+    resolution: {integrity: sha512-BKDP2908CiQYrUlyxAmJIF4SKYs/lj01QO7ZUi0ls6H1BZ2EhnznFyp4ijdcxr6dEhl/EJavDUmTyQXE/Nc0kA==}
     hasBin: true
 
   '@sentry/node-core@10.53.1':
@@ -5013,10 +5013,10 @@ snapshots:
 
   '@sentry/core@10.56.0': {}
 
-  '@sentry/junior-dashboard@0.71.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
+  '@sentry/junior-dashboard@0.71.3(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(jiti@2.7.0)(react-is@19.2.6)(redux@5.0.1)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
-      '@sentry/junior-plugin-api': 0.71.0
+      '@sentry/junior': 0.71.3(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)
+      '@sentry/junior-plugin-api': 0.71.3
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       hono: 4.12.23
@@ -5096,20 +5096,20 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@sentry/junior-github@0.71.0':
+  '@sentry/junior-github@0.71.3':
     dependencies:
-      '@sentry/junior-plugin-api': 0.71.0
+      '@sentry/junior-plugin-api': 0.71.3
 
-  '@sentry/junior-plugin-api@0.71.0':
+  '@sentry/junior-plugin-api@0.71.3':
     dependencies:
       zod: 4.4.3
 
-  '@sentry/junior-scheduler@0.71.0':
+  '@sentry/junior-scheduler@0.71.3':
     dependencies:
-      '@sentry/junior-plugin-api': 0.71.0
+      '@sentry/junior-plugin-api': 0.71.3
       '@sinclair/typebox': 0.34.49
 
-  '@sentry/junior@0.71.0(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
+  '@sentry/junior@0.71.3(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
@@ -5119,7 +5119,7 @@ snapshots:
       '@earendil-works/pi-ai': 0.74.2(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)
       '@logtape/logtape': 2.1.1
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
-      '@sentry/junior-plugin-api': 0.71.0
+      '@sentry/junior-plugin-api': 0.71.3
       '@sentry/node': 10.53.1
       '@sinclair/typebox': 0.34.49
       '@slack/web-api': 7.16.0
