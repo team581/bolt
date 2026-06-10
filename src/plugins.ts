@@ -7,6 +7,17 @@ export const plugins = defineJuniorPlugins([
 	juniorDashboardPlugin({
 		allowedGoogleDomains: ["team581.com"],
 	}),
-	githubPlugin(),
+	githubPlugin({
+		appPermissions: {
+			actions: "write",
+			contents: "write",
+			issues: "write",
+			metadata: "read",
+			organization_projects: "write",
+			pull_requests: "write",
+			repository_projects: "write",
+			workflows: "write",
+		},
+	}),
 	schedulerPlugin(),
 ]);
