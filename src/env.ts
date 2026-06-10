@@ -82,6 +82,14 @@ export const env = cleanEnv(process.env, {
 		desc: "GitHub App ID used by the Junior GitHub plugin.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
 	}),
+	GITHUB_APP_CLIENT_ID: str({
+		desc: "GitHub App client ID used by the Junior GitHub plugin.",
+		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
+	}),
+	GITHUB_APP_CLIENT_SECRET: str({
+		desc: "GitHub App client secret used by the Junior GitHub plugin.",
+		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
+	}),
 	GITHUB_APP_PRIVATE_KEY: str({
 		desc: "GitHub App private key used by the Junior GitHub plugin.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
