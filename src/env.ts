@@ -83,7 +83,7 @@ export const env = cleanEnv(process.env, {
 		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
 	}),
 	GITHUB_APP_CLIENT_ID: str({
-		desc: "GitHub App client ID used by the Junior GitHub plugin.",
+		desc: "GitHub App client ID used by the Junior GitHub plugin. Configure the GitHub App callback URL as <JUNIOR_BASE_URL>/api/oauth/callback/github.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#github-plugin",
 	}),
 	GITHUB_APP_CLIENT_SECRET: str({
