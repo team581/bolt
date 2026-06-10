@@ -1,8 +1,8 @@
 diff --git a/dist/app.js b/dist/app.js
-index 33f19b6..f4f8090 100644
+index ef22c70..94ae528 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -11600,9 +11600,33 @@ async function generateAssistantReply(messageText2, context = {}) {
+@@ -11796,9 +11796,33 @@ async function generateAssistantReply(messageText2, context = {}) {
        userInput,
        promptConversationContext
      );
@@ -37,7 +37,7 @@ index 33f19b6..f4f8090 100644
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
-@@ -17117,7 +17141,10 @@ var PROXY_ONLY_HEADERS = /* @__PURE__ */ new Set([
+@@ -17716,6 +17740,9 @@ var PROXY_ONLY_HEADERS = /* @__PURE__ */ new Set([
    FORWARDED_PORT_HEADER,
    FORWARDED_PATH_HEADER
  ]);
@@ -47,8 +47,7 @@ index 33f19b6..f4f8090 100644
  var DECODED_RESPONSE_HEADERS = /* @__PURE__ */ new Set([
    "content-encoding",
    "content-length"
- ]);
-@@ -17281,8 +17308,8 @@ function requestHeaders(request, lease, upstreamHost) {
+@@ -18009,7 +18036,7 @@ function requestHeaders(request, lease, upstreamHost) {
    const headers = new Headers();
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -57,8 +56,7 @@ index 33f19b6..f4f8090 100644
        return;
      }
      headers.append(key, value);
-   });
-@@ -19283,6 +19310,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -20179,6 +20206,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -100,7 +98,7 @@ index 33f19b6..f4f8090 100644
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -20134,17 +20196,18 @@ function createReplyToThread(deps) {
+@@ -21062,17 +21124,18 @@ function createReplyToThread(deps) {
            message,
            options.queuedMessages
          );
@@ -125,11 +123,11 @@ index 33f19b6..f4f8090 100644
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -20268,6 +20331,7 @@ function createReplyToThread(deps) {
+@@ -21245,6 +21308,7 @@ function createReplyToThread(deps) {
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
 +              resolveAttachmentsLazily,
                slackConversation,
+               destination,
                surface: "slack",
-               turnDeadlineAtMs: getTurnRequestDeadline()?.deadlineAtMs,
