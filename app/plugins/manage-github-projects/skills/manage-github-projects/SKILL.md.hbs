@@ -30,7 +30,7 @@ Enabled issue types for the `team581` org:
 | {{name}} | `{{id}}` | {{description}} |
 {{/each}}
 
-When creating issues always assign a type if it's obvious which one to use. Leave blank otherwise.
+When creating or editing issues, always assign a type if it's obvious which one to use. Leave blank otherwise. Use type names from the table with `gh issue create --type <name>`, `gh issue edit <issue> --type <name>`, `gh issue edit <issue> --remove-type`, and `gh issue list --type <name>`.
 
 ## Issue fields
 
@@ -107,21 +107,29 @@ Add an issue or PR (works for both URL types):
 gh project item-add {{project.number}} --owner team581 --url <issue-or-pr-url>
 ```
 
-Add an existing issue as a sub-issue of a parent issue:
+Manage issue hierarchy with `gh issue edit` (issue arguments can be numbers or URLs):
+
+- `--parent <issue>` sets or changes a parent.
+- `--remove-parent` removes a parent.
+- `--add-sub-issue <issue>` adds a child issue.
+- `--remove-sub-issue <issue>` removes a child issue.
+
+Manage issue dependencies with `gh issue create --blocked-by <issue> --blocking <issue>` or `gh issue edit`:
+
+- `--add-blocked-by <issue>`
+- `--remove-blocked-by <issue>`
+- `--add-blocking <issue>`
+- `--remove-blocking <issue>`
+
+Read issue structure and dependency data:
 
 ```sh
-sub_issue_id="$(gh api \
-  --header "X-GitHub-Api-Version: 2026-03-10" \
-  /repos/<owner>/<repo>/issues/<child-issue-number> \
-  --jq .id)"
-
-gh api --method POST \
-  --header "X-GitHub-Api-Version: 2026-03-10" \
-  /repos/<owner>/<repo>/issues/<parent-issue-number>/sub_issues \
-  --field sub_issue_id="$sub_issue_id"
+gh issue view <issue-number-or-url> \
+  --repo <owner>/<repo> \
+  --json issueType,parent,subIssues,subIssuesSummary,blockedBy,blocking
 ```
 
-Edit a field on an item — one value flag per call, matching the field type: `--text`, `--number`, `--date YYYY-MM-DD`, `--iteration-id`, `--single-select-option-id`, or `--clear`.
+Edit a field on an item, one value flag per call, matching the field type: `--text`, `--number`, `--date YYYY-MM-DD`, `--iteration-id`, `--single-select-option-id`, or `--clear`.
 
 {{#if example}}
 ```sh
