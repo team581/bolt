@@ -1,4 +1,5 @@
 name: manage-github-projects
+display-name: Manage GitHub Projects
 description: Team 581 GitHub projects & issues management
 
 runtime-dependencies:

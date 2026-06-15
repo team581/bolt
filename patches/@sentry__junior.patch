@@ -1,62 +1,27 @@
 diff --git a/dist/app.js b/dist/app.js
-index ef22c70..94ae528 100644
+index 17f58d0..492786c 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -11796,9 +11796,33 @@ async function generateAssistantReply(messageText2, context = {}) {
-       userInput,
-       promptConversationContext
-     );
-+    let resolvedUserAttachments = context.userAttachments;
-+    if (context.resolveAttachmentsLazily) {
-+      const sandboxAttachmentWriter = async ({ filename, mediaType, data }) => {
-+        const workspaceSandbox = await getSandbox({
-+          trigger: "attachment.upload",
-+          path: filename
-+        });
-+        const safeName = (filename ?? "attachment").replace(
-+          /[^A-Za-z0-9._-]/g,
-+          "_"
-+        );
-+        const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
-+        const sandboxPath = `${uploadDir}/${safeName}`;
-+        try {
-+          await workspaceSandbox.mkDir(uploadDir);
-+        } catch {
-+        }
-+        await workspaceSandbox.writeFiles([{ path: sandboxPath, content: data }]);
-+        return sandboxPath;
-+      };
-+      resolvedUserAttachments = await context.resolveAttachmentsLazily(
-+        sandboxAttachmentWriter
-+      );
-+    }
-     const { routerBlocks, userContentParts } = buildUserTurnInput({
-       omittedImageAttachmentCount: context.omittedImageAttachmentCount ?? 0,
--      userAttachments: context.userAttachments,
-+      userAttachments: resolvedUserAttachments,
-       userTurnText
-     });
-     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
-@@ -17716,6 +17740,9 @@ var PROXY_ONLY_HEADERS = /* @__PURE__ */ new Set([
+@@ -4602,6 +4602,9 @@ var PROXY_ONLY_HEADERS = /* @__PURE__ */ new Set([
    FORWARDED_PORT_HEADER,
    FORWARDED_PATH_HEADER
  ]);
 +var RECOMPUTED_REQUEST_HEADERS = /* @__PURE__ */ new Set([
 +  "content-length"
 +]);
- var DECODED_RESPONSE_HEADERS = /* @__PURE__ */ new Set([
-   "content-encoding",
-   "content-length"
-@@ -18009,7 +18036,7 @@ function requestHeaders(request, lease, upstreamHost) {
-   const headers = new Headers();
+ var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
+   "baggage",
+   "sentry-trace",
+@@ -4904,7 +4907,7 @@ function requestHeaders(request, lease, upstreamHost, tracePropagation) {
+   );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
 -    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized)) {
 +    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized) || RECOMPUTED_REQUEST_HEADERS.has(normalized)) {
        return;
      }
-     headers.append(key, value);
-@@ -20179,6 +20206,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+     if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
+@@ -7004,6 +7007,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -98,7 +63,7 @@ index ef22c70..94ae528 100644
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -21062,17 +21124,18 @@ function createReplyToThread(deps) {
+@@ -7903,17 +7941,18 @@ function createReplyToThread(deps) {
            message,
            options.queuedMessages
          );
@@ -123,7 +88,7 @@ index ef22c70..94ae528 100644
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -21245,6 +21308,7 @@ function createReplyToThread(deps) {
+@@ -8087,6 +8126,7 @@ function createReplyToThread(deps) {
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
@@ -131,3 +96,42 @@ index ef22c70..94ae528 100644
                slackConversation,
                destination,
                surface: "slack",
+diff --git a/dist/chunk-SQGMG7OD.js b/dist/chunk-SQGMG7OD.js
+index e4cfb12..da2510d 100644
+--- a/dist/chunk-SQGMG7OD.js
++++ b/dist/chunk-SQGMG7OD.js
+@@ -11509,9 +11509,33 @@ async function generateAssistantReply(messageText, context) {
+       userInput,
+       promptConversationContext
+     );
++    let resolvedUserAttachments = context.userAttachments;
++    if (context.resolveAttachmentsLazily) {
++      const sandboxAttachmentWriter = async ({ filename, mediaType, data }) => {
++        const workspaceSandbox = await getSandbox({
++          trigger: "attachment.upload",
++          path: filename
++        });
++        const safeName = (filename ?? "attachment").replace(
++          /[^A-Za-z0-9._-]/g,
++          "_"
++        );
++        const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
++        const sandboxPath = `${uploadDir}/${safeName}`;
++        try {
++          await workspaceSandbox.mkDir(uploadDir);
++        } catch {
++        }
++        await workspaceSandbox.writeFiles([{ path: sandboxPath, content: data }]);
++        return sandboxPath;
++      };
++      resolvedUserAttachments = await context.resolveAttachmentsLazily(
++        sandboxAttachmentWriter
++      );
++    }
+     const { routerBlocks, userContentParts } = buildUserTurnInput({
+       omittedImageAttachmentCount: context.omittedImageAttachmentCount ?? 0,
+-      userAttachments: context.userAttachments,
++      userAttachments: resolvedUserAttachments,
+       userTurnText
+     });
+     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
