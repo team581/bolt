@@ -5,6 +5,8 @@ description: Instructions on how to update the Junior npm package(s)
 
 A new Junior release is available. Update every direct `@sentry/junior` and `@sentry/junior-*` dependency to the same exact target version, run `pnpm install`, and resolve any conflicts with our local Junior patch in `@/patches/@sentry__junior.patch`.
 
+If you're on a Renovate update branch, keep whatever version is configured there. Need to be mindful of pnpm minimum release age, we don't want to add any exceptions.
+
 ## Workflow
 
 1. Run a preflight check with `git status --short` and stop if `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, or `patches/@sentry__junior.patch` has unrelated user changes.
