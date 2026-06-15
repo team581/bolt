@@ -15,7 +15,7 @@ overrides:
   vitest: npm:@voidzero-dev/vite-plus-test@latest
 
 patchedDependencies:
-  '@sentry/junior': 2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8
+  '@sentry/junior': 332b8b213e66330470321c3784487722e4b511e6917724842e5c545d7bf2adce
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -24,7 +24,7 @@ importers:
     dependencies:
       '@sentry/junior':
         specifier: 0.74.1
-        version: 0.74.1(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+        version: 0.74.1(patch_hash=332b8b213e66330470321c3784487722e4b511e6917724842e5c545d7bf2adce)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
         specifier: 0.74.1
         version: 0.74.1(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(redux@5.0.1)(sql.js@1.14.1)(ws@8.21.0)
@@ -5115,7 +5115,7 @@ snapshots:
 
   '@sentry/junior-dashboard@0.74.1(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(redux@5.0.1)(sql.js@1.14.1)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.74.1(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+      '@sentry/junior': 0.74.1(patch_hash=332b8b213e66330470321c3784487722e4b511e6917724842e5c545d7bf2adce)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
       '@sentry/junior-plugin-api': 0.74.1
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -5225,7 +5225,7 @@ snapshots:
       '@sentry/junior-plugin-api': 0.74.1
       '@sinclair/typebox': 0.34.49
 
-  '@sentry/junior@0.74.1(patch_hash=2b38f44687aece65b856133ea70f65533ce750dd65cad3daa087844ad466cea8)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
+  '@sentry/junior@0.74.1(patch_hash=332b8b213e66330470321c3784487722e4b511e6917724842e5c545d7bf2adce)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
