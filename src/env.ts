@@ -105,6 +105,12 @@ export const env = cleanEnv(process.env, {
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
 
+	// PostgreSQL
+	JUNIOR_DATABASE_URL: url({
+		desc: "PostgreSQL connection URL used by Junior for persistent storage.",
+		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
+	}),
+
 	// Sentry
 	SENTRY_AUTH_TOKEN: str({
 		desc: "Sentry auth token used at build time for source map uploads.",
