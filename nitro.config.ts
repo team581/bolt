@@ -6,7 +6,7 @@ export default defineConfig({
 	sourcemap: true,
 	modules: [
 		juniorNitro({
-			plugins: "./src/plugins",
+			plugins: "./plugins",
 		}),
 	],
 	routes: {

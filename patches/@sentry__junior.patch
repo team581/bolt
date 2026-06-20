@@ -1,8 +1,6 @@
-diff --git a/dist/app.js b/dist/app.js
-index 17f58d0..492786c 100644
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -4602,6 +4602,9 @@ var PROXY_ONLY_HEADERS = /* @__PURE__ */ new Set([
+@@ -4662,6 +4662,9 @@
    FORWARDED_PORT_HEADER,
    FORWARDED_PATH_HEADER
  ]);
@@ -12,7 +10,7 @@ index 17f58d0..492786c 100644
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -4904,7 +4907,7 @@ function requestHeaders(request, lease, upstreamHost, tracePropagation) {
+@@ -4964,7 +4967,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -21,7 +19,7 @@ index 17f58d0..492786c 100644
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -7004,6 +7007,41 @@ async function resolveUserAttachmentsWithDeps(attachments, context, deps) {
+@@ -8690,6 +8693,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -63,7 +61,7 @@ index 17f58d0..492786c 100644
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -7903,17 +7941,18 @@ function createReplyToThread(deps) {
+@@ -9589,17 +9627,18 @@
            message,
            options.queuedMessages
          );
@@ -88,7 +86,7 @@ index 17f58d0..492786c 100644
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -8087,6 +8126,7 @@ function createReplyToThread(deps) {
+@@ -9773,6 +9812,7 @@
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
@@ -96,11 +94,9 @@ index 17f58d0..492786c 100644
                slackConversation,
                destination,
                surface: "slack",
-diff --git a/dist/chunk-SQGMG7OD.js b/dist/chunk-SQGMG7OD.js
-index e4cfb12..da2510d 100644
---- a/dist/chunk-SQGMG7OD.js
-+++ b/dist/chunk-SQGMG7OD.js
-@@ -11509,9 +11509,33 @@ async function generateAssistantReply(messageText, context) {
+--- a/dist/chunk-TQ74BATR.js
++++ b/dist/chunk-TQ74BATR.js
+@@ -11545,9 +11545,33 @@
        userInput,
        promptConversationContext
      );
