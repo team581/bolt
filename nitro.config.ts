@@ -10,6 +10,6 @@ export default defineConfig({
 		}),
 	],
 	routes: {
-		"/**": { handler: "./src/server.ts" },
+		"/**": { handler: "./server.ts" },
 	},
 });
