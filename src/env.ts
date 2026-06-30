@@ -110,6 +110,10 @@ export const env = cleanEnv(process.env, {
 		desc: "Neon Postgres connection URL used by Junior for persistent storage.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
+	JUNIOR_DATABASE_DRIVER: str({
+		desc: "SQL client driver used by Junior records and memory storage.",
+		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
+	}),
 
 	// Sentry
 	SENTRY_AUTH_TOKEN: str({
