@@ -1,5 +1,6 @@
 import { defineJuniorPlugins } from "@sentry/junior";
 import { githubPlugin } from "@sentry/junior-github";
+import { memoryPlugin } from "@sentry/junior-memory";
 import { schedulerPlugin } from "@sentry/junior-scheduler";
 
 export const plugins = defineJuniorPlugins([
@@ -15,5 +16,6 @@ export const plugins = defineJuniorPlugins([
 			workflows: "write",
 		},
 	}),
+	memoryPlugin,
 	schedulerPlugin(),
 ]);
