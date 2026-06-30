@@ -6,6 +6,11 @@ import { plugins } from "./plugins";
 
 await import("./src/env");
 
-const app = await createApp({ plugins });
+const app = await createApp({
+	dashboard: {
+		allowedGoogleDomains: ["team581.com"],
+	},
+	plugins,
+});
 
 export default app;

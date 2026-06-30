@@ -6,6 +6,9 @@ export default defineConfig({
 	sourcemap: true,
 	modules: [
 		juniorNitro({
+			dashboard: {
+				allowedGoogleDomains: ["team581.com"],
+			},
 			plugins: "./plugins",
 		}),
 	],

@@ -1,6 +1,7 @@
+diff --git a/dist/app.js b/dist/app.js
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -4662,6 +4662,9 @@
+@@ -4818,6 +4818,9 @@
    FORWARDED_PORT_HEADER,
    FORWARDED_PATH_HEADER
  ]);
@@ -10,7 +11,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -4964,7 +4967,7 @@
+@@ -5120,7 +5123,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -19,7 +20,7 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -8690,6 +8693,41 @@
+@@ -8925,6 +8928,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -61,7 +62,7 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9589,17 +9627,18 @@
+@@ -9851,17 +9889,18 @@
            message,
            options.queuedMessages
          );
@@ -86,17 +87,18 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -9773,6 +9812,7 @@
+@@ -10035,6 +10074,7 @@
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
 +              resolveAttachmentsLazily,
                slackConversation,
+               source,
                destination,
-               surface: "slack",
---- a/dist/chunk-TQ74BATR.js
-+++ b/dist/chunk-TQ74BATR.js
-@@ -11545,9 +11545,33 @@
+diff --git a/dist/chunk-NNM7YQLL.js b/dist/chunk-NNM7YQLL.js
+--- a/dist/chunk-NNM7YQLL.js
++++ b/dist/chunk-NNM7YQLL.js
+@@ -11700,9 +11700,33 @@
        userInput,
        promptConversationContext
      );
@@ -130,4 +132,4 @@
 +      userAttachments: resolvedUserAttachments,
        userTurnText
      });
-     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [
+     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...context.piMessages ?? []];
