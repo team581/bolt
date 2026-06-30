@@ -105,9 +105,9 @@ export const env = cleanEnv(process.env, {
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
 
-	// Neon Postgres
+	// Railway Postgres
 	DATABASE_URL: url({
-		desc: "Neon Postgres connection URL used by Junior for persistent storage.",
+		desc: "Railway Postgres connection URL used by Junior for persistent storage.",
 		docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 	}),
 	JUNIOR_DATABASE_DRIVER: str({

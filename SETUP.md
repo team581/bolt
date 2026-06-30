@@ -12,7 +12,8 @@ Work through these pages, applying the deviations below as you go:
 2. [Slack App Setup](https://junior.sentry.dev/start-here/slack-app-setup/) — but use our restricted scopes.
 3. [GitHub Plugin](https://junior.sentry.dev/extend/github-plugin/) — but create the app org-wide with org Projects permission.
 4. [Scheduler Plugin](https://junior.sentry.dev/extend/scheduler-plugin/) — Bolt uses Junior's Vercel Cron heartbeat.
-5. [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/) — use the Team 581 `bolt` Vercel project.
+5. [Memory Plugin](https://junior.sentry.dev/extend/memory-plugin/) — Bolt keeps Junior's default long-term memory plugin enabled.
+6. [Deploy to Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/) — use the Team 581 `bolt` Vercel project.
 
 ## Team 581 deviations
 
@@ -25,8 +26,9 @@ This repo uses Vite+ (`vp`). Wherever the docs say `pnpm dev` / `pnpm build` / `
 We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. The project is linked locally with the Vercel CLI, but `.vercel/` must stay uncommitted.
 
 - `vercel.json` sets the Nitro framework and runs `pnpm build:release`, which creates the Junior sandbox snapshot, builds Bolt, and uploads Sentry source maps from `.vercel/output/functions/__server.func`.
-- Set the variables from `.env.example` in Vercel, including `REDIS_URL`, `CRON_SECRET`, and the Sentry build variables.
+- Set the variables from `.env.example` in Vercel, including `REDIS_URL`, `DATABASE_URL`, `CRON_SECRET`, and the Sentry build variables.
 - Use an external Redis provider or Vercel Marketplace Redis for `REDIS_URL`;
+- Use Railway Postgres for `DATABASE_URL` and enable the `vector` extension before deploying memory. `JUNIOR_DATABASE_DRIVER` defaults to `postgres`; set `JUNIOR_DATABASE_URL` only if Junior should use a different Postgres URL than `DATABASE_URL`.
 - Set `JUNIOR_BASE_URL` to Bolt's final production/custom Vercel domain.
 - Junior's Nitro module emits the `/api/internal/heartbeat` Vercel Cron entry and queue trigger. Do not add a duplicate root-level `crons` entry to `vercel.json`.
 - `CRON_SECRET` is required for Vercel Cron to call `/api/internal/heartbeat`; set `JUNIOR_TIMEZONE` if schedule authoring should use a default other than `America/Los_Angeles`.
@@ -66,4 +68,4 @@ Junior routes all model traffic through Vercel AI Gateway. Create a key, set `AI
 
 ## What's deliberately not set up yet
 
-- **Other plugins** — Linear, Notion, Sentry, Datadog, Hex, Agent Browser. Only `@sentry/junior-github` and `@sentry/junior-scheduler` are enabled.
+- **Other plugins** — Linear, Notion, Sentry, Datadog, Hex, Agent Browser. Only `@sentry/junior-github`, `@sentry/junior-memory`, and `@sentry/junior-scheduler` are enabled.
