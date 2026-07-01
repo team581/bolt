@@ -95,10 +95,10 @@ diff --git a/dist/app.js b/dist/app.js
                slackConversation,
                source,
                destination,
-diff --git a/dist/chunk-NNM7YQLL.js b/dist/chunk-NNM7YQLL.js
---- a/dist/chunk-NNM7YQLL.js
-+++ b/dist/chunk-NNM7YQLL.js
-@@ -11700,9 +11700,33 @@
+diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
+--- a/dist/chunk-BOMLWLTF.js
++++ b/dist/chunk-BOMLWLTF.js
+@@ -11723,9 +11723,33 @@
        userInput,
        promptConversationContext
      );
