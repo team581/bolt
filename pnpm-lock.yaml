@@ -23,20 +23,20 @@ importers:
   .:
     dependencies:
       '@sentry/junior':
-        specifier: 0.79.0
-        version: 0.79.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+        specifier: 0.81.0
+        version: 0.81.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
-        specifier: 0.79.0
-        version: 0.79.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9(@opentelemetry/api@1.9.1)(@types/node@24.13.2)(@vitest/browser-preview@4.1.9)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0)))(ws@8.21.0)
+        specifier: 0.81.0
+        version: 0.81.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9)(ws@8.21.0)
       '@sentry/junior-github':
-        specifier: 0.79.0
-        version: 0.79.0
+        specifier: 0.81.0
+        version: 0.81.0
       '@sentry/junior-memory':
-        specifier: 0.79.0
-        version: 0.79.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
+        specifier: 0.81.0
+        version: 0.81.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
       '@sentry/junior-scheduler':
-        specifier: 0.79.0
-        version: 0.79.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
+        specifier: 0.81.0
+        version: 0.81.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
       '@sentry/node':
         specifier: ^10.0.0
         version: 10.62.0(@opentelemetry/core@2.8.0(@opentelemetry/api@1.9.1))
@@ -1046,23 +1046,23 @@ packages:
     resolution: {integrity: sha512-tV69fMg2sS5DUFmQSnS7Jd5qJAp0izxwcsvBVz2ieTM9VMRi99IfOSYW9UYr3p1yfuksk41kefN5PEbeedUE+A==}
     engines: {node: '>=18'}
 
-  '@sentry/junior-dashboard@0.79.0':
-    resolution: {integrity: sha512-rX0QIk23e7ORB1bYBOvYOwALW8RK30yGnltVVzCpKVNfwlUDoyNWBXjkgpAZvsFMZEOL4Y2Hhfb0E9JNdmWAVQ==}
+  '@sentry/junior-dashboard@0.81.0':
+    resolution: {integrity: sha512-FMs8MPapoMkdmZwkJDDy//3U4eQx/+knNolCYnv3FfwEd1raLg2T0BI+Zk4FWtmk0VCAMx1pmKWNCok7JpYsXg==}
 
-  '@sentry/junior-github@0.79.0':
-    resolution: {integrity: sha512-GPftvisKvLC5Xh4/s2fZf/8FezAJKgTyhXPVYZzYky6qXbLaSWKyKDubLuF9qhowp3X1+TEfwzvmD0NleqDaXw==}
+  '@sentry/junior-github@0.81.0':
+    resolution: {integrity: sha512-KVxLsxG9hdzM5FLS9AQkNsc+SMp57tejRcTvTyww85VLT6BC7Ccil+HQrnsNQJrkKfm7CuD1fy4VF+gv84mqug==}
 
-  '@sentry/junior-memory@0.79.0':
-    resolution: {integrity: sha512-/IfoJFAxL7vc8O//yTIg9ff+fihPIa9oxxAwO2x5f8CI3Co7WKoZR9lqr/bpsxVQg9cwt02GyKx/018DkSe51g==}
+  '@sentry/junior-memory@0.81.0':
+    resolution: {integrity: sha512-zzrSgYKS9xj5rtkScppIhMxp9f17KfFUDZioA4YebcLsFWOJhA17epmTwfwV2YyGEu2q/0XeH9bcWsqFSZuc4Q==}
 
-  '@sentry/junior-plugin-api@0.79.0':
-    resolution: {integrity: sha512-GFqFU7KtXu6xYcOIkpB+w0fHKd5lOou3IYNPNppiygLigaz3HQK4xKR2hdXF4nJZf1kvDki+MrPfbb5yfbzVJg==}
+  '@sentry/junior-plugin-api@0.81.0':
+    resolution: {integrity: sha512-NvM8zJkSWvWX5XoyRRkARE9cnqsogMQSNqysTDAoo5UAm+SGiLz0oS3GF6NZPiVRh30y8/VVQJKQjlMHcBkFZQ==}
 
-  '@sentry/junior-scheduler@0.79.0':
-    resolution: {integrity: sha512-7u8I6mXfHuO0egoMk3XM8+/HREZ602kebOCbs8TLFiv/ypHQH7qEKYEOcmrxUEh2355sqyk/pXJlHa9LQgT2+w==}
+  '@sentry/junior-scheduler@0.81.0':
+    resolution: {integrity: sha512-yFgwSdOgmBNTPtTbVo9AVK+Fg8g0XWT/JN/6hC/PPMvVgt7jewFhp0nmZrHgcKroSrpNiAHYdHe/vNAg4uomHA==}
 
-  '@sentry/junior@0.79.0':
-    resolution: {integrity: sha512-Dhp6qKZxtJutgucqy/fkb6SVySZaCHobf3U4dCr8+4E9aGbPoZMoqnvA42lFylS69SCAXdXL/gxKARvzbTrP6A==}
+  '@sentry/junior@0.81.0':
+    resolution: {integrity: sha512-7D4usvazIikyf6FHVmRHZWXfBbFwjWox1zSPiArz1LwaCBZPVRxLdfbCFkScVnzNRGzZjtYxjLzJrB41DJN7Iw==}
     hasBin: true
 
   '@sentry/node-core@10.59.0':
@@ -4959,12 +4959,12 @@ snapshots:
 
   '@sentry/core@10.62.0': {}
 
-  '@sentry/junior-dashboard@0.79.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9(@opentelemetry/api@1.9.1)(@types/node@24.13.2)(@vitest/browser-preview@4.1.9)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0)))(ws@8.21.0)':
+  '@sentry/junior-dashboard@0.81.0(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.79.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
-      '@sentry/junior-plugin-api': 0.79.0
+      '@sentry/junior': 0.81.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+      '@sentry/junior-plugin-api': 0.81.0
       '@tanstack/react-query': 5.100.14(react@19.2.6)
-      better-auth: 1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.9(@opentelemetry/api@1.9.1)(@types/node@24.13.2)(@vitest/browser-preview@4.1.9)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0)))
+      better-auth: 1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.9)
       hono: 4.12.27
       lucide-react: 1.17.0(react@19.2.6)
       nitro: 3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.38))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)
@@ -5059,13 +5059,13 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@sentry/junior-github@0.79.0':
+  '@sentry/junior-github@0.81.0':
     dependencies:
-      '@sentry/junior-plugin-api': 0.79.0
+      '@sentry/junior-plugin-api': 0.81.0
 
-  '@sentry/junior-memory@0.79.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)':
+  '@sentry/junior-memory@0.81.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)':
     dependencies:
-      '@sentry/junior-plugin-api': 0.79.0
+      '@sentry/junior-plugin-api': 0.81.0
       '@sinclair/typebox': 0.34.49
       commander: 14.0.3
       drizzle-orm: 0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
@@ -5101,14 +5101,14 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@sentry/junior-plugin-api@0.79.0':
+  '@sentry/junior-plugin-api@0.81.0':
     dependencies:
       commander: 14.0.3
       zod: 4.4.3
 
-  '@sentry/junior-scheduler@0.79.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)':
+  '@sentry/junior-scheduler@0.81.0(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)':
     dependencies:
-      '@sentry/junior-plugin-api': 0.79.0
+      '@sentry/junior-plugin-api': 0.81.0
       '@sinclair/typebox': 0.34.49
       drizzle-orm: 0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
       zod: 4.4.3
@@ -5143,7 +5143,7 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@sentry/junior@0.79.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
+  '@sentry/junior@0.81.0(patch_hash=a174264b15dbb061a70c008fb27387750b8b853c8d15a1a7b9d12e6d20778e98)(@aws-sdk/credential-provider-web-identity@3.972.38)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
@@ -5154,7 +5154,7 @@ snapshots:
       '@logtape/logtape': 2.1.1
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
       '@neondatabase/serverless': 1.1.0
-      '@sentry/junior-plugin-api': 0.79.0
+      '@sentry/junior-plugin-api': 0.81.0
       '@sentry/node': 10.59.0(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))
       '@sinclair/typebox': 0.34.49
       '@slack/web-api': 7.16.0
@@ -6025,7 +6025,7 @@ snapshots:
       '@vercel/sandbox': 2.0.0(patch_hash=d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c)
       just-bash: 3.0.1
 
-  better-auth@1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.9(@opentelemetry/api@1.9.1)(@types/node@24.13.2)(@vitest/browser-preview@4.1.9)(@voidzero-dev/vite-plus-core@0.2.1(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))):
+  better-auth@1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.9):
     dependencies:
       '@better-auth/core': 1.6.13(@better-auth/utils@0.4.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.1)(better-call@1.3.5(zod@4.4.3))(jose@6.2.3)(kysely@0.29.2)(nanostores@1.3.0)
       '@better-auth/drizzle-adapter': 1.6.13(@better-auth/core@1.6.13(@better-auth/utils@0.4.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.1)(better-call@1.3.5(zod@4.4.3))(jose@6.2.3)(kysely@0.29.2)(nanostores@1.3.0))(@better-auth/utils@0.4.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))
