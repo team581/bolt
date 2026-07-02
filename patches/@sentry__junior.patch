@@ -1,26 +1,6 @@
-diff --git a/dist/app.js b/dist/app.js
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -4818,6 +4818,9 @@
-   FORWARDED_PORT_HEADER,
-   FORWARDED_PATH_HEADER
- ]);
-+var RECOMPUTED_REQUEST_HEADERS = /* @__PURE__ */ new Set([
-+  "content-length"
-+]);
- var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
-   "baggage",
-   "sentry-trace",
-@@ -5120,7 +5123,7 @@
-   );
-   request.headers.forEach((value, key) => {
-     const normalized = key.toLowerCase();
--    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized)) {
-+    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized) || RECOMPUTED_REQUEST_HEADERS.has(normalized)) {
-       return;
-     }
-     if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -8925,6 +8928,41 @@
+@@ -8491,6 +8491,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -62,7 +42,7 @@ diff --git a/dist/app.js b/dist/app.js
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9851,17 +9889,18 @@
+@@ -9431,17 +9466,18 @@
            message,
            options.queuedMessages
          );
@@ -72,7 +52,7 @@ diff --git a/dist/app.js b/dist/app.js
 +        const resolveAttachmentsLazily = async (sandboxWriter) => {
 +          return await deps.resolveUserAttachments(turnAttachments, {
              threadId,
-             requesterId: message.author.userId,
+             requesterId: slackRequesterId,
              channelId,
              runId,
              conversation: preparedState.conversation,
@@ -87,7 +67,7 @@ diff --git a/dist/app.js b/dist/app.js
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -10035,6 +10074,7 @@
+@@ -9613,6 +9649,7 @@
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
@@ -95,10 +75,46 @@ diff --git a/dist/app.js b/dist/app.js
                slackConversation,
                source,
                destination,
-diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
---- a/dist/chunk-BOMLWLTF.js
-+++ b/dist/chunk-BOMLWLTF.js
-@@ -11723,9 +11723,33 @@
+--- a/dist/chunk-LK53AHO5.js
++++ b/dist/chunk-LK53AHO5.js
+@@ -7114,7 +7114,7 @@
+ // src/chat/tools/web/search.ts
+ import { generateText } from "ai";
+ import { createGatewayProvider } from "@ai-sdk/gateway";
+-import { getModel } from "@earendil-works/pi-ai";
++import { getModel } from "@earendil-works/pi-ai/compat";
+ import { Type as Type24 } from "@sinclair/typebox";
+ var SEARCH_TIMEOUT_MS = 6e4;
+ var MAX_RESULTS2 = 5;
+@@ -7382,7 +7382,7 @@
+ // src/chat/pi/traced-stream.ts
+ import {
+   streamSimple
+-} from "@earendil-works/pi-ai";
++} from "@earendil-works/pi-ai/compat";
+ function attributeModeForPrivacy(conversationPrivacy) {
+   return conversationPrivacy === "public" ? "content" : "metadata";
+ }
+@@ -12144,6 +12144,9 @@
+   "vercel-forwarded-port",
+   "vercel-forwarded-path"
+ ]);
++var RECOMPUTED_REQUEST_HEADERS = /* @__PURE__ */ new Set([
++  "content-length"
++]);
+ var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
+   "baggage",
+   "sentry-trace",
+@@ -12372,7 +12375,7 @@
+   );
+   request.headers.forEach((value, key) => {
+     const normalized = key.toLowerCase();
+-    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized)) {
++    if (HOP_BY_HOP_HEADERS.has(normalized) || PROXY_ONLY_HEADERS.has(normalized) || RECOMPUTED_REQUEST_HEADERS.has(normalized)) {
+       return;
+     }
+     if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
+@@ -13292,9 +13295,33 @@
        userInput,
        promptConversationContext
      );
@@ -133,28 +149,6 @@ diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...context.piMessages ?? []];
-diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
---- a/dist/chunk-BOMLWLTF.js
-+++ b/dist/chunk-BOMLWLTF.js
-@@ -6593,7 +6593,7 @@
- // src/chat/tools/web/search.ts
- import { generateText } from "ai";
- import { createGatewayProvider } from "@ai-sdk/gateway";
--import { getModel } from "@earendil-works/pi-ai";
-+import { getModel } from "@earendil-works/pi-ai/compat";
- import { Type as Type23 } from "@sinclair/typebox";
- var SEARCH_TIMEOUT_MS = 6e4;
- var MAX_RESULTS2 = 5;
-@@ -6856,7 +6856,7 @@
- // src/chat/pi/traced-stream.ts
- import {
-   streamSimple
--} from "@earendil-works/pi-ai";
-+} from "@earendil-works/pi-ai/compat";
- function attributeModeForPrivacy(conversationPrivacy) {
-   return conversationPrivacy === "public" ? "content" : "metadata";
- }
-diff --git a/dist/chunk-ABRNFE3N.js b/dist/chunk-ABRNFE3N.js
 --- a/dist/chunk-ABRNFE3N.js
 +++ b/dist/chunk-ABRNFE3N.js
 @@ -233,7 +233,7 @@
@@ -166,8 +160,7 @@ diff --git a/dist/chunk-ABRNFE3N.js b/dist/chunk-ABRNFE3N.js
  
  // src/chat/optional-string.ts
  function toOptionalTrimmed(value) {
-@@ -249,14 +249,14 @@
-   completeSimple,
+@@ -250,13 +250,13 @@
    getEnvApiKey,
    getModels,
    registerApiProvider
@@ -176,11 +169,9 @@ diff --git a/dist/chunk-ABRNFE3N.js b/dist/chunk-ABRNFE3N.js
  import { createGatewayProvider } from "@ai-sdk/gateway";
  import { embedMany, generateObject } from "ai";
  import {
--  streamAnthropic,
--  streamSimpleAnthropic
+   streamAnthropic,
+   streamSimpleAnthropic
 -} from "@earendil-works/pi-ai/anthropic";
-+  streamAnthropic,
-+  streamSimpleAnthropic
 +} from "@earendil-works/pi-ai/compat";
  
  // src/chat/services/provider-retry.ts
