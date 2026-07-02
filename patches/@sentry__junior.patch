@@ -95,10 +95,10 @@ diff --git a/dist/app.js b/dist/app.js
                slackConversation,
                source,
                destination,
-diff --git a/dist/chunk-NNM7YQLL.js b/dist/chunk-NNM7YQLL.js
---- a/dist/chunk-NNM7YQLL.js
-+++ b/dist/chunk-NNM7YQLL.js
-@@ -11700,9 +11700,33 @@
+diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
+--- a/dist/chunk-BOMLWLTF.js
++++ b/dist/chunk-BOMLWLTF.js
+@@ -11723,9 +11723,33 @@
        userInput,
        promptConversationContext
      );
@@ -133,3 +133,55 @@ diff --git a/dist/chunk-NNM7YQLL.js b/dist/chunk-NNM7YQLL.js
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...context.piMessages ?? []];
+diff --git a/dist/chunk-BOMLWLTF.js b/dist/chunk-BOMLWLTF.js
+--- a/dist/chunk-BOMLWLTF.js
++++ b/dist/chunk-BOMLWLTF.js
+@@ -6593,7 +6593,7 @@
+ // src/chat/tools/web/search.ts
+ import { generateText } from "ai";
+ import { createGatewayProvider } from "@ai-sdk/gateway";
+-import { getModel } from "@earendil-works/pi-ai";
++import { getModel } from "@earendil-works/pi-ai/compat";
+ import { Type as Type23 } from "@sinclair/typebox";
+ var SEARCH_TIMEOUT_MS = 6e4;
+ var MAX_RESULTS2 = 5;
+@@ -6856,7 +6856,7 @@
+ // src/chat/pi/traced-stream.ts
+ import {
+   streamSimple
+-} from "@earendil-works/pi-ai";
++} from "@earendil-works/pi-ai/compat";
+ function attributeModeForPrivacy(conversationPrivacy) {
+   return conversationPrivacy === "public" ? "content" : "metadata";
+ }
+diff --git a/dist/chunk-ABRNFE3N.js b/dist/chunk-ABRNFE3N.js
+--- a/dist/chunk-ABRNFE3N.js
++++ b/dist/chunk-ABRNFE3N.js
+@@ -233,7 +233,7 @@
+ }
+ 
+ // src/chat/config.ts
+-import { getModel } from "@earendil-works/pi-ai";
++import { getModel } from "@earendil-works/pi-ai/compat";
+ 
+ // src/chat/optional-string.ts
+ function toOptionalTrimmed(value) {
+@@ -249,14 +249,14 @@
+   completeSimple,
+   getEnvApiKey,
+   getModels,
+   registerApiProvider
+-} from "@earendil-works/pi-ai";
++} from "@earendil-works/pi-ai/compat";
+ import { createGatewayProvider } from "@ai-sdk/gateway";
+ import { embedMany, generateObject } from "ai";
+ import {
+-  streamAnthropic,
+-  streamSimpleAnthropic
+-} from "@earendil-works/pi-ai/anthropic";
++  streamAnthropic,
++  streamSimpleAnthropic
++} from "@earendil-works/pi-ai/compat";
+ 
+ // src/chat/services/provider-retry.ts
+ var PROVIDER_RETRY_DELAYS_MS = [2e3, 4e3, 8e3];
