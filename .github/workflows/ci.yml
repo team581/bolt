@@ -8,6 +8,8 @@ jobs:
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      DATABASE_URL: postgresql://localhost:5432/postgres
 
     steps:
       - name: Checkout git repository

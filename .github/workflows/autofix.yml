@@ -9,6 +9,8 @@ jobs:
   autofix:
     name: Autofix
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://localhost:5432/postgres
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v7

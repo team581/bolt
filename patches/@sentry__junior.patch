@@ -1,6 +1,6 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -8491,6 +8491,41 @@
+@@ -8785,6 +8785,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -42,7 +42,7 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9431,17 +9466,18 @@
+@@ -9820,17 +9855,18 @@
            message,
            options.queuedMessages
          );
@@ -67,7 +67,7 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -9613,6 +9649,7 @@
+@@ -9981,6 +10017,7 @@
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
                userAttachments,
@@ -75,9 +75,9 @@
                slackConversation,
                source,
                destination,
---- a/dist/chunk-LK53AHO5.js
-+++ b/dist/chunk-LK53AHO5.js
-@@ -7114,7 +7114,7 @@
+--- a/dist/chunk-NYJLQI42.js
++++ b/dist/chunk-NYJLQI42.js
+@@ -7539,7 +7539,7 @@
  // src/chat/tools/web/search.ts
  import { generateText } from "ai";
  import { createGatewayProvider } from "@ai-sdk/gateway";
@@ -86,7 +86,7 @@
  import { Type as Type24 } from "@sinclair/typebox";
  var SEARCH_TIMEOUT_MS = 6e4;
  var MAX_RESULTS2 = 5;
-@@ -7382,7 +7382,7 @@
+@@ -7807,7 +7807,7 @@
  // src/chat/pi/traced-stream.ts
  import {
    streamSimple
@@ -95,7 +95,7 @@
  function attributeModeForPrivacy(conversationPrivacy) {
    return conversationPrivacy === "public" ? "content" : "metadata";
  }
-@@ -12144,6 +12144,9 @@
+@@ -12210,6 +12210,9 @@
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -105,7 +105,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -12372,7 +12375,7 @@
+@@ -12438,7 +12441,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -114,7 +114,7 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -13292,9 +13295,33 @@
+@@ -13411,9 +13414,33 @@
        userInput,
        promptConversationContext
      );
@@ -149,9 +149,9 @@
        userTurnText
      });
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...context.piMessages ?? []];
---- a/dist/chunk-ABRNFE3N.js
-+++ b/dist/chunk-ABRNFE3N.js
-@@ -233,7 +233,7 @@
+--- a/dist/chunk-S35CPNPT.js
++++ b/dist/chunk-S35CPNPT.js
+@@ -268,7 +268,7 @@
  }
  
  // src/chat/config.ts
@@ -160,7 +160,7 @@
  
  // src/chat/optional-string.ts
  function toOptionalTrimmed(value) {
-@@ -250,13 +250,13 @@
+@@ -285,13 +285,13 @@
    getEnvApiKey,
    getModels,
    registerApiProvider
