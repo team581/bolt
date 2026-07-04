@@ -17,7 +17,7 @@ overrides:
   vitest: 4.1.9
 
 patchedDependencies:
-  '@sentry/junior': 85423914e336e7193c027bc8c76072351831c80f9283f3cc7238b36139facd47
+  '@sentry/junior': 3cb912e97baf7b5b50e436c453d613c54a92682213f6c0e76971f884d3f6e462
   '@vercel/sandbox': d32ea1b78845212fe4a9d029b4f320103183f87b92da2bab25cd17c7ae97198c
 
 importers:
@@ -26,7 +26,7 @@ importers:
     dependencies:
       '@sentry/junior':
         specifier: 0.88.0
-        version: 0.88.0(patch_hash=85423914e336e7193c027bc8c76072351831c80f9283f3cc7238b36139facd47)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+        version: 0.88.0(patch_hash=3cb912e97baf7b5b50e436c453d613c54a92682213f6c0e76971f884d3f6e462)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
       '@sentry/junior-dashboard':
         specifier: 0.88.0
         version: 0.88.0(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.57))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9)(ws@8.21.0)
@@ -4648,7 +4648,7 @@ snapshots:
 
   '@sentry/junior-dashboard@0.88.0(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.57))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)(kysely@0.29.2)(pg@8.22.0)(redux@5.0.1)(sql.js@1.14.1)(vitest@4.1.9)(ws@8.21.0)':
     dependencies:
-      '@sentry/junior': 0.88.0(patch_hash=85423914e336e7193c027bc8c76072351831c80f9283f3cc7238b36139facd47)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
+      '@sentry/junior': 0.88.0(patch_hash=3cb912e97baf7b5b50e436c453d613c54a92682213f6c0e76971f884d3f6e462)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)
       '@sentry/junior-plugin-api': 0.88.0
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.13(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.9)
@@ -4830,7 +4830,7 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@sentry/junior@0.88.0(patch_hash=85423914e336e7193c027bc8c76072351831c80f9283f3cc7238b36139facd47)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
+  '@sentry/junior@0.88.0(patch_hash=3cb912e97baf7b5b50e436c453d613c54a92682213f6c0e76971f884d3f6e462)(@aws-sdk/credential-provider-web-identity@3.972.57)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(@voidzero-dev/vite-plus-core@0.2.2(@types/node@24.13.2)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.0))(kysely@0.29.2)(sql.js@1.14.1)(ws@8.21.0)':
     dependencies:
       '@ai-sdk/gateway': 3.0.120(zod@4.4.3)
       '@chat-adapter/slack': 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
