@@ -1,6 +1,6 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -8785,6 +8785,41 @@
+@@ -8750,6 +8750,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -42,7 +42,7 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9820,17 +9855,18 @@
+@@ -9831,17 +9866,18 @@
            message,
            options.queuedMessages
          );
@@ -67,26 +67,19 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -9981,6 +10017,7 @@
+@@ -10010,7 +10046,8 @@
+               piMessages,
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
-               userAttachments,
-+              resolveAttachmentsLazily,
-               slackConversation,
-               source,
-               destination,
---- a/dist/chunk-NYJLQI42.js
-+++ b/dist/chunk-NYJLQI42.js
-@@ -7539,7 +7539,7 @@
- // src/chat/tools/web/search.ts
- import { generateText } from "ai";
- import { createGatewayProvider } from "@ai-sdk/gateway";
--import { getModel } from "@earendil-works/pi-ai";
-+import { getModel } from "@earendil-works/pi-ai/compat";
- import { Type as Type24 } from "@sinclair/typebox";
- var SEARCH_TIMEOUT_MS = 6e4;
- var MAX_RESULTS2 = 5;
-@@ -7807,7 +7807,7 @@
+-              userAttachments
++              userAttachments,
++              resolveAttachmentsLazily
+             },
+             routing: {
+               credentialContext,
+--- a/dist/chunk-ZGDTBSQ7.js
++++ b/dist/chunk-ZGDTBSQ7.js
+@@ -448,7 +448,7 @@
  // src/chat/pi/traced-stream.ts
  import {
    streamSimple
@@ -95,7 +88,16 @@
  function attributeModeForPrivacy(conversationPrivacy) {
    return conversationPrivacy === "public" ? "content" : "metadata";
  }
-@@ -12210,6 +12210,9 @@
+@@ -7995,7 +7995,7 @@
+ import { z as z35 } from "zod";
+ import { generateText } from "ai";
+ import { createGatewayProvider } from "@ai-sdk/gateway";
+-import { getModel } from "@earendil-works/pi-ai";
++import { getModel } from "@earendil-works/pi-ai/compat";
+ var SEARCH_TIMEOUT_MS = 6e4;
+ var MAX_RESULTS2 = 5;
+ var DEFAULT_SEARCH_MODEL = getModel("vercel-ai-gateway", "openai/gpt-5.4").id;
+@@ -12357,6 +12357,9 @@
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -105,7 +107,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -12438,7 +12441,7 @@
+@@ -12585,7 +12588,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -114,17 +116,46 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -13411,9 +13414,33 @@
-       userInput,
-       promptConversationContext
-     );
-+    let resolvedUserAttachments = context.userAttachments;
-+    if (context.resolveAttachmentsLazily) {
+@@ -13796,29 +13799,9 @@
+       skillSandbox,
+       syncLoadedSkillNamesForResume
+     });
+-    const { routerBlocks, userContentParts } = buildPromptInput(input);
++    let routerBlocks = [];
++    let userContentParts = [];
+     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...input.piMessages ?? []];
+-    thinkingSelection = await selectTurnThinkingLevel({
+-      completeObject,
+-      conversationContext: input.conversationContext,
+-      context: {
+-        threadId: routing.correlation?.threadId,
+-        channelId: routing.correlation?.channelId,
+-        requesterId: routing.correlation?.requesterId,
+-        runId: routing.correlation?.runId
+-      },
+-      currentTurnBlocks: routerBlocks,
+-      fastModelId: botConfig.fastModelId,
+-      messageText: userInput
+-    });
+-    setSpanAttributes({
+-      "gen_ai.request.model": botConfig.modelId,
+-      "app.ai.reasoning_effort": thinkingSelection.thinkingLevel,
+-      "app.ai.thinking_level_reason": thinkingSelection.reason,
+-      ...thinkingSelection.confidence !== void 0 ? {
+-        "app.ai.thinking_level_confidence": thinkingSelection.confidence
+-      } : {}
+-    });
+     const generatedFiles = [];
+     const artifactStatePatch = {};
+     const toolCalls = [];
+@@ -13869,6 +13852,52 @@
+     });
+     mcpToolManager = wiring.mcpToolManager;
+     const sandboxExecutor = wiring.sandboxExecutor;
++    let resolvedUserAttachments = input.userAttachments;
++    if (input.resolveAttachmentsLazily) {
 +      const sandboxAttachmentWriter = async ({ filename, mediaType, data }) => {
-+        const workspaceSandbox = await getSandbox({
-+          trigger: "attachment.upload",
-+          path: filename
-+        });
++        const workspaceSandbox = await sandboxExecutor.createSandbox();
 +        const safeName = (filename ?? "attachment").replace(
 +          /[^A-Za-z0-9._-]/g,
 +          "_"
@@ -138,20 +169,41 @@
 +        await workspaceSandbox.writeFiles([{ path: sandboxPath, content: data }]);
 +        return sandboxPath;
 +      };
-+      resolvedUserAttachments = await context.resolveAttachmentsLazily(
++      resolvedUserAttachments = await input.resolveAttachmentsLazily(
 +        sandboxAttachmentWriter
 +      );
 +    }
-     const { routerBlocks, userContentParts } = buildUserTurnInput({
-       omittedImageAttachmentCount: context.omittedImageAttachmentCount ?? 0,
--      userAttachments: context.userAttachments,
-+      userAttachments: resolvedUserAttachments,
-       userTurnText
-     });
-     const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...context.piMessages ?? []];
---- a/dist/chunk-S35CPNPT.js
-+++ b/dist/chunk-S35CPNPT.js
-@@ -268,7 +268,7 @@
++    ({ routerBlocks, userContentParts } = buildPromptInput({
++      ...input,
++      userAttachments: resolvedUserAttachments
++    }));
++    thinkingSelection = await selectTurnThinkingLevel({
++      completeObject,
++      conversationContext: input.conversationContext,
++      context: {
++        threadId: routing.correlation?.threadId,
++        channelId: routing.correlation?.channelId,
++        requesterId: routing.correlation?.requesterId,
++        runId: routing.correlation?.runId
++      },
++      currentTurnBlocks: routerBlocks,
++      fastModelId: botConfig.fastModelId,
++      messageText: userInput
++    });
++    setSpanAttributes({
++      "gen_ai.request.model": botConfig.modelId,
++      "app.ai.reasoning_effort": thinkingSelection.thinkingLevel,
++      "app.ai.thinking_level_reason": thinkingSelection.reason,
++      ...thinkingSelection.confidence !== void 0 ? {
++        "app.ai.thinking_level_confidence": thinkingSelection.confidence
++      } : {}
++    });
+     const getPendingAuthPause = wiring.getPendingAuthPause;
+     const {
+       baseInstructions,
+--- a/dist/chunk-HXL2ZV74.js
++++ b/dist/chunk-HXL2ZV74.js
+@@ -104,7 +104,7 @@
  }
  
  // src/chat/config.ts
@@ -160,7 +212,7 @@
  
  // src/chat/optional-string.ts
  function toOptionalTrimmed(value) {
-@@ -285,13 +285,13 @@
+@@ -121,13 +121,13 @@
    getEnvApiKey,
    getModels,
    registerApiProvider
