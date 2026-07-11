@@ -11,7 +11,7 @@ catalog:
   vite-plus: latest
 overrides:
   "@earendil-works/pi-agent-core": 0.80.6
-  "@earendil-works/pi-ai": 0.80.3
+  "@earendil-works/pi-ai": 0.80.6
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
 peerDependencyRules:
