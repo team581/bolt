@@ -1,6 +1,6 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -8750,6 +8750,41 @@
+@@ -8845,6 +8845,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -14,7 +14,7 @@
 +          "attachment_uploaded_to_sandbox",
 +          {
 +            slackThreadId: context.threadId,
-+            slackUserId: context.requesterId,
++            slackUserId: context.actorId,
 +            slackChannelId: context.channelId,
 +            runId: context.runId,
 +            assistantUserName: botConfig.userName,
@@ -22,7 +22,7 @@
 +          },
 +          {
 +            "file.size": data.byteLength,
-+            "file.mime_type": mediaType,
++            "app.file.mime_type": mediaType,
 +            "file.path": sandboxPath
 +          },
 +          "Uploaded user attachment into the sandbox"
@@ -42,7 +42,7 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9831,17 +9866,18 @@
+@@ -9923,17 +9958,18 @@
            message,
            options.queuedMessages
          );
@@ -52,7 +52,7 @@
 +        const resolveAttachmentsLazily = async (sandboxWriter) => {
 +          return await deps.resolveUserAttachments(turnAttachments, {
              threadId,
-             requesterId: slackRequesterId,
+             actorId: slackActorId,
              channelId,
              runId,
              conversation: preparedState.conversation,
@@ -67,7 +67,7 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -10010,7 +10046,8 @@
+@@ -10116,7 +10152,8 @@
                piMessages,
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
@@ -77,27 +77,9 @@
              },
              routing: {
                credentialContext,
---- a/dist/chunk-ZGDTBSQ7.js
-+++ b/dist/chunk-ZGDTBSQ7.js
-@@ -448,7 +448,7 @@
- // src/chat/pi/traced-stream.ts
- import {
-   streamSimple
--} from "@earendil-works/pi-ai";
-+} from "@earendil-works/pi-ai/compat";
- function attributeModeForPrivacy(conversationPrivacy) {
-   return conversationPrivacy === "public" ? "content" : "metadata";
- }
-@@ -7995,7 +7995,7 @@
- import { z as z35 } from "zod";
- import { generateText } from "ai";
- import { createGatewayProvider } from "@ai-sdk/gateway";
--import { getModel } from "@earendil-works/pi-ai";
-+import { getModel } from "@earendil-works/pi-ai/compat";
- var SEARCH_TIMEOUT_MS = 6e4;
- var MAX_RESULTS2 = 5;
- var DEFAULT_SEARCH_MODEL = getModel("vercel-ai-gateway", "openai/gpt-5.4").id;
-@@ -12357,6 +12357,9 @@
+--- a/dist/chunk-ZIX4PNBI.js
++++ b/dist/chunk-ZIX4PNBI.js
+@@ -13778,6 +13778,9 @@
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -107,7 +89,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -12585,7 +12588,7 @@
+@@ -14006,7 +14009,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -116,7 +98,7 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -13796,29 +13799,9 @@
+@@ -15546,21 +15546,9 @@
        skillSandbox,
        syncLoadedSkillNamesForResume
      });
@@ -124,31 +106,23 @@
 +    let routerBlocks = [];
 +    let userContentParts = [];
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...input.piMessages ?? []];
--    thinkingSelection = await selectTurnThinkingLevel({
+-    reasoningSelection ??= await selectTurnReasoningLevel({
 -      completeObject,
 -      conversationContext: input.conversationContext,
 -      context: {
 -        threadId: routing.correlation?.threadId,
 -        channelId: routing.correlation?.channelId,
--        requesterId: routing.correlation?.requesterId,
+-        actorId: routing.correlation?.actorId,
 -        runId: routing.correlation?.runId
 -      },
 -      currentTurnBlocks: routerBlocks,
 -      fastModelId: botConfig.fastModelId,
 -      messageText: userInput
 -    });
--    setSpanAttributes({
--      "gen_ai.request.model": botConfig.modelId,
--      "app.ai.reasoning_effort": thinkingSelection.thinkingLevel,
--      "app.ai.thinking_level_reason": thinkingSelection.reason,
--      ...thinkingSelection.confidence !== void 0 ? {
--        "app.ai.thinking_level_confidence": thinkingSelection.confidence
--      } : {}
--    });
      const generatedFiles = [];
      const artifactStatePatch = {};
      const toolCalls = [];
-@@ -13869,6 +13852,52 @@
+@@ -15674,6 +15662,44 @@
      });
      mcpToolManager = wiring.mcpToolManager;
      const sandboxExecutor = wiring.sandboxExecutor;
@@ -177,54 +151,19 @@
 +      ...input,
 +      userAttachments: resolvedUserAttachments
 +    }));
-+    thinkingSelection = await selectTurnThinkingLevel({
++    reasoningSelection ??= await selectTurnReasoningLevel({
 +      completeObject,
 +      conversationContext: input.conversationContext,
 +      context: {
 +        threadId: routing.correlation?.threadId,
 +        channelId: routing.correlation?.channelId,
-+        requesterId: routing.correlation?.requesterId,
++        actorId: routing.correlation?.actorId,
 +        runId: routing.correlation?.runId
 +      },
 +      currentTurnBlocks: routerBlocks,
 +      fastModelId: botConfig.fastModelId,
 +      messageText: userInput
 +    });
-+    setSpanAttributes({
-+      "gen_ai.request.model": botConfig.modelId,
-+      "app.ai.reasoning_effort": thinkingSelection.thinkingLevel,
-+      "app.ai.thinking_level_reason": thinkingSelection.reason,
-+      ...thinkingSelection.confidence !== void 0 ? {
-+        "app.ai.thinking_level_confidence": thinkingSelection.confidence
-+      } : {}
-+    });
      const getPendingAuthPause = wiring.getPendingAuthPause;
-     const {
-       baseInstructions,
---- a/dist/chunk-HXL2ZV74.js
-+++ b/dist/chunk-HXL2ZV74.js
-@@ -104,7 +104,7 @@
- }
- 
- // src/chat/config.ts
--import { getModel } from "@earendil-works/pi-ai";
-+import { getModel } from "@earendil-works/pi-ai/compat";
- 
- // src/chat/optional-string.ts
- function toOptionalTrimmed(value) {
-@@ -121,13 +121,13 @@
-   getEnvApiKey,
-   getModels,
-   registerApiProvider
--} from "@earendil-works/pi-ai";
-+} from "@earendil-works/pi-ai/compat";
- import { createGatewayProvider } from "@ai-sdk/gateway";
- import { embedMany, generateObject } from "ai";
- import {
-   streamAnthropic,
-   streamSimpleAnthropic
--} from "@earendil-works/pi-ai/anthropic";
-+} from "@earendil-works/pi-ai/compat";
- 
- // src/chat/services/provider-retry.ts
- var PROVIDER_RETRY_DELAYS_MS = [2e3, 4e3, 8e3];
+     const toolsAfterHandoff = wiring.agentTools.filter(
+       (tool) => tool.name !== HANDOFF_TOOL_NAME
