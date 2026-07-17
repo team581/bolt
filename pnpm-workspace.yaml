@@ -10,7 +10,7 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vite-plus: latest
 overrides:
-  "@earendil-works/pi-agent-core": 0.80.9
+  "@earendil-works/pi-agent-core": 0.80.10
   "@earendil-works/pi-ai": 0.80.7
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
