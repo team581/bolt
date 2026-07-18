@@ -1,6 +1,6 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -8845,6 +8845,41 @@
+@@ -8808,6 +8808,41 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -42,7 +42,7 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9923,17 +9958,18 @@
+@@ -9906,17 +9941,18 @@
            message,
            options.queuedMessages
          );
@@ -67,7 +67,7 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -10116,7 +10152,8 @@
+@@ -10099,7 +10135,8 @@
                piMessages,
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
@@ -77,9 +77,9 @@
              },
              routing: {
                credentialContext,
---- a/dist/chunk-ZIX4PNBI.js
-+++ b/dist/chunk-ZIX4PNBI.js
-@@ -13778,6 +13778,9 @@
+--- a/dist/chunk-NJJFU6CP.js
++++ b/dist/chunk-NJJFU6CP.js
+@@ -13904,6 +13904,9 @@
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -89,7 +89,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -14006,7 +14009,7 @@
+@@ -14132,7 +14135,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -98,7 +98,7 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -15546,21 +15546,9 @@
+@@ -15672,21 +15675,9 @@
        skillSandbox,
        syncLoadedSkillNamesForResume
      });
@@ -122,7 +122,7 @@
      const generatedFiles = [];
      const artifactStatePatch = {};
      const toolCalls = [];
-@@ -15674,6 +15662,44 @@
+@@ -15801,6 +15792,44 @@
      });
      mcpToolManager = wiring.mcpToolManager;
      const sandboxExecutor = wiring.sandboxExecutor;
