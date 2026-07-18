@@ -37,22 +37,6 @@ export const env = cleanEnv(
 			desc: "Vercel AI Gateway API key used by Junior for model calls.",
 			docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
 		}),
-		AI_FAST_MODEL: str({
-			desc: "Fast model slug used for lower-latency Junior model calls.",
-			docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
-		}),
-		AI_MODEL: str({
-			desc: "Primary model slug used by Junior.",
-			docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
-		}),
-		AI_VISION_MODEL: str({
-			desc: "Vision-capable model slug used by Junior.",
-			docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
-		}),
-		AI_WEB_SEARCH_MODEL: str({
-			desc: "Model slug used by Junior web search.",
-			docs: "https://junior.sentry.dev/reference/config-and-env/#core-runtime",
-		}),
 
 		// Junior runtime
 		CRON_SECRET: str({

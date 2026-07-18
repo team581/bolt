@@ -60,7 +60,7 @@ Junior imports `@vercel/sandbox` directly to run all shell/git/test commands in 
 
 ### AI provider: Vercel AI Gateway
 
-Junior routes all model traffic through Vercel AI Gateway. Create a key, set `AI_GATEWAY_API_KEY`, and add a payment method (otherwise turns 402). Model slugs in `.env.example` must match the gateway catalog exactly.
+Junior routes all model traffic through Vercel AI Gateway. Create a key, set `AI_GATEWAY_API_KEY`, and add a payment method (otherwise turns 402).
 
 ### CI: prompt regeneration
 
