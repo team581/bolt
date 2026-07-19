@@ -41,7 +41,7 @@ We deploy to the Team 581 `bolt` Vercel project with Nitro's `vercel` preset. Th
 
 For student safety, Bolt is deliberately scoped to **public channels only** — no DMs, group DMs, or private channels. This diverges from the Junior docs, which assume DM/`im` scopes.
 
-- Bot token scopes: `app_mentions:read`, `chat:write`, `channels:history`, `users:read`, `files:read`, `reactions:write`, `canvases:read`, `canvases:write`.
+- Bot token scopes: `app_mentions:read`, `chat:write`, `channels:history`, `users:read`, `users:read.email`, `files:read`, `reactions:write`, `canvases:read`, `canvases:write`.
 - Event subscriptions: `app_mention`, `message.channels` only.
 - Do **not** add `groups:history`, `im:history`, or `mpim:history`, do **not** subscribe to `message.groups`/`message.im`/`message.mpim`, and leave the App Home **Messages tab disabled**.
 
