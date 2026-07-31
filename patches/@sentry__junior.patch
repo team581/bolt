@@ -1,6 +1,9 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -8813,6 +8813,41 @@
+@@ -6072,9 +6072,44 @@
+       if (attachment.fetchData) {
+         data = await attachment.fetchData();
+       } else if (attachment.data instanceof Buffer) {
          data = attachment.data;
        }
        if (!data) continue;
@@ -18,7 +21,7 @@
 +            slackChannelId: context.channelId,
 +            runId: context.runId,
 +            assistantUserName: botConfig.userName,
-+            modelId: botConfig.modelId
++            modelId: standardModelId(botConfig)
 +          },
 +          {
 +            "file.size": data.byteLength,
@@ -42,7 +45,8 @@
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
          logWarn(
            "attachment_skipped_size_limit",
-@@ -9911,17 +9946,18 @@
+@@ -7197,18 +7232,19 @@
+         const turnAttachments = collectTurnAttachments(
            message,
            options.queuedMessages
          );
@@ -67,7 +71,7 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -10112,7 +10148,8 @@
+@@ -7519,7 +7555,8 @@
                piMessages,
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
@@ -77,9 +81,10 @@
              },
              routing: {
                credentialContext,
---- a/dist/chunk-GPPUTY5M.js
-+++ b/dist/chunk-GPPUTY5M.js
-@@ -13921,6 +13921,9 @@
+--- a/dist/chunk-VWBKDPMQ.js
++++ b/dist/chunk-VWBKDPMQ.js
+@@ -13070,7 +13070,10 @@
+   "vercel-forwarded-scheme",
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -89,7 +94,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -14149,7 +14152,7 @@
+@@ -13301,7 +13304,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -98,72 +103,52 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -15688,21 +15691,9 @@
-       skillSandbox,
+@@ -14959,7 +14962,7 @@
        syncLoadedSkillNamesForResume
      });
+     const explicitSkill = invokedSkill ? activeSkills.find((skill) => skill.name === invokedSkill.name) ?? null : null;
 -    const { routerBlocks, userContentParts } = buildPromptInput(input);
-+    let routerBlocks = [];
-+    let userContentParts = [];
++    let { routerBlocks, userContentParts } = buildPromptInput(input);
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...input.piMessages ?? []];
--    reasoningSelection ??= await selectTurnReasoningLevel({
--      completeObject,
--      conversationContext: input.conversationContext,
--      context: {
--        threadId: routing.correlation?.threadId,
--        channelId: routing.correlation?.channelId,
--        actorId: routing.correlation?.actorId,
--        runId: routing.correlation?.runId
--      },
--      currentTurnBlocks: routerBlocks,
--      fastModelId: botConfig.fastModelId,
--      messageText: userInput
--    });
-     const generatedFiles = [];
-     const artifactStatePatch = {};
-     const toolCalls = [];
-@@ -15816,6 +15807,44 @@
+     const storedTurnRoute = await loadTurnRoute({ conversationId, turnId });
+     if (storedTurnRoute) {
+@@ -15175,7 +15178,39 @@
+       userInput
      });
      mcpToolManager = wiring.mcpToolManager;
-     const sandboxExecutor = wiring.sandboxExecutor;
+     closeTools = wiring.close;
 +    let resolvedUserAttachments = input.userAttachments;
 +    if (input.resolveAttachmentsLazily) {
-+      const sandboxAttachmentWriter = async ({ filename, mediaType, data }) => {
-+        const workspaceSandbox = await sandboxExecutor.createSandbox();
++      const sandboxWorkspace = wiring.toolRuntimeContext.workspace;
++      const sandboxAttachmentWriter = async ({ filename, data }) => {
 +        const safeName = (filename ?? "attachment").replace(
 +          /[^A-Za-z0-9._-]/g,
 +          "_"
 +        );
 +        const uploadDir = `${SANDBOX_WORKSPACE_ROOT}/uploads`;
 +        const sandboxPath = `${uploadDir}/${safeName}`;
-+        try {
-+          await workspaceSandbox.mkDir(uploadDir);
-+        } catch {
++        const mkdirResult = await sandboxWorkspace.runCommand({
++          cmd: "mkdir",
++          args: ["-p", uploadDir]
++        });
++        if (mkdirResult.exitCode !== 0) {
++          throw new Error(
++            `failed to create attachment upload directory: ${mkdirResult.stderr}`
++          );
 +        }
-+        await workspaceSandbox.writeFiles([{ path: sandboxPath, content: data }]);
++        await sandboxWorkspace.writeFiles([
++          { path: sandboxPath, content: data }
++        ]);
 +        return sandboxPath;
 +      };
 +      resolvedUserAttachments = await input.resolveAttachmentsLazily(
 +        sandboxAttachmentWriter
 +      );
++      ({ routerBlocks, userContentParts } = buildPromptInput({
++        ...input,
++        userAttachments: resolvedUserAttachments
++      }));
 +    }
-+    ({ routerBlocks, userContentParts } = buildPromptInput({
-+      ...input,
-+      userAttachments: resolvedUserAttachments
-+    }));
-+    reasoningSelection ??= await selectTurnReasoningLevel({
-+      completeObject,
-+      conversationContext: input.conversationContext,
-+      context: {
-+        threadId: routing.correlation?.threadId,
-+        channelId: routing.correlation?.channelId,
-+        actorId: routing.correlation?.actorId,
-+        runId: routing.correlation?.runId
-+      },
-+      currentTurnBlocks: routerBlocks,
-+      fastModelId: botConfig.fastModelId,
-+      messageText: userInput
-+    });
      const getPendingAuthPause = wiring.getPendingAuthPause;
-     const toolsAfterHandoff = wiring.agentTools.filter(
+     const toolsWithoutHandoff = wiring.agentTools.filter(
        (tool) => tool.name !== HANDOFF_TOOL_NAME

@@ -16,6 +16,6 @@ export const plugins = defineJuniorPlugins([
 			workflows: "write",
 		},
 	}),
-	memoryPlugin,
+	memoryPlugin(),
 	schedulerPlugin(),
 ]);
