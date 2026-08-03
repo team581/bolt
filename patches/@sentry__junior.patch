@@ -1,9 +1,6 @@
 --- a/dist/app.js
 +++ b/dist/app.js
-@@ -6072,9 +6072,44 @@
-       if (attachment.fetchData) {
-         data = await attachment.fetchData();
-       } else if (attachment.data instanceof Buffer) {
+@@ -5939,6 +5939,29 @@
          data = attachment.data;
        }
        if (!data) continue;
@@ -13,23 +10,11 @@
 +          mediaType,
 +          data
 +        });
-+        logInfo(
-+          "attachment_uploaded_to_sandbox",
-+          {
-+            slackThreadId: context.threadId,
-+            slackUserId: context.actorId,
-+            slackChannelId: context.channelId,
-+            runId: context.runId,
-+            assistantUserName: botConfig.userName,
-+            modelId: standardModelId(botConfig)
-+          },
-+          {
-+            "file.size": data.byteLength,
-+            "app.file.mime_type": mediaType,
-+            "file.path": sandboxPath
-+          },
-+          "Uploaded user attachment into the sandbox"
-+        );
++        logInfo("attachment.sandbox.uploaded", {
++          "file.size": data.byteLength,
++          "app.file.mime_type": mediaType,
++          "file.path": sandboxPath
++        });
 +        resolvedAttachment.promptText = [
 +          "<attachment>",
 +          `filename: ${attachment.name ?? "unnamed"}`,
@@ -43,10 +28,9 @@
 +        continue;
 +      }
        if (data.byteLength > MAX_USER_ATTACHMENT_BYTES) {
-         logWarn(
-           "attachment_skipped_size_limit",
-@@ -7197,18 +7232,19 @@
-         const turnAttachments = collectTurnAttachments(
+         logWarn("attachment.size_limit.skipped", {
+           "file.size": data.byteLength,
+@@ -6904,17 +6927,18 @@
            message,
            options.queuedMessages
          );
@@ -71,7 +55,7 @@
          const omittedImageAttachmentCount = !isVisionEnabled() && hasPotentialImageAttachment(turnAttachments) ? countPotentialImageAttachments(turnAttachments) : 0;
          const status = createSlackAdapterAssistantStatusSession({
            channelId: assistantThreadContext?.channelId,
-@@ -7519,7 +7555,8 @@
+@@ -7201,7 +7225,8 @@
                piMessages,
                inboundAttachmentCount: turnAttachments.length,
                omittedImageAttachmentCount,
@@ -81,10 +65,9 @@
              },
              routing: {
                credentialContext,
---- a/dist/chunk-VWBKDPMQ.js
-+++ b/dist/chunk-VWBKDPMQ.js
-@@ -13070,7 +13070,10 @@
-   "vercel-forwarded-scheme",
+--- a/dist/chunk-SD2VFSN6.js
++++ b/dist/chunk-SD2VFSN6.js
+@@ -13488,6 +13488,9 @@
    "vercel-forwarded-port",
    "vercel-forwarded-path"
  ]);
@@ -94,7 +77,7 @@
  var TRACE_PROPAGATION_HEADERS = /* @__PURE__ */ new Set([
    "baggage",
    "sentry-trace",
-@@ -13301,7 +13304,7 @@
+@@ -13711,7 +13714,7 @@
    );
    request.headers.forEach((value, key) => {
      const normalized = key.toLowerCase();
@@ -103,7 +86,7 @@
        return;
      }
      if (TRACE_PROPAGATION_HEADERS.has(normalized) && !mayPropagateTrace) {
-@@ -14959,7 +14962,7 @@
+@@ -15632,7 +15635,7 @@
        syncLoadedSkillNamesForResume
      });
      const explicitSkill = invokedSkill ? activeSkills.find((skill) => skill.name === invokedSkill.name) ?? null : null;
@@ -112,8 +95,7 @@
      const preAgentPromptMessages = () => existingSessionRecord?.piMessages ?? [...input.piMessages ?? []];
      const storedTurnRoute = await loadTurnRoute({ conversationId, turnId });
      if (storedTurnRoute) {
-@@ -15175,7 +15178,39 @@
-       userInput
+@@ -15852,6 +15855,38 @@
      });
      mcpToolManager = wiring.mcpToolManager;
      closeTools = wiring.close;
