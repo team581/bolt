@@ -13,7 +13,7 @@ const slackInitialData = v.object({
 });
 
 export function Bolt() {
-	useModel("vercel-ai-gateway/openai/gpt-5.6-terra", { thinkingLevel: "medium" });
+	useModel("vercel-ai-gateway/alibaba/qwen3.8-max", { thinkingLevel: "high" });
 	useSandbox({
 		async createSessionEnv(options) {
 			const client = new ModalClient();
