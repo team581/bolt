@@ -16,3 +16,9 @@ For local development:
 
 - Copy `.env.example` to `.env` and set all the secrets
 - `vp dev` to start the development server
+
+## Slack
+
+Configure the Slack app with the `app_mentions:read` and `chat:write` bot scopes.
+Enable Event Subscriptions, set the request URL to `https://<deployment>/channels/slack/events`, and subscribe to the `app_mention` bot event.
+Bolt keeps one conversation per Slack thread and posts replies back into that thread.

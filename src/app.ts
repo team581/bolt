@@ -1,11 +1,12 @@
 import "./sentry.ts";
+import { createChannelRouter } from "@flue/runtime";
 import { createAgentRouter } from "@flue/runtime/routing";
 import { Hono } from "hono";
 import { Bolt } from "./agents/bolt.ts";
+import { channel as slack } from "./channels/slack.ts";
 
-// 1. Create your Hono application instance.
 const app = new Hono();
-// 2. Define your agent routes.
 app.route("/agents/assistant", createAgentRouter(Bolt));
-// 3. Export your application.
+app.route("/channels/slack", createChannelRouter(slack.routes));
+
 export default app;

@@ -14,12 +14,15 @@
 		"@flue/cli": "^2.0.1",
 		"@flue/opentelemetry": "^2.0.1",
 		"@flue/runtime": "^2.0.1",
+		"@flue/slack": "^2.0.1",
 		"@flue/vite": "^2.0.1",
 		"@opentelemetry/api": "^1.9.1",
 		"@sentry/node": "^10.69.0",
+		"@slack/web-api": "^8.0.0",
 		"envalid": "^8.1.1",
 		"hono": "^4.12.33",
-		"modal": "^0.8.2"
+		"modal": "^0.8.2",
+		"valibot": "^1.4.2"
 	},
 	"devDependencies": {
 		"@sentry/cli": "^3.4.1",
