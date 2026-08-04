@@ -1,3 +1,4 @@
+import "./sentry.ts";
 import { createAgentRouter } from "@flue/runtime/routing";
 import { Hono } from "hono";
 import { Bolt } from "./agents/bolt.ts";

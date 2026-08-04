@@ -24,14 +24,20 @@ importers:
       '@flue/cli':
         specifier: ^2.0.1
         version: 2.0.1(@types/node@24.13.3)(hono@4.12.33)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)
+      '@flue/opentelemetry':
+        specifier: ^2.0.1
+        version: 2.0.1(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
       '@flue/runtime':
         specifier: ^2.0.1
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
         version: 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.33)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@opentelemetry/api':
+        specifier: ^1.9.1
+        version: 1.9.1
       '@sentry/node':
-        specifier: ^10.0.0
+        specifier: ^10.69.0
         version: 10.69.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))
       envalid:
         specifier: ^8.1.1
@@ -248,6 +254,13 @@ packages:
     resolution: {integrity: sha512-uxZ5LkMFE9mIplnrH9ttKJVVmhts5ptSwsC/DMZGHeN5kZb4uq985t0y8mYSFEk7OIDrQFmaa/o3gJjfx2IlJQ==}
     engines: {node: '>=22.19.0'}
     hasBin: true
+
+  '@flue/opentelemetry@2.0.1':
+    resolution: {integrity: sha512-hSlZ7wyaPqYSGNRDQd9TmH6VwosnVpe++rRqImeSWs7JdiE7JOUt3VIIpYXCc2u/DXxw0MuF8a4R1sQIs/5ASg==}
+    engines: {node: '>=22.19.0'}
+    peerDependencies:
+      '@flue/runtime': ^2.0.1
+      '@opentelemetry/api': ^1.9.0
 
   '@flue/runtime@2.0.1':
     resolution: {integrity: sha512-as+rrm8oHLuaLfpSReExwsuzOb1gC0sxQWgz3o+RvJUwHyGcQAcfBcn/R6j8logAq1j+ryfH1WsXf4J7Th9puQ==}
@@ -2333,6 +2346,11 @@ snapshots:
       - ws
       - yaml
       - zod
+
+  '@flue/opentelemetry@2.0.1(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)':
+    dependencies:
+      '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@opentelemetry/api': 1.9.1
 
   '@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
