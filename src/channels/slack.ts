@@ -21,11 +21,6 @@ bot.onNewMention(async (thread, message, context) => {
 
 bot.onSubscribedMessage(respond);
 
-bot.onDirectMessage(async (thread, message, _channel, context) => {
-	await thread.subscribe();
-	await respond(thread, message, context);
-});
-
 export function handleSlackWebhook(request: Request): Promise<Response> {
 	return bot.webhooks.slack(request);
 }
