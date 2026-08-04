@@ -2,8 +2,7 @@
 import { useInitialData, useInstruction, useModel, useSandbox, useTool } from "@flue/runtime";
 import { ModalClient } from "modal";
 import * as v from "valibot";
-import soul from "./bolt/SOUL.md";
-import world from "./bolt/WORLD.md";
+import instructions from "./bolt/INSTRUCTIONS.md";
 import { replyInThread } from "../channels/slack.ts";
 import { modal } from "../sandboxes/modal.ts";
 
@@ -16,10 +15,6 @@ const slackInitialData = v.object({
 
 export function Bolt() {
 	useModel("vercel-ai-gateway/alibaba/qwen3.8-max", { thinkingLevel: "high" });
-
-	useInstruction(soul);
-	useInstruction(world);
-
 	useSandbox({
 		async createSessionEnv(options) {
 			const client = new ModalClient();
@@ -34,8 +29,12 @@ export function Bolt() {
 	if (slack) {
 		useTool(replyInThread(slack));
 		const startedBy = slack.startedBy ? ` by <@${slack.startedBy}>` : "";
-		return `This conversation started${startedBy} in Slack at ${slack.startedAt}. Always send your complete user-facing response with reply_in_slack_thread.`;
+		useInstruction(
+			`This conversation started${startedBy} in Slack at ${slack.startedAt}. Always send your complete user-facing response with reply_in_slack_thread.`,
+		);
 	}
+
+	return instructions;
 }
 
 Bolt.initialData = v.optional(slackInitialData);
