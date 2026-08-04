@@ -10,7 +10,7 @@ export default defineConfig({
 	server: {
 		allowedHosts: true,
 	},
-	plugins: process.env.VITEST ? [] : [flue()],
+	plugins: process.env.VITEST ? [] : [flue({ providers: ["vercel-ai-gateway"] })],
 	test: {
 		passWithNoTests: true,
 	},
