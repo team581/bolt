@@ -10,12 +10,14 @@
 		"prepare": "vp config"
 	},
 	"dependencies": {
+		"@earendil-works/pi-ai": "^0.83.0",
 		"@flue/cli": "^2.0.1",
 		"@flue/runtime": "^2.0.1",
 		"@flue/vite": "^2.0.1",
 		"@sentry/node": "^10.0.0",
 		"envalid": "^8.1.1",
-		"hono": "^4.12.33"
+		"hono": "^4.12.33",
+		"modal": "^0.8.2"
 	},
 	"devDependencies": {
 		"@sentry/cli": "^3.4.1",

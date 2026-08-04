@@ -9,3 +9,10 @@ To learn more about Bolt check out:
 - [WORLD.md](./app/WORLD.md), which contains context on how the Team 581 software team operates
 - [SETUP.md](./SETUP.md), our internal deploy guide for running Bolt on Vercel
 - [Flue docs](https://flueframework.com)
+
+## Development
+
+For local development:
+
+- Copy `.env.example` to `.env` and set all the secrets
+- `vp dev` to start the development server
