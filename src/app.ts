@@ -6,6 +6,7 @@ import { Bolt } from "./agents/bolt.ts";
 import { channel as slack } from "./channels/slack.ts";
 
 const app = new Hono();
+app.get("/health", (context) => context.json({ status: "ok" }));
 app.route("/agents/assistant", createAgentRouter(Bolt));
 app.route("/channels/slack", createChannelRouter(slack.routes));
 
