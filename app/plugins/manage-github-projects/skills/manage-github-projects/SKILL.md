@@ -14,11 +14,11 @@ For issue creation, updates, comments, or triage, also load the `github-issues` 
 
 - The org is always `team581`. Pass `--owner team581` on every `gh project` command.
 - Projects belong to the org, not a repo. The repo on an issue/PR is independent of which project it's on.
-- The active project is **2026 Offseason** (`--number 16`, project ID `PVT_kwDOAgSHEs4BXoJz`, <https://github.com/orgs/team581/projects/16>).
+- The active project is **Fetch-2026** (`--number 17`, project ID `PVT_kwDOAgSHEs4BfTV3`, <https://github.com/orgs/team581/projects/17>).
 
-## Active project: 2026 Offseason
+## Active project: Fetch-2026
 
-Issue field IDs, project field IDs, and single-select option IDs below are baked in for the 2026 Offseason project and `team581` org.
+Issue field IDs, project field IDs, and single-select option IDs below are baked in for the Fetch-2026 project and `team581` org.
 
 ## Issue types
 
@@ -73,24 +73,38 @@ gh api --method DELETE \
 
 Use project fields for project-only metadata.
 
-| Field  | Field ID                         |
-| ------ | -------------------------------- |
-| Status | `PVTSSF_lADOAgSHEs4BXoJzzhSzwN0` |
+| Field       | Field ID                         |
+| ----------- | -------------------------------- |
+| Status      | `PVTSSF_lADOAgSHEs4BfTV3zhZnMFg` |
+| Size        | `PVTSSF_lADOAgSHEs4BfTV3zhZnMqA` |
+| Estimate    | `PVTF_lADOAgSHEs4BfTV3zhZnMqE`   |
+| Start date  | `PVTF_lADOAgSHEs4BfTV3zhZnMqI`   |
+| Target date | `PVTF_lADOAgSHEs4BfTV3zhZnMqM`   |
 
 Status options:
 
-| Name             | Option ID  |
-| ---------------- | ---------- |
-| Todo             | `f75ad846` |
-| In progress      | `47fc9ee4` |
-| Ready for sim    | `300435aa` |
-| Ready for tuning | `9338b5a2` |
-| Done             | `98236657` |
+| Name        | Option ID  |
+| ----------- | ---------- |
+| Backlog     | `f75ad846` |
+| Ready       | `61e4505c` |
+| In progress | `47fc9ee4` |
+| In review   | `df73e18b` |
+| Done        | `98236657` |
+
+Size options:
+
+| Name | Option ID  |
+| ---- | ---------- |
+| XS   | `6c6483d2` |
+| S    | `f784b110` |
+| M    | `7515a9f1` |
+| L    | `817d0097` |
+| XL   | `db339eb2` |
 
 Item IDs are per-item and always have to be looked up. List the board's items to find the one you want:
 
 ```sh
-gh project item-list 16 --owner team581 --format json --limit 200
+gh project item-list 17 --owner team581 --format json --limit 200
 ```
 
 ## Operations
@@ -98,7 +112,7 @@ gh project item-list 16 --owner team581 --format json --limit 200
 Add an issue or PR (works for both URL types):
 
 ```sh
-gh project item-add 16 --owner team581 --url <issue-or-pr-url>
+gh project item-add 17 --owner team581 --url <issue-or-pr-url>
 ```
 
 Manage issue hierarchy with `gh issue edit` (issue arguments can be numbers or URLs):
@@ -128,8 +142,8 @@ Edit a field on an item, one value flag per call, matching the field type: `--te
 ```sh
 gh project item-edit \
   --id <item-id> \
-  --project-id PVT_kwDOAgSHEs4BXoJz \
-  --field-id PVTSSF_lADOAgSHEs4BXoJzzhSzwN0 \
+  --project-id PVT_kwDOAgSHEs4BfTV3 \
+  --field-id PVTSSF_lADOAgSHEs4BfTV3zhZnMFg \
   --single-select-option-id f75ad846
 ```
 
@@ -138,5 +152,5 @@ If the user names a value for a single-select field that isn't in the tables abo
 Create a draft item:
 
 ```sh
-gh project item-create 16 --owner team581 --title "<title>" --body "<body>"
+gh project item-create 17 --owner team581 --title "<title>" --body "<body>"
 ```
