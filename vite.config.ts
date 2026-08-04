@@ -5,7 +5,11 @@ export default defineConfig({
 	staged: {
 		"*": "vp check --fix",
 	},
-	fmt: { useTabs: true, printWidth: 120, ignorePatterns: ["**/*.hbs"] },
+	fmt: {
+		useTabs: true,
+		printWidth: 120,
+		ignorePatterns: ["**/*.hbs", "src/agents/bolt/skills/analyze-wpilog/SKILL.md"],
+	},
 	lint: { options: { typeAware: true, typeCheck: true } },
 	server: {
 		allowedHosts: true,
