@@ -5,27 +5,22 @@
 	"type": "module",
 	"scripts": {
 		"build": "vp build",
-		"build:release": "vp exec junior snapshot create && vp build",
 		"dev": "vp dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config"
 	},
 	"dependencies": {
-		"@sentry/junior": "0.126.1",
-		"@sentry/junior-dashboard": "0.126.1",
-		"@sentry/junior-github": "0.126.1",
-		"@sentry/junior-memory": "0.126.1",
-		"@sentry/junior-scheduler": "0.126.1",
+		"@flue/cli": "^2.0.1",
+		"@flue/runtime": "^2.0.1",
+		"@flue/vite": "^2.0.1",
 		"@sentry/node": "^10.0.0",
 		"envalid": "^8.1.1",
-		"hono": "^4.12.0"
+		"hono": "^4.12.33"
 	},
 	"devDependencies": {
 		"@sentry/cli": "^3.4.1",
 		"@types/node": "^24.0.0",
 		"handlebars": "^4.7.8",
-		"jiti": "^2.6.1",
-		"nitro": "3.0.260603-beta",
 		"tinyexec": "^1.1.2",
 		"typescript": "^7.0.0",
 		"vite": "catalog:",

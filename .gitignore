@@ -1,7 +1,5 @@
 node_modules/
-.vercel/
-.output/
-.nitro/
+dist/
 .env
 .env.local
 .env.*.local

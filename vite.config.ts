@@ -1,5 +1,5 @@
 import { defineConfig } from "vite-plus";
-import { nitro } from "nitro/vite";
+import { flue } from "@flue/vite";
 
 export default defineConfig({
 	staged: {
@@ -10,7 +10,7 @@ export default defineConfig({
 	server: {
 		allowedHosts: true,
 	},
-	plugins: process.env.VITEST ? [] : [nitro()],
+	plugins: process.env.VITEST ? [] : [flue()],
 	test: {
 		passWithNoTests: true,
 	},
