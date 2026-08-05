@@ -64,7 +64,7 @@ async function respond(
 			idempotencyKey: message.id,
 		});
 
-		await thread.post(new StreamingPlan(streamAgentReply(agent, receipt), { groupTasks: "timeline" }));
+		await thread.post(new StreamingPlan(streamAgentReply(agent, receipt), { groupTasks: "plan" }));
 	} catch (error) {
 		console.error("Failed to respond to Slack message", error);
 		await thread.post("I ran into an error while working on that. Please try again.");
