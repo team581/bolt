@@ -1,9 +1,3 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableRateLimiting", ":automergePatch", ":automergeMinor"],
-	"gitIgnoredAuthors": ["114827586+autofix-ci[bot]@users.noreply.github.com"],
-	"labels": ["dependencies"],
-	"minimumReleaseAge": "1 day",
-	"semanticCommits": "disabled",
-	"timezone": "America/Los_Angeles"
+	"extends": ["github>jonahsnider/renovate-config"]
 }
