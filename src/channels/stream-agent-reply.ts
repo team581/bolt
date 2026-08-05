@@ -9,45 +9,45 @@ export function streamAgentReply(agent: AgentInstanceHandle, receipt: DispatchRe
 	let cancelled = false;
 	let responseMessageId: string | undefined;
 
+	const readReply = async (controller: ReadableStreamDefaultController<StreamChunk>): Promise<void> => {
+		try {
+			const reply = await agent.read(receipt, {
+				onEvent(event) {
+					if (cancelled || isDuplicate(event, seenPositions)) return;
+
+					if (event.type === "message-started" && event.submissionId === receipt.submissionId) {
+						responseMessageId = event.messageId;
+					}
+					const chunk = projectToolEvent(event, responseMessageId, activeTools);
+					if (chunk) controller.enqueue(chunk);
+				},
+			});
+			if (cancelled) return;
+			controller.enqueue({ type: "markdown_text", text: reply.text || "Done." });
+			controller.close();
+		} catch (error) {
+			// Failed Flue runs are captured by the global Flue/Sentry instrumentation.
+			if (!(error instanceof AgentRunError)) {
+				reportError(error, "Failed to read Bolt agent reply", { submissionId: receipt.submissionId });
+			}
+			if (cancelled) return;
+			for (const [id, title] of activeTools) {
+				controller.enqueue({ type: "task_update", id, title, status: "error", details: "Step failed" });
+			}
+			controller.enqueue({
+				type: "markdown_text",
+				text:
+					error instanceof AgentRunError && error.outcome === "aborted"
+						? "I stopped working on that request."
+						: "I ran into an error while working on that. Please try again.",
+			});
+			controller.close();
+		}
+	};
+
 	return new ReadableStream<StreamChunk>({
 		start(controller) {
-			void agent
-				.read(receipt, {
-					onEvent(event) {
-						if (cancelled || isDuplicate(event, seenPositions)) return;
-
-						if (event.type === "message-started" && event.submissionId === receipt.submissionId) {
-							responseMessageId = event.messageId;
-						}
-						const chunk = projectToolEvent(event, responseMessageId, activeTools);
-						if (chunk) controller.enqueue(chunk);
-					},
-				})
-				.then(
-					(reply) => {
-						if (cancelled) return;
-						controller.enqueue({ type: "markdown_text", text: reply.text || "Done." });
-						controller.close();
-					},
-					(error: unknown) => {
-						// Failed Flue runs are captured by the global Flue/Sentry instrumentation.
-						if (!(error instanceof AgentRunError)) {
-							reportError(error, "Failed to read Bolt agent reply", { submissionId: receipt.submissionId });
-						}
-						if (cancelled) return;
-						for (const [id, title] of activeTools) {
-							controller.enqueue({ type: "task_update", id, title, status: "error", details: "Step failed" });
-						}
-						controller.enqueue({
-							type: "markdown_text",
-							text:
-								error instanceof AgentRunError && error.outcome === "aborted"
-									? "I stopped working on that request."
-									: "I ran into an error while working on that. Please try again.",
-						});
-						controller.close();
-					},
-				);
+			void readReply(controller);
 		},
 		cancel() {
 			cancelled = true;

@@ -42,33 +42,38 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 			complete();
 		};
 
-		const probe = (): void => {
+		const probe = async (): Promise<void> => {
 			silenceTimer = setTimeout(() => {
 				settle(() => reject(new SandboxDiedError({ operation, reason: "probe_silent" })));
 			}, PROBE_SILENCE.total("milliseconds"));
-			sandbox.poll().then(
-				(exitCode) => {
-					if (settled) return;
-					clearTimeout(silenceTimer);
-					if (exitCode !== null) {
-						settle(() => reject(new SandboxDiedError({ operation, reason: "stopped" })));
-					} else {
-						pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
-					}
-				},
-				() => {
-					if (settled) return;
-					clearTimeout(silenceTimer);
-					pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
-				},
-			);
+			let exitCode: number | null;
+			try {
+				exitCode = await sandbox.poll();
+			} catch {
+				if (settled) return;
+				clearTimeout(silenceTimer);
+				pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
+				return;
+			}
+			if (settled) return;
+			clearTimeout(silenceTimer);
+			if (exitCode !== null) {
+				settle(() => reject(new SandboxDiedError({ operation, reason: "stopped" })));
+			} else {
+				pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
+			}
 		};
 		pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 
-		call.then(
-			(value) => settle(() => resolve(value)),
-			(error: unknown) => settle(() => reject(error)),
-		);
+		const settleCall = async (): Promise<void> => {
+			try {
+				const value = await call;
+				settle(() => resolve(value));
+			} catch (error) {
+				settle(() => reject(error));
+			}
+		};
+		void settleCall();
 	});
 }
 

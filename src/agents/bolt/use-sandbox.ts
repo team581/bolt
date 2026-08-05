@@ -101,17 +101,33 @@ export function useBoltSandbox(instanceId: string): void {
 					},
 					timeoutMs: SANDBOX_SETUP_TIMEOUT.total("milliseconds"),
 				});
-				if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.");
-				await session
-					.exec("git -C /workspace/offseason-2026 pull --ff-only --quiet", {
+				if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.", { cause: setup });
+				try {
+					await session.exec("git -C /workspace/offseason-2026 pull --ff-only --quiet", {
 						timeoutMs: REPOSITORY_PULL_TIMEOUT.total("milliseconds"),
-					})
-					.catch(() => undefined);
+					});
+				} catch (error) {
+					reportError(error, "Failed to update sandbox repository", { instanceId: options.id });
+				}
 				return session;
 			} catch (error) {
-				if (githubToken) await revokeGitHubInstallationToken(githubToken).catch(() => undefined);
+				if (githubToken) {
+					try {
+						await revokeGitHubInstallationToken(githubToken);
+					} catch (cleanupError) {
+						reportError(cleanupError, "Failed to revoke sandbox GitHub token after setup failure", {
+							instanceId: options.id,
+						});
+					}
+				}
 				githubToken = undefined;
-				await sandbox.terminate({ wait: true }).catch(() => undefined);
+				try {
+					await sandbox.terminate({ wait: true });
+				} catch (cleanupError) {
+					reportError(cleanupError, "Failed to terminate Modal sandbox after setup failure", {
+						instanceId: options.id,
+					});
+				}
 				throw error;
 			}
 		},
@@ -127,20 +143,26 @@ export function useBoltSandbox(instanceId: string): void {
 			reportError(error, "Failed to find Modal sandbox during cleanup", { instanceId });
 		}
 		if (sandbox) {
-			await runCleanupCommand(sandbox, ["sync", "/workspace"]).catch((error: unknown) => {
+			try {
+				await runCleanupCommand(sandbox, ["sync", "/workspace"]);
+			} catch (error) {
 				reportError(error, "Failed to sync Modal sandbox workspace", { instanceId });
-			});
+			}
 		}
 		if (githubToken) {
-			await revokeGitHubInstallationToken(githubToken).catch((error: unknown) => {
+			try {
+				await revokeGitHubInstallationToken(githubToken);
+			} catch (error) {
 				reportError(error, "Failed to revoke sandbox GitHub token", { instanceId });
-			});
+			}
 			githubToken = undefined;
 		}
 		if (sandbox) {
-			await sandbox.terminate({ wait: true }).catch((error: unknown) => {
+			try {
+				await sandbox.terminate({ wait: true });
+			} catch (error) {
 				reportError(error, "Failed to terminate Modal sandbox", { instanceId });
-			});
+			}
 		}
 	});
 }
