@@ -45,7 +45,7 @@ importers:
         version: 8.2.0
       hono:
         specifier: ^4.12.0
-        version: 4.12.34
+        version: 4.13.0
     devDependencies:
       '@sentry/cli':
         specifier: ^3.4.1
@@ -2444,8 +2444,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  hono@4.12.34:
-    resolution: {integrity: sha512-GqXJqY/xJkJmuloTrnV1ZEXG3fqte+VjkUqoRNZXcrUidiUOP4fMSIHHY4tsqZBK++kVyWmt/AAfSUuy57/eSA==}
+  hono@4.13.0:
+    resolution: {integrity: sha512-jhunvfHWxd7J5EFfSgH4xsYJzSe/lfqbUCxiyyeaQasUsXeEHXtzVid+7EOGByc5JnFa23SSFL3Y2RV/z1T+eQ==}
     engines: {node: '>=16.9.0'}
 
   hookable@6.1.1:
@@ -4272,9 +4272,9 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@hono/node-server@1.19.14(hono@4.12.34)':
+  '@hono/node-server@1.19.14(hono@4.13.0)':
     dependencies:
-      hono: 4.12.34
+      hono: 4.13.0
 
   '@jitl/quickjs-ffi-types@0.32.0': {}
 
@@ -4314,7 +4314,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
     dependencies:
-      '@hono/node-server': 1.19.14(hono@4.12.34)
+      '@hono/node-server': 1.19.14(hono@4.13.0)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -4324,7 +4324,7 @@ snapshots:
       eventsource-parser: 3.0.8
       express: 5.2.1
       express-rate-limit: 8.5.1(express@5.2.1)
-      hono: 4.12.34
+      hono: 4.13.0
       jose: 6.2.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -4696,7 +4696,7 @@ snapshots:
       '@sentry/junior-plugin-api': 0.126.1
       '@tanstack/react-query': 5.100.14(react@19.2.6)
       better-auth: 1.6.25(@opentelemetry/api@1.9.1)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(pg@8.22.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/browser-preview@4.1.10)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0)))
-      hono: 4.12.34
+      hono: 4.13.0
       lucide-react: 1.17.0(react@19.2.6)
       nitro: 3.0.260522-beta(@vercel/functions@3.6.0(@aws-sdk/credential-provider-web-identity@3.972.57))(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1))(jiti@2.7.0)
       react: 19.2.6
@@ -4926,7 +4926,7 @@ snapshots:
       chat: 4.29.0(ai@6.0.191(zod@4.4.3))(zod@4.4.3)
       commander: 14.0.3
       drizzle-orm: 0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(kysely@0.29.2)(pg@8.22.0)(sql.js@1.14.1)
-      hono: 4.12.34
+      hono: 4.13.0
       jiti: 2.7.0
       jose: 6.2.3
       just-bash: 3.0.1
@@ -6192,7 +6192,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  hono@4.12.34: {}
+  hono@4.13.0: {}
 
   hookable@6.1.1: {}
 
