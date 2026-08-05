@@ -4,7 +4,6 @@ import { config } from "../config.ts";
 
 export const slackAdapter = createSlackAdapter({
 	botToken: config.SLACK_BOT_TOKEN,
-	loadingMessages: ["Thinking…", "Working on your request…", "Checking the relevant context…"],
 	signingSecret: config.SLACK_SIGNING_SECRET,
 });
 
