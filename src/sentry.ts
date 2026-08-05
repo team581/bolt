@@ -18,6 +18,7 @@ const SENTRY_AI_PROVIDER_INTEGRATIONS = new Set([
 
 Sentry.init({
 	dsn: config.SENTRY_DSN,
+	environment: process.env.NODE_ENV,
 	tracesSampleRate: 1,
 	traceLifecycle: "stream",
 	streamGenAiSpans: true,
