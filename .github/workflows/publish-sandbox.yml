@@ -43,7 +43,10 @@ jobs:
         run: |
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
-          mise oci build --no-mise --output ../mise-oci
+          sudo --preserve-env=MISE_CEILING_PATHS,MISE_EXPERIMENTAL,MISE_GITHUB_TOKEN,MISE_LOG_LEVEL,MISE_TRUSTED_CONFIG_PATHS,MISE_YES,SOURCE_DATE_EPOCH \
+            env MISE_DATA_DIR="$HOME/.local/share/mise" \
+            "$(command -v mise)" oci build --no-mise --output ../mise-oci
+          sudo chown -R "$(id -u):$(id -g)" ../mise-oci
           mise oci push --image-dir ../mise-oci --update-index "$IMAGE"
 
   publish-arm64:
@@ -72,5 +75,8 @@ jobs:
         run: |
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
-          mise oci build --no-mise --output ../mise-oci
+          sudo --preserve-env=MISE_CEILING_PATHS,MISE_EXPERIMENTAL,MISE_GITHUB_TOKEN,MISE_LOG_LEVEL,MISE_TRUSTED_CONFIG_PATHS,MISE_YES,SOURCE_DATE_EPOCH \
+            env MISE_DATA_DIR="$HOME/.local/share/mise" \
+            "$(command -v mise)" oci build --no-mise --output ../mise-oci
+          sudo chown -R "$(id -u):$(id -g)" ../mise-oci
           mise oci push --image-dir ../mise-oci --update-index "$IMAGE"
