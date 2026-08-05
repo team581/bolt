@@ -1,5 +1,9 @@
 import { cleanEnv, email, makeValidator, num, url } from "envalid";
 
+const defaultSandboxImageTag =
+	process.env.RAILWAY_ENVIRONMENT_NAME === "production" ? (process.env.RAILWAY_GIT_COMMIT_SHA ?? "latest") : "latest";
+const defaultSandboxImage = `ghcr.io/team581/bolt-sandbox:${defaultSandboxImageTag}`;
+
 const nonEmptyString = makeValidator<string>((input) => {
 	if (!input.trim()) throw new Error("Expected a non-empty string");
 	return input;
@@ -19,7 +23,7 @@ export const config = cleanEnv(process.env, {
 		desc: "Fast model used to decide whether Bolt should reply to an unmentioned Slack message",
 	}),
 	BOLT_SANDBOX_IMAGE: nonEmptyString({
-		default: "ghcr.io/team581/bolt-sandbox:latest",
+		default: defaultSandboxImage,
 		desc: "OCI image used for Bolt sandboxes",
 	}),
 	DATABASE_URL: url({

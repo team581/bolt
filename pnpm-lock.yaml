@@ -16,7 +16,7 @@ overrides:
 
 patchedDependencies:
   '@earendil-works/pi-ai@0.83.0': 2a880a0ca0fb928e222e55c385114c91572bd4552377396506edb0f22f8d190e
-  '@flue/vite@2.0.1': 23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d
+  '@flue/vite@2.0.2': 23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d
 
 importers:
 
@@ -45,7 +45,7 @@ importers:
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
-        version: 2.0.2(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.2(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@octokit/auth-app':
         specifier: ^8.3.0
         version: 8.3.0
@@ -76,6 +76,9 @@ importers:
       pg:
         specifier: ^8.22.0
         version: 8.22.0
+      temporal-polyfill:
+        specifier: ^1.0.3
+        version: 1.0.3
       valibot:
         specifier: ^1.4.2
         version: 1.4.2(typescript@7.0.2)
@@ -345,12 +348,6 @@ packages:
   '@flue/runtime@2.0.2':
     resolution: {integrity: sha512-Rz9GyeD2hxeFiTI2KjBHZ9lk9qSRRdzO9MGapeJ1id5Pq6vO5DSkQl8Qzr97rRJaBtxrCBmU0sksnJYH47to4A==}
     engines: {node: '>=22.19.0'}
-
-  '@flue/vite@2.0.1':
-    resolution: {integrity: sha512-J1BnbDbHZbboDx825Pt27Tlzr5mZ43SrjhFUYDmf4qVT9Ns67tVw6+paXEXMhkgJDT/ucM/trCnBe3pd4Qs/VA==}
-    engines: {node: '>=22.19.0'}
-    peerDependencies:
-      vite: ^8.0.0
 
   '@flue/vite@2.0.2':
     resolution: {integrity: sha512-vVDTGZNcwTOMdL4UCXOXQ2Xw2TswLhEh6GVP0YSFYh4MT1eMwsb6SpBwYFy8KcZQZ6GMqKdAdHywY5PPR6ITNQ==}
@@ -2369,6 +2366,15 @@ packages:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
 
+  temporal-polyfill@1.0.3:
+    resolution: {integrity: sha512-U8vuzZBc+dfMIfl8wXWcedfI7AJCxJjjVBIRpJUvIz5+UAp555UJDHguKsfZqHWaHRSdVUThm7mqqIWhN/xPBQ==}
+
+  temporal-spec@1.0.1:
+    resolution: {integrity: sha512-wxVoanmDeavXie1vu2JaQ3WIc3JZnWAOYFBsJyATaVsXsycKYUflGsyBmrRSnoCpZJpwPyr38VpgSUlQ8CbFxg==}
+
+  temporal-utils@1.0.1:
+    resolution: {integrity: sha512-HAixuesxFQIUaQk3ptX2jhfO/FsOkgVkDDMawvp6n/fkB1q6BKfs3lURw9I+pK/2e2e/q/vrLrxmeqauBoyGMQ==}
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -2971,7 +2977,7 @@ snapshots:
   '@flue/cli@2.0.2(@types/node@24.13.3)(hono@4.13.0)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-      '@flue/vite': 2.0.2(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@flue/vite': 2.0.2(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@vercel/detect-agent': 1.2.4
       cac: 7.0.0
       minisearch: 7.2.0
@@ -3062,25 +3068,7 @@ snapshots:
       - ws
       - zod
 
-  '@flue/vite@2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
-    dependencies:
-      '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-      '@hono/node-server': 2.0.12(hono@4.13.0)
-      magic-string: 1.1.0
-      tinyglobby: 0.2.17
-      ulidx: 2.4.1
-      vite: '@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0)'
-    transitivePeerDependencies:
-      - '@modelcontextprotocol/sdk'
-      - bufferutil
-      - hono
-      - supports-color
-      - typescript
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@flue/vite@2.0.2(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+  '@flue/vite@2.0.2(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@hono/node-server': 2.1.0(hono@4.13.0)
@@ -4996,6 +4984,15 @@ snapshots:
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
+
+  temporal-polyfill@1.0.3:
+    dependencies:
+      temporal-spec: 1.0.1
+      temporal-utils: 1.0.1
+
+  temporal-spec@1.0.1: {}
+
+  temporal-utils@1.0.1: {}
 
   tinybench@2.9.0: {}
 

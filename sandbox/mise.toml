@@ -1,17 +1,4 @@
 [tools]
 gh = "2.97.0"
+java = "temurin-21"
 node = "24"
-
-[oci]
-from = "debian:bookworm-slim"
-workdir = "/workspace"
-
-[oci.labels]
-"org.opencontainers.image.source" = "https://github.com/team581/bolt"
-
-[bootstrap.packages]
-"apt:ca-certificates" = "latest"
-"apt:git" = "latest"
-
-[dotfiles]
-"/etc/profile.d/mise-tools.sh" = { source = "profile.sh", mode = "copy" }
