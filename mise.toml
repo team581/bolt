@@ -15,3 +15,6 @@ docker run --rm --platform linux/amd64 \
 	jdxcode/mise:2026.8.1 \
 	-c "mise install --yes gh node && mise oci build --no-mise --output ../mise-oci"
 """
+
+[settings]
+env_file = ".env.local"
