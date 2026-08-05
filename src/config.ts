@@ -32,6 +32,7 @@ export const config = cleanEnv(process.env, {
 	}),
 	GITHUB_APP_ID: nonEmptyString({
 		desc: "GitHub App ID",
+		default: "3658873",
 		testDefault: "test-github-app-id",
 	}),
 	GITHUB_APP_PRIVATE_KEY: nonEmptyString({
@@ -40,6 +41,7 @@ export const config = cleanEnv(process.env, {
 	}),
 	GITHUB_INSTALLATION_ID: num({
 		desc: "GitHub App installation ID",
+		default: 130950814,
 		testDefault: 12_345,
 	}),
 	MODAL_APP_NAME: nonEmptyString({
