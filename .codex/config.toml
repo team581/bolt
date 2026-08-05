@@ -1,0 +1,8 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+[mcp_servers.sentry]
+url = "https://mcp.sentry.dev/mcp/team581/bolt"
+
+[mcp_servers.railway]
+command = "railway"
+args = ["mcp"]
