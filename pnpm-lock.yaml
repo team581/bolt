@@ -45,7 +45,7 @@ importers:
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
-        version: 2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.2(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@octokit/auth-app':
         specifier: ^8.3.0
         version: 8.3.0
@@ -342,8 +342,18 @@ packages:
     resolution: {integrity: sha512-as+rrm8oHLuaLfpSReExwsuzOb1gC0sxQWgz3o+RvJUwHyGcQAcfBcn/R6j8logAq1j+ryfH1WsXf4J7Th9puQ==}
     engines: {node: '>=22.19.0'}
 
+  '@flue/runtime@2.0.2':
+    resolution: {integrity: sha512-Rz9GyeD2hxeFiTI2KjBHZ9lk9qSRRdzO9MGapeJ1id5Pq6vO5DSkQl8Qzr97rRJaBtxrCBmU0sksnJYH47to4A==}
+    engines: {node: '>=22.19.0'}
+
   '@flue/vite@2.0.1':
     resolution: {integrity: sha512-J1BnbDbHZbboDx825Pt27Tlzr5mZ43SrjhFUYDmf4qVT9Ns67tVw6+paXEXMhkgJDT/ucM/trCnBe3pd4Qs/VA==}
+    engines: {node: '>=22.19.0'}
+    peerDependencies:
+      vite: ^8.0.0
+
+  '@flue/vite@2.0.2':
+    resolution: {integrity: sha512-vVDTGZNcwTOMdL4UCXOXQ2Xw2TswLhEh6GVP0YSFYh4MT1eMwsb6SpBwYFy8KcZQZ6GMqKdAdHywY5PPR6ITNQ==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
       vite: ^8.0.0
@@ -368,6 +378,12 @@ packages:
 
   '@hono/node-server@2.0.12':
     resolution: {integrity: sha512-eWpQYr67tqJLeaSUl0Q+TquuYfUdTibpOJlUMV2FfUP7+KqCC5TufnwnlXL6mobZBJbGAYRd7ZvEBDCbLInjhg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      hono: ^4
+
+  '@hono/node-server@2.1.0':
+    resolution: {integrity: sha512-XovyyCCnBzW+zKu+z/zq8hwNs4KOR5rEMAOxo2f40Q5xoOI37IMm6MIg2COOUtUApo0i6850MTBKH2u4QLGIqg==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4
@@ -2217,6 +2233,10 @@ packages:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
+    engines: {node: '>=12'}
+
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
@@ -3022,10 +3042,48 @@ snapshots:
       - ws
       - zod
 
+  '@flue/runtime@2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+    dependencies:
+      '@earendil-works/pi-agent-core': 0.83.0(ws@8.21.0)(zod@4.4.3)
+      '@earendil-works/pi-ai': 0.83.0(patch_hash=2a880a0ca0fb928e222e55c385114c91572bd4552377396506edb0f22f8d190e)(ws@8.21.0)(zod@4.4.3)
+      '@hono/node-server': 2.1.0(hono@4.13.0)
+      '@modelcontextprotocol/client': 2.0.0
+      '@valibot/to-json-schema': 1.7.1(valibot@1.4.2(typescript@7.0.2))
+      hono: 4.13.0
+      js-yaml: 5.2.3
+      ulidx: 2.4.1
+      valibot: 1.4.2(typescript@7.0.2)
+    transitivePeerDependencies:
+      - '@modelcontextprotocol/sdk'
+      - bufferutil
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - ws
+      - zod
+
   '@flue/vite@2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@hono/node-server': 2.0.12(hono@4.13.0)
+      magic-string: 1.1.0
+      tinyglobby: 0.2.17
+      ulidx: 2.4.1
+      vite: '@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0)'
+    transitivePeerDependencies:
+      - '@modelcontextprotocol/sdk'
+      - bufferutil
+      - hono
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@flue/vite@2.0.2(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+    dependencies:
+      '@flue/runtime': 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@hono/node-server': 2.1.0(hono@4.13.0)
       magic-string: 1.1.0
       tinyglobby: 0.2.17
       ulidx: 2.4.1
@@ -3064,6 +3122,10 @@ snapshots:
       yargs: 17.7.3
 
   '@hono/node-server@2.0.12(hono@4.13.0)':
+    dependencies:
+      hono: 4.13.0
+
+  '@hono/node-server@2.1.0(hono@4.13.0)':
     dependencies:
       hono: 4.13.0
 
@@ -4077,9 +4139,9 @@ snapshots:
 
   extend@3.0.2: {}
 
-  fdir@6.5.0(picomatch@4.0.4):
+  fdir@6.5.0(picomatch@4.0.5):
     optionalDependencies:
-      picomatch: 4.0.4
+      picomatch: 4.0.5
 
   fetch-blob@3.2.0:
     dependencies:
@@ -4799,6 +4861,8 @@ snapshots:
 
   picomatch@4.0.4: {}
 
+  picomatch@4.0.5: {}
+
   pkce-challenge@5.0.1: {}
 
   pngjs@7.0.0: {}
@@ -4939,8 +5003,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
 
   tinypool@2.1.0: {}
 
