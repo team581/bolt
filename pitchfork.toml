@@ -1,0 +1,7 @@
+#:schema https://pitchfork.jdx.dev/schema.json
+
+[daemons.postgres]
+run = "docker compose up postgres"
+auto = ["start", "stop"]
+ready_output = "database system is ready to accept connections"
+port = 5432

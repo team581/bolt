@@ -20,6 +20,7 @@ export const config = cleanEnv(process.env, {
 	}),
 	DATABASE_URL: url({
 		desc: "PostgreSQL connection URL",
+		default: "postgresql://bolt:bolt@localhost:5432/bolt",
 		testDefault: "postgresql://localhost:5432/bolt_test",
 	}),
 	GITHUB_APP_BOT_EMAIL: email({

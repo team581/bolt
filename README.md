@@ -11,9 +11,11 @@ To learn more about Bolt, check out:
 
 ## Development
 
+- Install and start Docker
+- Install the mise tools with `mise install`
+- [Activate Pitchfork in your shell](https://pitchfork.jdx.dev/guides/shell-hook) so PostgreSQL starts when you enter the project and stops when you leave it
 - Run `vp install`
-- Copy `.env.example` to `.env` and set all the secrets
-- Run PostgreSQL locally and set `DATABASE_URL`
+- Copy `.env.example` to `.env.local` and set the remaining secrets
 - Configure a Slack app from [slack-manifest.example.yaml](./slack-manifest.example.yaml), replacing its request URL with a public URL that forwards to `/channels/slack/events`
 - Run `vp dev`
 
