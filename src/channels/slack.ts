@@ -3,8 +3,10 @@ import { init } from "@flue/runtime";
 import { Chat, StreamingPlan } from "chat";
 import type { Message, MessageContext, Thread } from "chat";
 import { Bolt } from "../agents/bolt.ts";
+import { decideWhetherBoltShouldReply } from "../agents/slack-reply-gate.ts";
 import { pool } from "../db.ts";
 import { slackAdapter } from "./slack-adapter.ts";
+import { mergeRecentMessages, REPLY_GATE_CONTEXT_MESSAGE_LIMIT, shouldRunReplyGate } from "./slack-reply-routing.ts";
 import { streamAgentReply } from "./stream-agent-reply.ts";
 
 const bot = new Chat({
@@ -16,20 +18,26 @@ const bot = new Chat({
 
 bot.onNewMention(async (thread, message, context) => {
 	await thread.subscribe();
-	await respond(thread, message, context);
+	await respond(thread, message, context, true);
 });
 
-bot.onSubscribedMessage(respond);
+bot.onSubscribedMessage((thread, message, context) => respond(thread, message, context, message.isMention));
 
 export function handleSlackWebhook(request: Request): Promise<Response> {
 	return bot.webhooks.slack(request);
 }
 
-async function respond(thread: Thread, message: Message, context?: MessageContext): Promise<void> {
-	await thread.startTyping();
+async function respond(
+	thread: Thread,
+	message: Message,
+	context?: MessageContext,
+	wasMentioned = false,
+): Promise<void> {
+	const messages = [...(context?.skipped ?? []), message];
+	if (shouldRunReplyGate(thread.isDM, wasMentioned) && !(await replyGateAllowsReply(thread, messages))) return;
 
+	await thread.startTyping();
 	try {
-		const messages = [...(context?.skipped ?? []), message];
 		const attachmentMessageIds = messages
 			.filter((candidate) => candidate.attachments.some(isWpilogAttachment))
 			.map((candidate) => candidate.id);
@@ -62,6 +70,20 @@ async function respond(thread: Thread, message: Message, context?: MessageContex
 		await thread.post("I ran into an error while working on that. Please try again.");
 	} finally {
 		await thread.startTyping("");
+	}
+}
+
+async function replyGateAllowsReply(thread: Thread, messages: Message[]): Promise<boolean> {
+	try {
+		const history = await thread.adapter.fetchMessages(thread.id, {
+			limit: REPLY_GATE_CONTEXT_MESSAGE_LIMIT,
+			direction: "backward",
+		});
+		const context = mergeRecentMessages(history.messages, messages);
+		return decideWhetherBoltShouldReply(messageBody(context));
+	} catch (error) {
+		console.error("Slack reply gate failed; defaulting to a reply", error);
+		return true;
 	}
 }
 

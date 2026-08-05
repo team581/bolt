@@ -14,6 +14,10 @@ export const config = cleanEnv(process.env, {
 		default: "alibaba/qwen3.8-max",
 		desc: "Model ID served by the Vercel AI Gateway",
 	}),
+	BOLT_REPLY_GATE_MODEL_ID: nonEmptyString({
+		default: "openai/gpt-5.4-nano",
+		desc: "Fast model used to decide whether Bolt should reply to an unmentioned Slack message",
+	}),
 	BOLT_SANDBOX_IMAGE: nonEmptyString({
 		default: "ghcr.io/team581/bolt-sandbox:latest",
 		desc: "OCI image used for Bolt sandboxes",
