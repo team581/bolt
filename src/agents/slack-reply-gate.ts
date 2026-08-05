@@ -1,10 +1,10 @@
 import { generateText, Output } from "ai";
-import * as v from "valibot";
+import { z } from "zod";
 import { config } from "../config.ts";
 
-const replyDecision = v.object({
-	shouldReply: v.boolean(),
-	reason: v.pipe(v.string(), v.minLength(1)),
+const replyDecision = z.object({
+	shouldReply: z.boolean(),
+	reason: z.string().min(1),
 });
 
 export async function decideWhetherBoltShouldReply(conversation: string): Promise<boolean> {
