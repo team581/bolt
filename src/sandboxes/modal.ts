@@ -24,6 +24,7 @@ function shellQuote(value: string): string {
 
 const SANDBOX_LIVENESS_POLL_MS = 5_000;
 const PROBE_SILENCE_MS = 10_000;
+export const DEFAULT_EXEC_TIMEOUT_MS = 10 * 60_000;
 
 function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Promise<T>): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
@@ -188,7 +189,7 @@ class ModalSandboxApi implements SandboxApi {
 			this.sandbox.exec(["bash", "-lc", command], {
 				workdir: options?.cwd,
 				env: options?.env,
-				timeoutMs: options?.timeoutMs,
+				timeoutMs: options?.timeoutMs ?? DEFAULT_EXEC_TIMEOUT_MS,
 				stdout: "pipe",
 				stderr: "pipe",
 			}),
