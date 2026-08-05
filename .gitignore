@@ -1,11 +1,9 @@
 node_modules/
 dist/
 mise-oci/
-.env
-.env.local
-.env.*.local
 
 # GitHub App private key (never commit)
 *.pem
 github-app-private-key.*
 .vercel
+.env*
