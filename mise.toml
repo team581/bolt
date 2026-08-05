@@ -2,19 +2,5 @@
 node = "24"
 pnpm = "11"
 
-[tasks."sandbox:build"]
-description = "Build the Bolt sandbox OCI image"
-run = """
-docker run --rm --platform linux/amd64 \
-	--volume "{{ config_root }}:/workspace" \
-	--workdir /workspace/sandbox \
-	--env MISE_EXPERIMENTAL=1 \
-	--env MISE_CEILING_PATHS=/workspace \
-	--env MISE_TRUSTED_CONFIG_PATHS=/workspace \
-	--entrypoint /bin/sh \
-	jdxcode/mise:2026.8.1 \
-	-c "mise install --yes gh node && mise oci build --no-mise --output ../mise-oci"
-"""
-
 [settings]
 env_file = ".env.local"
