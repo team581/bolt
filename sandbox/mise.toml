@@ -1,4 +1,4 @@
 [tools]
 gh = "2.97.0"
 java = "temurin-21"
-node = "24"
+node = "26"

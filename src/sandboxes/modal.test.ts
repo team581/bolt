@@ -1,5 +1,4 @@
 import type { Sandbox, SandboxExecParams } from "modal";
-import { Temporal } from "temporal-polyfill";
 import { describe, expect, it } from "vite-plus/test";
 import { DEFAULT_EXEC_TIMEOUT, modal } from "./modal.ts";
 

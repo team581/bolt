@@ -29,13 +29,12 @@
 		"hono": "^4.12.33",
 		"modal": "^0.9.0",
 		"pg": "^8.22.0",
-		"temporal-polyfill": "^1.0.3",
 		"valibot": "^1.4.2"
 	},
 	"devDependencies": {
 		"@sentry/cli": "^3.4.1",
 		"@sindresorhus/slugify": "^3.0.0",
-		"@types/node": "^24.0.0",
+		"@types/node": "^26.0.0",
 		"@types/pg": "^8.20.3",
 		"handlebars": "^4.7.8",
 		"tinyexec": "^1.1.2",
@@ -46,7 +45,7 @@
 		"zod": "^4.4.3"
 	},
 	"engines": {
-		"node": "24.x"
+		"node": "26.x"
 	},
 	"packageManager": "pnpm@11.20.0"
 }

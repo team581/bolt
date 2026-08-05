@@ -9,7 +9,6 @@
 import { createSandboxSessionEnv, SandboxDiedError } from "@flue/runtime";
 import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from "@flue/runtime";
 import type { Sandbox as ModalSandbox } from "modal";
-import { Temporal } from "temporal-polyfill";
 
 export interface ModalAdapterOptions {
 	/**

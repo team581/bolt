@@ -1,7 +1,6 @@
 import { useAgentFinish, useSandbox } from "@flue/runtime";
 import { createHash } from "node:crypto";
 import { AlreadyExistsError, ModalClient, NotFoundError, type Sandbox as ModalSandbox } from "modal";
-import { Temporal } from "temporal-polyfill";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../github-app.ts";
 import { config } from "../../config.ts";
 import { modal } from "../../sandboxes/modal.ts";
