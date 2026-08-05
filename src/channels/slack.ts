@@ -26,7 +26,7 @@ export function handleSlackWebhook(request: Request): Promise<Response> {
 }
 
 async function respond(thread: Thread, message: Message, context?: MessageContext): Promise<void> {
-	await Promise.allSettled([thread.adapter.addReaction(thread.id, message.id, "eyes")]);
+	await thread.startTyping();
 
 	try {
 		const messages = [...(context?.skipped ?? []), message];
@@ -61,7 +61,7 @@ async function respond(thread: Thread, message: Message, context?: MessageContex
 		console.error("Failed to respond to Slack message", error);
 		await thread.post("I ran into an error while working on that. Please try again.");
 	} finally {
-		await Promise.allSettled([thread.adapter.removeReaction(thread.id, message.id, "eyes")]);
+		await thread.startTyping("");
 	}
 }
 

@@ -17,7 +17,6 @@ oauth_config:
       - files:read
       - groups:history
       - groups:read
-      - reactions:write
       - users:read
   pkce_enabled: false
 settings:
