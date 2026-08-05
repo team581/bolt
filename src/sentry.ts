@@ -3,6 +3,7 @@
 import { createOpenTelemetryInstrumentation } from "@flue/opentelemetry";
 import { type FlueObservation, instrument } from "@flue/runtime";
 import * as Sentry from "@sentry/node";
+import { config } from "./config.ts";
 
 // Flue already emits one chat span per model turn. Disable Sentry's direct AI SDK
 // integrations so that each model call is only reported once.
@@ -16,7 +17,7 @@ const SENTRY_AI_PROVIDER_INTEGRATIONS = new Set([
 ]);
 
 Sentry.init({
-	dsn: process.env.SENTRY_DSN,
+	dsn: config.SENTRY_DSN,
 	tracesSampleRate: 1,
 	traceLifecycle: "stream",
 	streamGenAiSpans: true,

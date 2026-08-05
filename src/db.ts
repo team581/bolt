@@ -1,7 +1,8 @@
 import { postgres } from "@flue/postgres";
 import { Pool } from "pg";
+import { config } from "./config.ts";
 
-export const pool: Pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const pool: Pool = new Pool({ connectionString: config.DATABASE_URL });
 
 export default postgres({
 	query: async (text, params) => (await pool.query(text, params)).rows,

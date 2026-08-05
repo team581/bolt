@@ -16,6 +16,7 @@ export default defineConfig({
 	},
 	plugins: process.env.VITEST ? [] : [flue({ providers: ["vercel-ai-gateway"] })],
 	test: {
+		env: { NODE_ENV: "test" },
 		passWithNoTests: true,
 	},
 });

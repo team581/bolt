@@ -1,19 +1,12 @@
 "use agent";
-import {
-	useAgentStart,
-	useDelivery,
-	useInitialData,
-	useInstruction,
-	useModel,
-	useSandbox,
-	useSkill,
-} from "@flue/runtime";
-import { ModalClient } from "modal";
+import { useAgentStart, useDelivery, useInitialData, useInstruction, useModel, useSkill } from "@flue/runtime";
 import * as v from "valibot";
 import instructions from "./bolt/INSTRUCTIONS.md";
 import analyzeWpilog from "./bolt/skills/analyze-wpilog/SKILL.md";
+import manageGithubProjects from "./bolt/skills/manage-github-projects/SKILL.md";
+import { useBoltSandbox } from "./bolt/use-sandbox.ts";
 import { fetchSlackMessageAttachments } from "../channels/slack-adapter.ts";
-import { modal } from "../sandboxes/modal.ts";
+import { config } from "../config.ts";
 
 const slackInitialData = v.object({
 	channelId: v.string(),
@@ -24,22 +17,10 @@ const slackInitialData = v.object({
 });
 
 export function Bolt() {
-	useModel("vercel-ai-gateway/alibaba/qwen3.8-max", { thinkingLevel: "high" });
-	useSandbox({
-		async createSessionEnv(options) {
-			const client = new ModalClient();
-			const app = await client.apps.fromName("bolt", { createIfMissing: true });
-			const image = client.images
-				.fromRegistry("node:24-slim")
-				.dockerfileCommands([
-					"WORKDIR /workspace",
-					"RUN npm init -y && npm pkg set type=module && npm install wpilog-parser@2.2.0",
-				]);
-			const sandbox = await client.sandboxes.create(app, image);
-			return modal(sandbox, { cwd: "/workspace" }).createSessionEnv(options);
-		},
-	});
+	useModel(`vercel-ai-gateway/${config.BOLT_MODEL_ID}`, { thinkingLevel: "high" });
+	useBoltSandbox();
 	useSkill(analyzeWpilog);
+	useSkill(manageGithubProjects);
 
 	const slack = useInitialData<v.InferOutput<typeof slackInitialData> | undefined>();
 	const delivery = useDelivery();
