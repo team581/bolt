@@ -17,7 +17,8 @@ To learn more about Bolt, check out:
 - Copy `.env.example` to `.env.local` and set the remaining secrets
 - Configure a Slack app from [slack-manifest.example.yaml](./slack-manifest.example.yaml)
 - Generate an app-level Slack token with the `connections:write` scope and set it as `SLACK_APP_TOKEN`
-- [Activate Pitchfork in your shell](https://pitchfork.jdx.dev/guides/shell-hook) so PostgreSQL and Bolt start when you enter the project and stop when you leave it
+- [Activate Pitchfork in your shell](https://pitchfork.jdx.dev/guides/shell-hook) so PostgreSQL starts when you enter the project and stops when you leave it
+- Run `mise run dev` to start Bolt in the foreground; press Ctrl-C to stop it
 
 ## Railway
 

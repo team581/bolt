@@ -5,3 +5,16 @@ pnpm = "11"
 
 [settings]
 env_file = ".env.local"
+
+[tasks.postgres]
+run = "pitchfork start postgres"
+hide = true
+
+[tasks.dev]
+description = "Start Bolt's development server"
+depends = ["postgres"]
+run = "vp dev"
+raw = true
+
+[tasks.dev.env]
+NODE_ENV = "development"

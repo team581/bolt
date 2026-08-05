@@ -5,7 +5,6 @@
 	"type": "module",
 	"scripts": {
 		"build": "vp build",
-		"dev": "vp dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config",
 		"start": "node dist/server.mjs"
