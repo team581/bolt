@@ -145,6 +145,7 @@ function toolTitle(toolName: string): string {
 		grep: "Searching files",
 		read: "Reading a file",
 		write: "Writing a file",
+		activate_skill: "Activating a skill",
 	};
 	return titles[toolName] ?? `Using ${toolName.replaceAll("_", " ")}`;
 }
