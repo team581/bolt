@@ -1,4 +1,4 @@
 [tools]
 gh = "2.97.0"
-java = "temurin-21"
+java = "temurin-25.0.4+7.0.LTS"
 node = "26"
