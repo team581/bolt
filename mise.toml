@@ -1,6 +1,6 @@
 [tools]
 node = "24"
-pitchfork = "2.20"
+pitchfork = "2.20.0"
 pnpm = "11"
 
 [settings]
