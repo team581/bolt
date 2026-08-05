@@ -21,12 +21,11 @@ oauth_config:
   pkce_enabled: false
 settings:
   event_subscriptions:
-    request_url: https://bolt-581.up.railway.app/channels/slack/events
     bot_events:
       - app_mention
       - message.channels
       - message.groups
   org_deploy_enabled: false
-  socket_mode_enabled: false
+  socket_mode_enabled: true
   token_rotation_enabled: false
   is_mcp_enabled: false

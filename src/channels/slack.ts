@@ -28,6 +28,17 @@ export function handleSlackWebhook(request: Request): Promise<Response> {
 	return bot.webhooks.slack(request);
 }
 
+export async function initializeSlack(): Promise<void> {
+	if (!slackAdapter.isSocketMode) return;
+
+	try {
+		await bot.initialize();
+	} catch (error) {
+		reportError(error, "Failed to initialize Slack Socket Mode");
+		throw error;
+	}
+}
+
 async function respond(
 	thread: Thread,
 	message: Message,

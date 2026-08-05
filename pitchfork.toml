@@ -2,6 +2,17 @@
 
 [daemons.postgres]
 run = "docker compose up postgres"
-auto = ["start", "stop"]
+auto = ["stop"]
 ready_output = "database system is ready to accept connections"
 port = 5432
+
+[daemons.dev]
+run = "exec vp dev --port 5173 --strictPort"
+auto = ["start", "stop"]
+depends = ["postgres"]
+ready_http = "http://localhost:5173/health"
+port = 5173
+mise = true
+
+[daemons.dev.env]
+NODE_ENV = "development"

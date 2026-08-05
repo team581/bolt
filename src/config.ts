@@ -69,8 +69,15 @@ export const config = cleanEnv(process.env, {
 		desc: "Slack bot OAuth token",
 		testDefault: "xoxb-test",
 	}),
+	SLACK_APP_TOKEN: nonEmptyString({
+		default: undefined,
+		desc: "Slack app-level token used for Socket Mode in development",
+		requiredWhen: () => process.env.NODE_ENV === "development",
+	}),
 	SLACK_SIGNING_SECRET: nonEmptyString({
-		desc: "Slack webhook signing secret",
+		default: undefined,
+		desc: "Slack webhook signing secret used outside development",
+		requiredWhen: () => process.env.NODE_ENV !== "development",
 		testDefault: "test-slack-signing-secret",
 	}),
 });
