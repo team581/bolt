@@ -1,5 +1,13 @@
 "use agent";
-import { useAgentStart, useDelivery, useInitialData, useInstruction, useModel, useSkill } from "@flue/runtime";
+import {
+	type AgentProps,
+	useAgentStart,
+	useDelivery,
+	useInitialData,
+	useInstruction,
+	useModel,
+	useSkill,
+} from "@flue/runtime";
 import * as v from "valibot";
 import instructions from "./bolt/INSTRUCTIONS.md";
 import analyzeWpilog from "./bolt/skills/analyze-wpilog/SKILL.md";
@@ -16,9 +24,9 @@ const slackInitialData = v.object({
 	startedAt: v.pipe(v.string(), v.isoTimestamp()),
 });
 
-export function Bolt() {
+export function Bolt({ id }: AgentProps) {
 	useModel(`vercel-ai-gateway/${config.BOLT_MODEL_ID}`, { thinkingLevel: "high" });
-	useBoltSandbox();
+	useBoltSandbox(id);
 	useSkill(analyzeWpilog);
 	useSkill(manageGithubProjects);
 
