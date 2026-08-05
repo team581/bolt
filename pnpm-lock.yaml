@@ -39,7 +39,7 @@ importers:
         version: 2.0.2(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
       '@flue/postgres':
         specifier: ^2.0.1
-        version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/runtime':
         specifier: ^2.0.1
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
@@ -334,8 +334,8 @@ packages:
       '@flue/runtime': ^2.0.2
       '@opentelemetry/api': ^1.9.0
 
-  '@flue/postgres@2.0.1':
-    resolution: {integrity: sha512-UKyuI4B/tGDtkzyaObKOXEhiMIVYdywUGwrqCJe1EZG8E7Ej4ChLyJV1znJnveBqCXs03vkvQh4+Li2y8oKN4Q==}
+  '@flue/postgres@2.0.2':
+    resolution: {integrity: sha512-jma/6BMja7v31TVw13iai8ahMneQiaVvE57LR+5TWBDnu+AM+5fscjQhztCGOVnA73v431gSXam3G5ef8xL6Nw==}
     engines: {node: '>=22.19.0'}
 
   '@flue/runtime@2.0.1':
@@ -3010,9 +3010,9 @@ snapshots:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@opentelemetry/api': 1.9.1
 
-  '@flue/postgres@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+  '@flue/postgres@2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
-      '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@flue/runtime': 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
