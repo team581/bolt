@@ -11,6 +11,8 @@ catalog:
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
+patchedDependencies:
+  "@earendil-works/pi-ai@0.83.0": patches/@earendil-works__pi-ai@0.83.0.patch
 peerDependencyRules:
   allowAny:
     - vite
