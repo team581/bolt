@@ -28,7 +28,7 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@v4
         with:
-          version: 2026.8.1
+          version: 2026.8.2
           experimental: true
           install_args: gh node
           working_directory: sandbox
@@ -60,7 +60,7 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@v4
         with:
-          version: 2026.8.1
+          version: 2026.8.2
           experimental: true
           install_args: gh node
           working_directory: sandbox
