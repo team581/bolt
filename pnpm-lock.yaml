@@ -29,7 +29,7 @@ importers:
         version: 0.83.0(ws@8.21.0)(zod@4.4.3)
       '@flue/cli':
         specifier: ^2.0.1
-        version: 2.0.1(@types/node@24.13.3)(hono@4.12.33)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)
+        version: 2.0.1(@types/node@24.13.3)(hono@4.12.34)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)
       '@flue/opentelemetry':
         specifier: ^2.0.1
         version: 2.0.1(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
@@ -41,7 +41,7 @@ importers:
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
-        version: 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.33)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.34)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@octokit/auth-app':
         specifier: ^8.3.0
         version: 8.3.0
@@ -62,7 +62,7 @@ importers:
         version: 8.2.0
       hono:
         specifier: ^4.12.33
-        version: 4.12.33
+        version: 4.12.34
       modal:
         specifier: ^0.8.2
         version: 0.8.2
@@ -149,6 +149,9 @@ packages:
   '@aws-sdk/core@3.977.4':
     resolution: {integrity: sha512-CEkcQlMOQJCvul60U7wdAOACjtdgFWDsfJI+6wUOGdhGNV2lGbuJpi/R50QLpFG3Tp+sQxa/RmzC3X7KHbhuTA==}
     engines: {node: '>=20.0.0'}
+    deprecated: |-
+      Deprecated due to Document number parsing bug in JSON, see
+        https://github.com/aws/aws-sdk-js-v3/issues/8246. Newer version available.
 
   '@aws-sdk/credential-provider-env@3.972.65':
     resolution: {integrity: sha512-lJT2aRw9wCV8jPHyFJjdZLD4HTydL6/22AnCSOB8e/LqOc55nEJGLHkJQeSxhn8QiqyjFwPKQFtMw0ovjRUY/g==}
@@ -1707,8 +1710,8 @@ packages:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
-  hono@4.12.33:
-    resolution: {integrity: sha512-+SwvkaiJtxsiPjhy9LivY/1m7UsNqCJetM1BrZl9A5DkQhlbHQDU730mMiDPWjnoCYOM8Chf3WrCJw27kNTPFQ==}
+  hono@4.12.34:
+    resolution: {integrity: sha512-GqXJqY/xJkJmuloTrnV1ZEXG3fqte+VjkUqoRNZXcrUidiUOP4fMSIHHY4tsqZBK++kVyWmt/AAfSUuy57/eSA==}
     engines: {node: '>=16.9.0'}
 
   http-proxy-agent@7.0.2:
@@ -2880,10 +2883,10 @@ snapshots:
       - ws
       - zod
 
-  '@flue/cli@2.0.1(@types/node@24.13.3)(hono@4.12.33)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)':
+  '@flue/cli@2.0.1(@types/node@24.13.3)(hono@4.12.34)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-      '@flue/vite': 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.33)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@flue/vite': 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.34)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@vercel/detect-agent': 1.2.3
       cac: 7.0.0
       minisearch: 7.2.0
@@ -2938,10 +2941,10 @@ snapshots:
     dependencies:
       '@earendil-works/pi-agent-core': 0.83.0(ws@8.21.0)(zod@4.4.3)
       '@earendil-works/pi-ai': 0.83.0(ws@8.21.0)(zod@4.4.3)
-      '@hono/node-server': 2.0.12(hono@4.12.33)
+      '@hono/node-server': 2.0.12(hono@4.12.34)
       '@modelcontextprotocol/client': 2.0.0
       '@valibot/to-json-schema': 1.7.1(valibot@1.4.2(typescript@7.0.2))
-      hono: 4.12.33
+      hono: 4.12.34
       js-yaml: 5.2.3
       ulidx: 2.4.1
       valibot: 1.4.2(typescript@7.0.2)
@@ -2954,10 +2957,10 @@ snapshots:
       - ws
       - zod
 
-  '@flue/vite@2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.33)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+  '@flue/vite@2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.12.34)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-      '@hono/node-server': 2.0.12(hono@4.12.33)
+      '@hono/node-server': 2.0.12(hono@4.12.34)
       magic-string: 1.1.0
       tinyglobby: 0.2.17
       ulidx: 2.4.1
@@ -2995,9 +2998,9 @@ snapshots:
       protobufjs: 7.6.5
       yargs: 17.7.3
 
-  '@hono/node-server@2.0.12(hono@4.12.33)':
+  '@hono/node-server@2.0.12(hono@4.12.34)':
     dependencies:
-      hono: 4.12.33
+      hono: 4.12.34
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
@@ -4098,7 +4101,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.12.33: {}
+  hono@4.12.34: {}
 
   http-proxy-agent@7.0.2:
     dependencies:
