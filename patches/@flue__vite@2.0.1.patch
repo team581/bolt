@@ -1,0 +1,45 @@
+diff --git a/dist/bootstrap/node-server.mjs b/dist/bootstrap/node-server.mjs
+index 36126565df22a3a4d99bd2e2ca35a6bbb4c11437..b513fa93158c80336752cbfa04925f80f7eefbdd 100644
+--- a/dist/bootstrap/node-server.mjs
++++ b/dist/bootstrap/node-server.mjs
+@@ -35,6 +35,7 @@ async function loadFlueNodeApplication(options = {}) {
+ 	let devLifecycle;
+ 	let persistenceAdapter;
+ 	let assembled;
++	let loadedUserApp;
+ 	try {
+ 		return await runWithInstrumentationOwner(instrumentationOwner, async () => {
+ 			devLifecycle = isLocalMode ? installDevLifecycleLogger() : void 0;
+@@ -52,6 +53,8 @@ async function loadFlueNodeApplication(options = {}) {
+ 			const { activityGate } = runtime;
+ 			const flueApp = userApp;
+ 			if (!flueApp || typeof flueApp.fetch !== "function") throw new Error("[flue] app.ts default export must be a Hono app or an object with a fetch(request) method.");
++			loadedUserApp = flueApp;
++			if (typeof flueApp.start === "function") await flueApp.start();
+ 			let disposing;
+ 			return {
+ 				fetch: (request, env) => flueApp.fetch(request, env),
+@@ -65,6 +68,11 @@ async function loadFlueNodeApplication(options = {}) {
+ 					if (disposing) return disposing;
+ 					disposing = (async () => {
+ 						const errors = [];
++						try {
++							if (typeof flueApp.stop === "function") await flueApp.stop();
++						} catch (error) {
++							errors.push(error);
++						}
+ 						try {
+ 							await runtime.close(timeoutMs);
+ 						} catch (error) {
+@@ -88,6 +96,11 @@ async function loadFlueNodeApplication(options = {}) {
+ 		});
+ 	} catch (error) {
+ 		const cleanupErrors = [];
++		try {
++			if (typeof loadedUserApp?.stop === "function") await loadedUserApp.stop();
++		} catch (cleanupError) {
++			cleanupErrors.push(cleanupError);
++		}
+ 		try {
+ 			if (assembled) await assembled.close();
+ 			else if (persistenceAdapter?.close && !adapterInUseByLiveRuntime(persistenceAdapter)) await persistenceAdapter.close();

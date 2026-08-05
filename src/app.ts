@@ -1,14 +1,19 @@
-import "./sentry.ts";
 import { createAgentRouter } from "@flue/runtime/routing";
+import type { LoadedFlueNodeApplication } from "@flue/vite";
 import { Hono } from "hono";
 import { Bolt } from "./agents/bolt.ts";
-import { handleSlackWebhook, initializeSlack } from "./channels/slack.ts";
-
-await initializeSlack();
+import { createSlackChannel } from "./channels/slack.ts";
+import "./sentry.ts";
 
 const app = new Hono();
+const slack = createSlackChannel();
 app.get("/health", (context) => context.json({ status: "ok" }));
 app.route("/agents/assistant", createAgentRouter(Bolt));
-app.post("/channels/slack/events", (context) => handleSlackWebhook(context.req.raw));
+app.post("/channels/slack/events", (context) => slack.handleWebhook(context.req.raw));
 
-export default app;
+export default {
+	fetch: app.fetch.bind(app),
+	// @ts-expect-error: This is from our patch
+	start: () => slack.start(),
+	stop: () => slack.stop(),
+} satisfies LoadedFlueNodeApplication;

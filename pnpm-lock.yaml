@@ -16,6 +16,7 @@ overrides:
 
 patchedDependencies:
   '@earendil-works/pi-ai@0.83.0': 2a880a0ca0fb928e222e55c385114c91572bd4552377396506edb0f22f8d190e
+  '@flue/vite@2.0.1': 23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d
 
 importers:
 
@@ -44,7 +45,7 @@ importers:
         version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
-        version: 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@octokit/auth-app':
         specifier: ^8.3.0
         version: 8.3.0
@@ -2950,7 +2951,7 @@ snapshots:
   '@flue/cli@2.0.1(@types/node@24.13.3)(hono@4.13.0)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-      '@flue/vite': 2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@flue/vite': 2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@vercel/detect-agent': 1.2.3
       cac: 7.0.0
       minisearch: 7.2.0
@@ -3021,7 +3022,7 @@ snapshots:
       - ws
       - zod
 
-  '@flue/vite@2.0.1(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
+  '@flue/vite@2.0.1(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.7(@types/node@24.13.3)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@hono/node-server': 2.0.12(hono@4.13.0)

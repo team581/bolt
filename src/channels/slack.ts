@@ -6,37 +6,44 @@ import { Bolt } from "../agents/bolt.ts";
 import { decideWhetherBoltShouldReply } from "../agents/slack-reply-gate.ts";
 import { pool } from "../db.ts";
 import { reportError } from "../sentry.ts";
-import { slackAdapter } from "./slack-adapter.ts";
+import { createConfiguredSlackAdapter } from "./slack-adapter.ts";
 import { mergeRecentMessages, REPLY_GATE_CONTEXT_MESSAGE_LIMIT, shouldRunReplyGate } from "./slack-reply-routing.ts";
 import { streamAgentReply } from "./stream-agent-reply.ts";
 
-const bot = new Chat({
-	userName: "Bolt",
-	adapters: { slack: slackAdapter },
-	state: createPostgresState({ client: pool }),
-	concurrency: "queue",
-});
+export function createSlackChannel(): {
+	handleWebhook(request: Request): Promise<Response>;
+	start(): Promise<void>;
+	stop(): Promise<void>;
+} {
+	const slackAdapter = createConfiguredSlackAdapter();
+	const bot = new Chat({
+		userName: "Bolt",
+		adapters: { slack: slackAdapter },
+		state: createPostgresState({ client: pool }),
+		concurrency: "queue",
+	});
 
-bot.onNewMention(async (thread, message, context) => {
-	await thread.subscribe();
-	await respond(thread, message, context, true);
-});
+	bot.onNewMention(async (thread, message, context) => {
+		await thread.subscribe();
+		await respond(thread, message, context, true);
+	});
 
-bot.onSubscribedMessage((thread, message, context) => respond(thread, message, context, message.isMention));
+	bot.onSubscribedMessage((thread, message, context) => respond(thread, message, context, message.isMention));
 
-export function handleSlackWebhook(request: Request): Promise<Response> {
-	return bot.webhooks.slack(request);
-}
+	return {
+		handleWebhook: (request) => bot.webhooks.slack(request),
+		async start() {
+			if (!slackAdapter.isSocketMode) return;
 
-export async function initializeSlack(): Promise<void> {
-	if (!slackAdapter.isSocketMode) return;
-
-	try {
-		await bot.initialize();
-	} catch (error) {
-		reportError(error, "Failed to initialize Slack Socket Mode");
-		throw error;
-	}
+			try {
+				await bot.initialize();
+			} catch (error) {
+				reportError(error, "Failed to initialize Slack Socket Mode");
+				throw error;
+			}
+		},
+		stop: () => bot.shutdown(),
+	};
 }
 
 async function respond(
