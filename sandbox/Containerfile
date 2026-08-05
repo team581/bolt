@@ -29,6 +29,7 @@ RUN mise install \
 ENV JAVA_HOME=/opt/java
 
 COPY --chmod=755 profile.sh /etc/profile.d/mise-tools.sh
+COPY --chmod=755 setup.sh /usr/local/libexec/bolt-sandbox-setup
 COPY --chmod=755 smoke-test.sh /usr/local/libexec/bolt-sandbox-smoke-test
 COPY repositories/offseason-2026 /opt/bolt/repositories/offseason-2026
 

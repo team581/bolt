@@ -38,4 +38,19 @@ describe("Modal sandbox adapter", () => {
 
 		expect(execParams[0]?.timeoutMs).toBe(timeout.total("milliseconds"));
 	});
+
+	it("merges session environment variables into every command", async () => {
+		const { sandbox, execParams } = fakeSandbox();
+		const session = await modal(sandbox, {
+			env: { GH_TOKEN: "fresh-token", SHARED: "default" },
+		}).createSessionEnv({ id: "session-env" });
+
+		await session.exec("true", { env: { COMMAND: "value", SHARED: "override" } });
+
+		expect(execParams[0]?.env).toEqual({
+			COMMAND: "value",
+			GH_TOKEN: "fresh-token",
+			SHARED: "override",
+		});
+	});
 });

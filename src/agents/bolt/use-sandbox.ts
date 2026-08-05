@@ -45,10 +45,6 @@ async function runCleanupCommand(sandbox: ModalSandbox, command: string[]): Prom
 	if (exitCode !== 0) throw new Error(`Sandbox cleanup command exited with code ${exitCode}.`);
 }
 
-async function revokeSandboxGitHubToken(sandbox: ModalSandbox): Promise<void> {
-	await runCleanupCommand(sandbox, ["gh", "api", "--method", "DELETE", "/installation/token"]);
-}
-
 async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 	const client = createModalClient();
 	const { name, workspaceKey } = sandboxIdentity(instanceId);
@@ -60,13 +56,11 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 	const workspaceVolume = await client.volumes.fromName(`${config.MODAL_APP_NAME}-workspaces`, {
 		createIfMissing: true,
 	});
-	const githubToken = await createGitHubInstallationToken();
 	try {
 		return await client.sandboxes.create(app, image, {
 			cpu: 1,
 			cpuLimit: 2,
 			env: {
-				GH_TOKEN: githubToken,
 				GRADLE_RO_DEP_CACHE: "/opt/bolt/gradle-dependencies",
 				GRADLE_USER_HOME: "/workspace/.gradle",
 			},
@@ -82,7 +76,6 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 			workdir: "/workspace",
 		});
 	} catch (error) {
-		await revokeGitHubInstallationToken(githubToken).catch(() => undefined);
 		if (error instanceof AlreadyExistsError) {
 			return client.sandboxes.fromName(config.MODAL_APP_NAME, name);
 		}
@@ -91,44 +84,37 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 }
 
 export function useBoltSandbox(instanceId: string): void {
+	let githubToken: string | undefined;
+
 	useSandbox({
 		async createSessionEnv(options) {
 			const sandbox = await acquireSandbox(options.id);
-			const session = await modal(sandbox, { cwd: "/workspace" }).createSessionEnv(options);
 			try {
-				const setup = await session.exec(
-					`set -e
-git config --global user.name "$GITHUB_APP_BOT_NAME"
-git config --global user.email "$GITHUB_APP_BOT_EMAIL"
-gh auth setup-git --hostname github.com --force
-gh auth status --active
-java -version
-if [ ! -e /workspace/offseason-2026 ]; then
-	cp -a /opt/bolt/repositories/offseason-2026 /workspace/offseason-2026
-fi
-if [ ! -e /workspace/.gradle ]; then
-	cp -a /opt/bolt/gradle-home /workspace/.gradle
-fi`,
-					{
-						env: {
-							GITHUB_APP_BOT_EMAIL: config.GITHUB_APP_BOT_EMAIL,
-							GITHUB_APP_BOT_NAME: config.GITHUB_APP_BOT_NAME,
-						},
-						timeoutMs: SANDBOX_SETUP_TIMEOUT.total("milliseconds"),
+				githubToken = await createGitHubInstallationToken();
+				const session = await modal(sandbox, {
+					cwd: "/workspace",
+					env: { GH_TOKEN: githubToken },
+				}).createSessionEnv(options);
+				const setup = await session.exec("/usr/local/libexec/bolt-sandbox-setup", {
+					env: {
+						GITHUB_APP_BOT_EMAIL: config.GITHUB_APP_BOT_EMAIL,
+						GITHUB_APP_BOT_NAME: config.GITHUB_APP_BOT_NAME,
 					},
-				);
+					timeoutMs: SANDBOX_SETUP_TIMEOUT.total("milliseconds"),
+				});
 				if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.");
 				await session
 					.exec("git -C /workspace/offseason-2026 pull --ff-only --quiet", {
 						timeoutMs: REPOSITORY_PULL_TIMEOUT.total("milliseconds"),
 					})
 					.catch(() => undefined);
+				return session;
 			} catch (error) {
-				await revokeSandboxGitHubToken(sandbox).catch(() => undefined);
+				if (githubToken) await revokeGitHubInstallationToken(githubToken).catch(() => undefined);
+				githubToken = undefined;
 				await sandbox.terminate({ wait: true }).catch(() => undefined);
 				throw error;
 			}
-			return session;
 		},
 	});
 
@@ -140,18 +126,22 @@ fi`,
 			sandbox = await findSandbox(client, name);
 		} catch (error) {
 			reportError(error, "Failed to find Modal sandbox during cleanup", { instanceId });
-			return;
 		}
-		if (!sandbox) return;
-
-		await runCleanupCommand(sandbox, ["sync", "/workspace"]).catch((error: unknown) => {
-			reportError(error, "Failed to sync Modal sandbox workspace", { instanceId });
-		});
-		await revokeSandboxGitHubToken(sandbox).catch((error: unknown) => {
-			reportError(error, "Failed to revoke sandbox GitHub token", { instanceId });
-		});
-		await sandbox.terminate({ wait: true }).catch((error: unknown) => {
-			reportError(error, "Failed to terminate Modal sandbox", { instanceId });
-		});
+		if (sandbox) {
+			await runCleanupCommand(sandbox, ["sync", "/workspace"]).catch((error: unknown) => {
+				reportError(error, "Failed to sync Modal sandbox workspace", { instanceId });
+			});
+		}
+		if (githubToken) {
+			await revokeGitHubInstallationToken(githubToken).catch((error: unknown) => {
+				reportError(error, "Failed to revoke sandbox GitHub token", { instanceId });
+			});
+			githubToken = undefined;
+		}
+		if (sandbox) {
+			await sandbox.terminate({ wait: true }).catch((error: unknown) => {
+				reportError(error, "Failed to terminate Modal sandbox", { instanceId });
+			});
+		}
 	});
 }

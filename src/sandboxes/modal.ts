@@ -17,6 +17,8 @@ export interface ModalAdapterOptions {
 	 * pass one. Defaults to "/".
 	 */
 	cwd?: string;
+	/** Environment variables included in every `exec()` call. */
+	env?: Record<string, string>;
 }
 
 function shellQuote(value: string): string {
@@ -72,7 +74,10 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 }
 
 class ModalSandboxApi implements SandboxApi {
-	constructor(private sandbox: ModalSandbox) {}
+	constructor(
+		private sandbox: ModalSandbox,
+		private env?: Record<string, string>,
+	) {}
 
 	private guarded<T>(operation: string, call: Promise<T>): Promise<T> {
 		return raceSandboxDeath(this.sandbox, operation, call);
@@ -189,7 +194,7 @@ class ModalSandboxApi implements SandboxApi {
 			operation,
 			this.sandbox.exec(["bash", "-lc", command], {
 				workdir: options?.cwd,
-				env: options?.env,
+				env: { ...this.env, ...options?.env },
 				timeoutMs: options?.timeoutMs ?? DEFAULT_EXEC_TIMEOUT.total("milliseconds"),
 				stdout: "pipe",
 				stderr: "pipe",
@@ -208,7 +213,7 @@ export function modal(sandbox: ModalSandbox, options?: ModalAdapterOptions): San
 	return {
 		async createSessionEnv(): Promise<SessionEnv> {
 			const sandboxCwd = options?.cwd ?? "/";
-			const api = new ModalSandboxApi(sandbox);
+			const api = new ModalSandboxApi(sandbox, options?.env);
 			return createSandboxSessionEnv(api, sandboxCwd);
 		},
 	};
