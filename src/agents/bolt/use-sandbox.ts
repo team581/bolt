@@ -1,16 +1,17 @@
 import { useAgentFinish, useSandbox } from "@flue/runtime";
 import { createHash } from "node:crypto";
 import { AlreadyExistsError, ModalClient, NotFoundError, type Sandbox as ModalSandbox } from "modal";
+import { Temporal } from "temporal-polyfill";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../github-app.ts";
 import { config } from "../../config.ts";
 import { modal } from "../../sandboxes/modal.ts";
 import { reportError } from "../../sentry.ts";
 
-const SANDBOX_TIMEOUT_MS = 30 * 60_000;
-const SANDBOX_IDLE_TIMEOUT_MS = 5 * 60_000;
-const SANDBOX_SETUP_TIMEOUT_MS = 5 * 60_000;
-const REPOSITORY_PULL_TIMEOUT_MS = 60_000;
-const SANDBOX_CLEANUP_TIMEOUT_MS = 10_000;
+const SANDBOX_TIMEOUT = Temporal.Duration.from({ minutes: 30 });
+const SANDBOX_IDLE_TIMEOUT = Temporal.Duration.from({ minutes: 5 });
+const SANDBOX_SETUP_TIMEOUT = Temporal.Duration.from({ minutes: 5 });
+const REPOSITORY_PULL_TIMEOUT = Temporal.Duration.from({ minutes: 1 });
+const SANDBOX_CLEANUP_TIMEOUT = Temporal.Duration.from({ seconds: 10 });
 
 function createModalClient(): ModalClient {
 	return new ModalClient({
@@ -38,7 +39,7 @@ async function runCleanupCommand(sandbox: ModalSandbox, command: string[]): Prom
 	const process = await sandbox.exec(command, {
 		stderr: "ignore",
 		stdout: "ignore",
-		timeoutMs: SANDBOX_CLEANUP_TIMEOUT_MS,
+		timeoutMs: SANDBOX_CLEANUP_TIMEOUT.total("milliseconds"),
 	});
 	const exitCode = await process.wait();
 	if (exitCode !== 0) throw new Error(`Sandbox cleanup command exited with code ${exitCode}.`);
@@ -69,12 +70,12 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 				GRADLE_RO_DEP_CACHE: "/opt/bolt/gradle-dependencies",
 				GRADLE_USER_HOME: "/workspace/.gradle",
 			},
-			idleTimeoutMs: SANDBOX_IDLE_TIMEOUT_MS,
+			idleTimeoutMs: SANDBOX_IDLE_TIMEOUT.total("milliseconds"),
 			memoryLimitMiB: 4_096,
 			memoryMiB: 2_048,
 			name,
 			tags: { "bolt-instance": workspaceKey },
-			timeoutMs: SANDBOX_TIMEOUT_MS,
+			timeoutMs: SANDBOX_TIMEOUT.total("milliseconds"),
 			volumes: {
 				"/workspace": workspaceVolume.withMountOptions({ subPath: `conversations/${workspaceKey}` }),
 			},
@@ -113,13 +114,13 @@ fi`,
 							GITHUB_APP_BOT_EMAIL: config.GITHUB_APP_BOT_EMAIL,
 							GITHUB_APP_BOT_NAME: config.GITHUB_APP_BOT_NAME,
 						},
-						timeoutMs: SANDBOX_SETUP_TIMEOUT_MS,
+						timeoutMs: SANDBOX_SETUP_TIMEOUT.total("milliseconds"),
 					},
 				);
 				if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.");
 				await session
 					.exec("git -C /workspace/offseason-2026 pull --ff-only --quiet", {
-						timeoutMs: REPOSITORY_PULL_TIMEOUT_MS,
+						timeoutMs: REPOSITORY_PULL_TIMEOUT.total("milliseconds"),
 					})
 					.catch(() => undefined);
 			} catch (error) {

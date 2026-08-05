@@ -9,6 +9,7 @@
 import { createSandboxSessionEnv, SandboxDiedError } from "@flue/runtime";
 import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from "@flue/runtime";
 import type { Sandbox as ModalSandbox } from "modal";
+import { Temporal } from "temporal-polyfill";
 
 export interface ModalAdapterOptions {
 	/**
@@ -22,9 +23,9 @@ function shellQuote(value: string): string {
 	return `'${value.replace(/'/g, `'\\''`)}'`;
 }
 
-const SANDBOX_LIVENESS_POLL_MS = 5_000;
-const PROBE_SILENCE_MS = 10_000;
-export const DEFAULT_EXEC_TIMEOUT_MS = 10 * 60_000;
+const SANDBOX_LIVENESS_POLL = Temporal.Duration.from({ seconds: 5 });
+const PROBE_SILENCE = Temporal.Duration.from({ seconds: 10 });
+export const DEFAULT_EXEC_TIMEOUT = Temporal.Duration.from({ minutes: 10 });
 
 function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Promise<T>): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
@@ -43,7 +44,7 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 		const probe = (): void => {
 			silenceTimer = setTimeout(() => {
 				settle(() => reject(new SandboxDiedError({ operation, reason: "probe_silent" })));
-			}, PROBE_SILENCE_MS);
+			}, PROBE_SILENCE.total("milliseconds"));
 			sandbox.poll().then(
 				(exitCode) => {
 					if (settled) return;
@@ -51,17 +52,17 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 					if (exitCode !== null) {
 						settle(() => reject(new SandboxDiedError({ operation, reason: "stopped" })));
 					} else {
-						pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL_MS);
+						pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 					}
 				},
 				() => {
 					if (settled) return;
 					clearTimeout(silenceTimer);
-					pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL_MS);
+					pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 				},
 			);
 		};
-		pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL_MS);
+		pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 
 		call.then(
 			(value) => settle(() => resolve(value)),
@@ -189,7 +190,7 @@ class ModalSandboxApi implements SandboxApi {
 			this.sandbox.exec(["bash", "-lc", command], {
 				workdir: options?.cwd,
 				env: options?.env,
-				timeoutMs: options?.timeoutMs ?? DEFAULT_EXEC_TIMEOUT_MS,
+				timeoutMs: options?.timeoutMs ?? DEFAULT_EXEC_TIMEOUT.total("milliseconds"),
 				stdout: "pipe",
 				stderr: "pipe",
 			}),

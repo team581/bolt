@@ -1,6 +1,7 @@
 import type { Sandbox, SandboxExecParams } from "modal";
+import { Temporal } from "temporal-polyfill";
 import { describe, expect, it } from "vite-plus/test";
-import { DEFAULT_EXEC_TIMEOUT_MS, modal } from "./modal.ts";
+import { DEFAULT_EXEC_TIMEOUT, modal } from "./modal.ts";
 
 function fakeSandbox(): { sandbox: Sandbox; execParams: SandboxExecParams[] } {
 	const execParams: SandboxExecParams[] = [];
@@ -25,15 +26,16 @@ describe("Modal sandbox adapter", () => {
 
 		await session.exec("true");
 
-		expect(execParams[0]?.timeoutMs).toBe(DEFAULT_EXEC_TIMEOUT_MS);
+		expect(execParams[0]?.timeoutMs).toBe(DEFAULT_EXEC_TIMEOUT.total("milliseconds"));
 	});
 
 	it("preserves an explicit exec timeout", async () => {
 		const { sandbox, execParams } = fakeSandbox();
 		const session = await modal(sandbox).createSessionEnv({ id: "explicit-timeout" });
 
-		await session.exec("true", { timeoutMs: 1_234 });
+		const timeout = Temporal.Duration.from({ milliseconds: 1_234 });
+		await session.exec("true", { timeoutMs: timeout.total("milliseconds") });
 
-		expect(execParams[0]?.timeoutMs).toBe(1_234);
+		expect(execParams[0]?.timeoutMs).toBe(timeout.total("milliseconds"));
 	});
 });

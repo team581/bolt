@@ -1,5 +1,5 @@
 [tools]
-node = "24"
+node = "26"
 pitchfork = "2.20.0"
 pnpm = "11"
 

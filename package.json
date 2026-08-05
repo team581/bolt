@@ -29,6 +29,7 @@
 		"hono": "^4.12.33",
 		"modal": "^0.9.0",
 		"pg": "^8.22.0",
+		"temporal-polyfill": "^1.0.3",
 		"valibot": "^1.4.2"
 	},
 	"devDependencies": {
