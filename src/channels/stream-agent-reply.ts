@@ -146,6 +146,7 @@ function toolTitle(toolName: string): string {
 		read: "Reading a file",
 		write: "Writing a file",
 		activate_skill: "Activating a skill",
+		read_skill_resource: "Reading a skill resource",
 	};
 	return titles[toolName] ?? `Using ${toolName.replaceAll("_", " ")}`;
 }
