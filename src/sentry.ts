@@ -59,6 +59,14 @@ instrument({
 	},
 });
 
+export function reportError(error: unknown, message: string, context?: Record<string, unknown>): void {
+	Sentry.withScope((scope) => {
+		scope.setLevel("error");
+		scope.setContext("application.error", { message, ...context });
+		Sentry.captureException(toError(error));
+	});
+}
+
 function captureTerminalFailure(error: unknown, tags: Record<string, string>, context?: Record<string, unknown>): void {
 	Sentry.withScope((scope) => {
 		scope.setTags(tags);

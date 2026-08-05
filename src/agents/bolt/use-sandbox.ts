@@ -4,6 +4,7 @@ import { ModalClient, type Sandbox as ModalSandbox } from "modal";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../github-app.ts";
 import { config } from "../../config.ts";
 import { modal } from "../../sandboxes/modal.ts";
+import { reportError } from "../../sentry.ts";
 
 const SANDBOX_TIMEOUT_MS = 30 * 60_000;
 const SANDBOX_IDLE_TIMEOUT_MS = 5 * 60_000;
@@ -74,7 +75,7 @@ gh auth status --active`,
 			activeSandboxes.delete(instanceId);
 			if (sandbox) {
 				await sandbox.terminate({ wait: true }).catch((error: unknown) => {
-					console.error("Failed to terminate Modal sandbox", error);
+					reportError(error, "Failed to terminate Modal sandbox", { instanceId });
 				});
 			}
 		}

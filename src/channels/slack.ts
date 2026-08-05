@@ -5,6 +5,7 @@ import type { Message, MessageContext, Thread } from "chat";
 import { Bolt } from "../agents/bolt.ts";
 import { decideWhetherBoltShouldReply } from "../agents/slack-reply-gate.ts";
 import { pool } from "../db.ts";
+import { reportError } from "../sentry.ts";
 import { slackAdapter } from "./slack-adapter.ts";
 import { mergeRecentMessages, REPLY_GATE_CONTEXT_MESSAGE_LIMIT, shouldRunReplyGate } from "./slack-reply-routing.ts";
 import { streamAgentReply } from "./stream-agent-reply.ts";
@@ -66,7 +67,7 @@ async function respond(
 
 		await thread.post(new StreamingPlan(streamAgentReply(agent, receipt), { groupTasks: "plan" }));
 	} catch (error) {
-		console.error("Failed to respond to Slack message", error);
+		reportError(error, "Failed to respond to Slack message", { threadId: thread.id });
 		await thread.post("I ran into an error while working on that. Please try again.");
 	} finally {
 		await thread.startTyping("");
@@ -82,7 +83,7 @@ async function replyGateAllowsReply(thread: Thread, messages: Message[]): Promis
 		const context = mergeRecentMessages(history.messages, messages);
 		return decideWhetherBoltShouldReply(messageBody(context));
 	} catch (error) {
-		console.error("Slack reply gate failed; defaulting to a reply", error);
+		reportError(error, "Slack reply gate failed; defaulting to a reply", { threadId: thread.id });
 		return true;
 	}
 }
