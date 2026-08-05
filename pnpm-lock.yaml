@@ -64,8 +64,8 @@ importers:
         specifier: ^4.12.33
         version: 4.12.33
       modal:
-        specifier: ^0.8.2
-        version: 0.8.2
+        specifier: ^0.9.0
+        version: 0.9.0
       pg:
         specifier: ^8.22.0
         version: 8.22.0
@@ -149,6 +149,9 @@ packages:
   '@aws-sdk/core@3.977.4':
     resolution: {integrity: sha512-CEkcQlMOQJCvul60U7wdAOACjtdgFWDsfJI+6wUOGdhGNV2lGbuJpi/R50QLpFG3Tp+sQxa/RmzC3X7KHbhuTA==}
     engines: {node: '>=20.0.0'}
+    deprecated: |-
+      Deprecated due to Document number parsing bug in JSON, see
+        https://github.com/aws/aws-sdk-js-v3/issues/8246. Newer version available.
 
   '@aws-sdk/credential-provider-env@3.972.65':
     resolution: {integrity: sha512-lJT2aRw9wCV8jPHyFJjdZLD4HTydL6/22AnCSOB8e/LqOc55nEJGLHkJQeSxhn8QiqyjFwPKQFtMw0ovjRUY/g==}
@@ -2021,8 +2024,8 @@ packages:
   minisearch@7.2.0:
     resolution: {integrity: sha512-dqT2XBYUOZOiC5t2HRnwADjhNS2cecp9u+TJRiJ1Qp/f5qjkeT5APcGPjHw+bz89Ms8Jp+cG4AlE+QZ/QnDglg==}
 
-  modal@0.8.2:
-    resolution: {integrity: sha512-UEUy2mthGOOmCigZyLJtgApM0c7FkIQ6ZSiQ2IBzPy96L5ZX2pwKlBQtpHE+MV+NYrea93vTcpUDWIdXWrZN+w==}
+  modal@0.9.0:
+    resolution: {integrity: sha512-kCXcdJkhbJorf/q/6T9Wdlg6in9JmRnCNQnV6rVBMyeqNV/iXI6BYk4IzY4cvZ6dbauNeDMjk/Q08cbxvoIaXg==}
 
   module-details-from-path@1.0.4:
     resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
@@ -4550,7 +4553,7 @@ snapshots:
 
   minisearch@7.2.0: {}
 
-  modal@0.8.2:
+  modal@0.9.0:
     dependencies:
       cbor-x: 1.6.5
       long: 5.3.2
