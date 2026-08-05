@@ -1,140 +1,92 @@
 import { AgentRunError } from "@flue/runtime";
 import type { AgentInstanceHandle, ConversationStreamChunk, DispatchReceipt } from "@flue/runtime";
 import type { StreamChunk } from "chat";
+import { reportError } from "../sentry.ts";
 
 export function streamAgentReply(agent: AgentInstanceHandle, receipt: DispatchReceipt): AsyncIterable<StreamChunk> {
-	return {
-		async *[Symbol.asyncIterator]() {
-			const queue: StreamChunk[] = [];
-			const activeTools = new Map<string, string>();
-			const seenPositions = new Set<string>();
-			let wake: (() => void) | undefined;
-			let finished = false;
-			let streamedText = "";
-			let needsParagraph = false;
-			let responseMessageId: string | undefined;
+	const activeTools = new Map<string, string>();
+	const seenPositions = new Set<string>();
+	let cancelled = false;
+	let responseMessageId: string | undefined;
 
-			const emit = (chunk: StreamChunk): void => {
-				queue.push(chunk);
-				wake?.();
-				wake = undefined;
-			};
-			const emitText = (text: string): void => {
-				if (!text) return;
-				streamedText += text;
-				emit({ type: "markdown_text", text });
-			};
-
-			const read = agent
+	return new ReadableStream<StreamChunk>({
+		start(controller) {
+			void agent
 				.read(receipt, {
 					onEvent(event) {
-						const position = `${event.position.batch}:${event.position.index}`;
-						if (seenPositions.has(position)) return;
-						seenPositions.add(position);
+						if (cancelled || isDuplicate(event, seenPositions)) return;
 
-						if (event.type === "message-started") {
-							if (event.submissionId === receipt.submissionId) responseMessageId = event.messageId;
-							else if (event.messageId !== responseMessageId) return;
-						} else if (event.type === "message-delta" || event.type === "tool-input") {
-							if (event.messageId !== responseMessageId) return;
-						} else if (
-							(event.type === "tool-output" || event.type === "tool-output-error") &&
-							!activeTools.has(event.toolCallId)
-						) {
-							return;
+						if (event.type === "message-started" && event.submissionId === receipt.submissionId) {
+							responseMessageId = event.messageId;
 						}
-
-						projectAgentEvent(event, {
-							activeTools,
-							emit,
-							emitText,
-							get needsParagraph() {
-								return needsParagraph;
-							},
-							set needsParagraph(value: boolean) {
-								needsParagraph = value;
-							},
-							get streamedText() {
-								return streamedText;
-							},
-						});
+						const chunk = projectToolEvent(event, responseMessageId, activeTools);
+						if (chunk) controller.enqueue(chunk);
 					},
 				})
-				.then((reply) => {
-					if (!streamedText) emitText(reply.text || "Done.");
-					else if (reply.text.startsWith(streamedText)) emitText(reply.text.slice(streamedText.length));
-				})
-				.catch((error: unknown) => {
-					console.error("Bolt agent run failed", error);
-					for (const [id, title] of activeTools) {
-						emit({ type: "task_update", id, title, status: "error", details: "Step failed" });
-					}
-					if (streamedText) emitText("\n\n");
-					emitText(
-						error instanceof AgentRunError && error.outcome === "aborted"
-							? "I stopped working on that request."
-							: "I ran into an error while working on that. Please try again.",
-					);
-				})
-				.finally(() => {
-					finished = true;
-					wake?.();
-					wake = undefined;
-				});
-
-			while (!finished || queue.length > 0) {
-				const chunk = queue.shift();
-				if (chunk) {
-					yield chunk;
-					continue;
-				}
-				await new Promise<void>((resolve) => {
-					wake = resolve;
-				});
-			}
-			await read;
+				.then(
+					(reply) => {
+						if (cancelled) return;
+						controller.enqueue({ type: "markdown_text", text: reply.text || "Done." });
+						controller.close();
+					},
+					(error: unknown) => {
+						// Failed Flue runs are captured by the global Flue/Sentry instrumentation.
+						if (!(error instanceof AgentRunError)) {
+							reportError(error, "Failed to read Bolt agent reply", { submissionId: receipt.submissionId });
+						}
+						if (cancelled) return;
+						for (const [id, title] of activeTools) {
+							controller.enqueue({ type: "task_update", id, title, status: "error", details: "Step failed" });
+						}
+						controller.enqueue({
+							type: "markdown_text",
+							text:
+								error instanceof AgentRunError && error.outcome === "aborted"
+									? "I stopped working on that request."
+									: "I ran into an error while working on that. Please try again.",
+						});
+						controller.close();
+					},
+				);
 		},
-	};
+		cancel() {
+			cancelled = true;
+		},
+	});
 }
 
-interface AgentEventProjection {
-	activeTools: Map<string, string>;
-	emit(chunk: StreamChunk): void;
-	emitText(text: string): void;
-	needsParagraph: boolean;
-	readonly streamedText: string;
-}
-
-function projectAgentEvent(event: ConversationStreamChunk, output: AgentEventProjection): void {
+function projectToolEvent(
+	event: ConversationStreamChunk,
+	responseMessageId: string | undefined,
+	activeTools: Map<string, string>,
+): StreamChunk | undefined {
 	switch (event.type) {
-		case "message-started":
-			if (output.streamedText) output.needsParagraph = true;
-			break;
-		case "message-delta":
-			if (event.kind !== "text") break;
-			if (output.needsParagraph) output.emitText("\n\n");
-			output.needsParagraph = false;
-			output.emitText(event.delta);
-			break;
 		case "tool-input": {
+			if (event.messageId !== responseMessageId) return;
 			const title = toolTitle(event.toolName);
-			output.activeTools.set(event.toolCallId, title);
-			output.emit({ type: "task_update", id: event.toolCallId, title, status: "in_progress" });
-			break;
+			activeTools.set(event.toolCallId, title);
+			return { type: "task_update", id: event.toolCallId, title, status: "in_progress" };
 		}
 		case "tool-output": {
-			const title = output.activeTools.get(event.toolCallId) ?? "Completed a step";
-			output.activeTools.delete(event.toolCallId);
-			output.emit({ type: "task_update", id: event.toolCallId, title, status: "complete" });
-			break;
+			const title = activeTools.get(event.toolCallId);
+			if (!title) return;
+			activeTools.delete(event.toolCallId);
+			return { type: "task_update", id: event.toolCallId, title, status: "complete" };
 		}
 		case "tool-output-error": {
-			const title = output.activeTools.get(event.toolCallId) ?? "Running a step";
-			output.activeTools.delete(event.toolCallId);
-			output.emit({ type: "task_update", id: event.toolCallId, title, status: "error", details: "Step failed" });
-			break;
+			const title = activeTools.get(event.toolCallId);
+			if (!title) return;
+			activeTools.delete(event.toolCallId);
+			return { type: "task_update", id: event.toolCallId, title, status: "error", details: "Step failed" };
 		}
 	}
+}
+
+function isDuplicate(event: ConversationStreamChunk, seenPositions: Set<string>): boolean {
+	const position = `${event.position.batch}:${event.position.index}`;
+	if (seenPositions.has(position)) return true;
+	seenPositions.add(position);
+	return false;
 }
 
 function toolTitle(toolName: string): string {

@@ -4,7 +4,7 @@ import { mergeRecentMessages, shouldRunReplyGate } from "./slack-reply-routing.t
 import { streamAgentReply } from "./stream-agent-reply.ts";
 
 describe("Slack agent reply streaming", () => {
-	it("ignores previous replies and deduplicates replayed chunks", async () => {
+	it("shows tool progress but only posts the final assistant step", async () => {
 		const receipt: DispatchReceipt = {
 			acceptedAt: "2026-08-05T04:00:00.000Z",
 			submissionId: "current-submission",
@@ -14,53 +14,78 @@ describe("Slack agent reply streaming", () => {
 			{
 				type: "message-started",
 				conversationId: "conversation",
-				messageId: "previous-message",
-				submissionId: "previous-submission",
+				messageId: "current-message",
+				submissionId: receipt.submissionId,
 				position: { batch: 1, index: 0 },
 			},
 			{
 				type: "message-delta",
 				conversationId: "conversation",
-				messageId: "previous-message",
-				kind: "text",
-				delta: "Previous reply",
+				messageId: "current-message",
+				kind: "reasoning",
+				delta: "Internal reasoning",
 				position: { batch: 1, index: 1 },
+			},
+			{
+				type: "message-delta",
+				conversationId: "conversation",
+				messageId: "current-message",
+				kind: "text",
+				delta: "I'll inspect the repository.",
+				position: { batch: 1, index: 2 },
+			},
+			{
+				type: "tool-input",
+				conversationId: "conversation",
+				messageId: "current-message",
+				toolCallId: "tool-1",
+				toolName: "read",
+				input: { path: "README.md" },
+				position: { batch: 1, index: 3 },
+			},
+			{
+				type: "tool-output",
+				conversationId: "conversation",
+				toolCallId: "tool-1",
+				output: "contents",
+				position: { batch: 2, index: 0 },
 			},
 			{
 				type: "message-started",
 				conversationId: "conversation",
 				messageId: "current-message",
 				submissionId: receipt.submissionId,
-				position: { batch: 2, index: 0 },
+				position: { batch: 3, index: 0 },
 			},
 			{
 				type: "message-delta",
 				conversationId: "conversation",
 				messageId: "current-message",
 				kind: "text",
-				delta: "Current reply",
-				position: { batch: 2, index: 1 },
-			},
-			{
-				type: "message-delta",
-				conversationId: "conversation",
-				messageId: "current-message",
-				kind: "text",
-				delta: "Current reply",
-				position: { batch: 2, index: 1 },
+				delta: "Here is the final answer.",
+				position: { batch: 3, index: 1 },
 			},
 		];
 		const agent = {
 			read: async (_receipt: DispatchReceipt, options?: { onEvent?(event: ConversationStreamChunk): void }) => {
 				for (const event of events) options?.onEvent?.(event);
-				return { data: {}, submissionId: receipt.submissionId, text: "Current reply", uid: receipt.uid };
+				return {
+					data: {},
+					submissionId: receipt.submissionId,
+					text: "Here is the final answer.",
+					uid: receipt.uid,
+				};
 			},
 		} as unknown as AgentInstanceHandle;
 
 		const chunks = [];
 		for await (const chunk of streamAgentReply(agent, receipt)) chunks.push(chunk);
 
-		expect(chunks).toEqual([{ type: "markdown_text", text: "Current reply" }]);
+		expect(chunks).toEqual([
+			{ type: "task_update", id: "tool-1", title: "Reading a file", status: "in_progress" },
+			{ type: "task_update", id: "tool-1", title: "Reading a file", status: "complete" },
+			{ type: "markdown_text", text: "Here is the final answer." },
+		]);
 	});
 
 	it("always starts Bolt for mentions and DMs", () => {
