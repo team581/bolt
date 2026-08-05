@@ -2,10 +2,9 @@ allowBuilds:
   "@google/genai": true
   "@mongodb-js/zstd": true
   "@sentry/cli": true
+  cbor-extract: false
   node-liblzma: true
   protobufjs: true
-patchedDependencies:
-  { "@sentry/junior": patches/@sentry__junior.patch, "@vercel/sandbox": patches/@vercel__sandbox.patch }
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vite-plus: latest

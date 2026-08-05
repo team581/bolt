@@ -1,0 +1,25 @@
+# GitHub Project: {{project.title}}
+
+This file is generated from GitHub by `vp run generate:prompts`.
+
+- Number: `{{project.number}}`
+- Project ID: `{{project.id}}`
+- URL: <{{project.url}}>
+
+## Project fields
+
+| Field | Field ID |
+| --- | --- |
+{{#each fields}}
+| {{name}} | `{{id}}` |
+{{/each}}
+{{#each singleSelectFields}}
+
+### {{name}} options
+
+| Name | Option ID |
+| --- | --- |
+{{#each options}}
+| {{name}} | `{{id}}` |
+{{/each}}
+{{/each}}

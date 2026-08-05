@@ -1,17 +1,22 @@
 import { defineConfig } from "vite-plus";
-import { nitro } from "nitro/vite";
+import { flue } from "@flue/vite";
 
 export default defineConfig({
 	staged: {
 		"*": "vp check --fix",
 	},
-	fmt: { useTabs: true, printWidth: 120, ignorePatterns: ["**/*.hbs"] },
+	fmt: {
+		useTabs: true,
+		printWidth: 120,
+		ignorePatterns: ["**/*.hbs", "src/agents/bolt/skills/analyze-wpilog/SKILL.md"],
+	},
 	lint: { options: { typeAware: true, typeCheck: true } },
 	server: {
 		allowedHosts: true,
 	},
-	plugins: process.env.VITEST ? [] : [nitro()],
+	plugins: process.env.VITEST ? [] : [flue({ providers: ["vercel-ai-gateway"] })],
 	test: {
+		env: { NODE_ENV: "test" },
 		passWithNoTests: true,
 	},
 });

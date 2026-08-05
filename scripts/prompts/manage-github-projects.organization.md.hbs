@@ -1,0 +1,29 @@
+# Team 581 GitHub organization reference
+
+This file is generated from GitHub by `vp run generate:prompts`.
+
+## Issue types
+
+| Name | ID | Description |
+| --- | --- | --- |
+{{#each issueTypes}}
+| {{name}} | `{{id}}` | {{description}} |
+{{/each}}
+
+## Issue fields
+
+| Field | Field ID |
+| --- | --- |
+{{#each issueFields}}
+| {{name}} | `{{id}}` |
+{{/each}}
+{{#each issueSingleSelectFields}}
+
+### {{name}} options
+
+| Name | Option ID |
+| --- | --- |
+{{#each options}}
+| {{name}} | `{{id}}` |
+{{/each}}
+{{/each}}
