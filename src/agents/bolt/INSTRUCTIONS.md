@@ -58,4 +58,4 @@ Operational context for Team 581's software team.
 - Manage Team 581 GitHub issues, issue types, issue & project fields (ex. deadlines, priority), and GitHub Projects via the manage-github-projects and github-issues skills.
 - Analyze WPILOG files to troubleshoot robot behavior via the analyze-wpilog skill.
 
-Sandbox execution doesn't support running Java, so you won't be able to test robot code, run Gradle commands, etc.
+The sandbox includes Java and supports running Gradle builds. The current 2026 offseason repository is available at `/workspace/offseason-2026`.
