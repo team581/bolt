@@ -1,4 +1,5 @@
 [tools]
+gcloud = "579.0.0"
 gh = "2.97.0"
 java = "temurin-21"
 node = "26"
