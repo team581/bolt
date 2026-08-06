@@ -36,7 +36,7 @@ importers:
         version: 2.0.2(@types/node@26.1.2)(hono@4.13.0)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)
       '@flue/opentelemetry':
         specifier: ^2.0.1
-        version: 2.0.2(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
+        version: 2.0.3(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
       '@flue/postgres':
         specifier: ^2.0.1
         version: 2.0.2(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
@@ -326,11 +326,11 @@ packages:
     engines: {node: '>=22.19.0'}
     hasBin: true
 
-  '@flue/opentelemetry@2.0.2':
-    resolution: {integrity: sha512-UhI5Z7dbTgNHvpvHQoIRsgn5mbogUAZiReUO7jJTa7eSzHfS7Gfk0ok2tIWjW7U1GZ26ZfvxQUctujtqR2Qndg==}
+  '@flue/opentelemetry@2.0.3':
+    resolution: {integrity: sha512-3PUKt9e6yOOdOGpcYwMTlgufSQ/6RT7bnNZdCMu9ZVJNHNp6in2dPlqggq2zy+DsbF1UZvhyyHlrX8uu+EDdBQ==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      '@flue/runtime': ^2.0.2
+      '@flue/runtime': ^2.0.3
       '@opentelemetry/api': ^1.9.0
 
   '@flue/postgres@2.0.2':
@@ -3025,7 +3025,7 @@ snapshots:
       - yaml
       - zod
 
-  '@flue/opentelemetry@2.0.2(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)':
+  '@flue/opentelemetry@2.0.3(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)':
     dependencies:
       '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@opentelemetry/api': 1.9.1
