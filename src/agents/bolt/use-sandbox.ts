@@ -1,6 +1,6 @@
 import { useAgentFinish, useSandbox } from "@flue/runtime";
 import { createHash } from "node:crypto";
-import { AlreadyExistsError, ModalClient, NotFoundError, type Sandbox as ModalSandbox } from "modal";
+import { AlreadyExistsError, ModalClient, NotFoundError, Probe, type Sandbox as ModalSandbox } from "modal";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../github-app.ts";
 import { config } from "../../config.ts";
 import { modal } from "../../sandboxes/modal.ts";
@@ -9,8 +9,9 @@ import { reportError } from "../../sentry.ts";
 const SANDBOX_TIMEOUT = Temporal.Duration.from({ minutes: 30 });
 const SANDBOX_IDLE_TIMEOUT = Temporal.Duration.from({ minutes: 5 });
 const SANDBOX_SETUP_TIMEOUT = Temporal.Duration.from({ minutes: 5 });
-const REPOSITORY_PULL_TIMEOUT = Temporal.Duration.from({ minutes: 1 });
 const SANDBOX_CLEANUP_TIMEOUT = Temporal.Duration.from({ seconds: 10 });
+const SANDBOX_READY_PATH = "/tmp/bolt-ready";
+const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox repository.";
 
 function createModalClient(): ModalClient {
 	return new ModalClient({
@@ -67,6 +68,7 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 			memoryLimitMiB: 4_096,
 			memoryMiB: 2_048,
 			name,
+			readinessProbe: Probe.withExec(["test", "-f", SANDBOX_READY_PATH]),
 			tags: { "bolt-instance": workspaceKey },
 			timeoutMs: SANDBOX_TIMEOUT.total("milliseconds"),
 			volumes: {
@@ -96,19 +98,21 @@ export function useBoltSandbox(instanceId: string): void {
 				}).createSessionEnv(options);
 				const setup = await session.exec("/usr/local/libexec/bolt-sandbox-setup", {
 					env: {
+						BOLT_SANDBOX_READY_PATH: SANDBOX_READY_PATH,
 						GITHUB_APP_BOT_EMAIL: config.GITHUB_APP_BOT_EMAIL,
 						GITHUB_APP_BOT_NAME: config.GITHUB_APP_BOT_NAME,
 					},
 					timeoutMs: SANDBOX_SETUP_TIMEOUT.total("milliseconds"),
 				});
 				if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.", { cause: setup });
-				try {
-					await session.exec("git -C /workspace/offseason-2026 pull --ff-only --quiet", {
-						timeoutMs: REPOSITORY_PULL_TIMEOUT.total("milliseconds"),
-					});
-				} catch (error) {
-					reportError(error, "Failed to update sandbox repository", { instanceId: options.id });
+				if (setup.stderr.includes(REPOSITORY_PULL_FAILURE_MARKER)) {
+					reportError(
+						new Error(REPOSITORY_PULL_FAILURE_MARKER, { cause: setup.stderr }),
+						"Failed to update sandbox repository",
+						{ instanceId: options.id },
+					);
 				}
+				await sandbox.waitUntilReady();
 				return session;
 			} catch (error) {
 				if (githubToken !== undefined && githubToken.length > 0) {
