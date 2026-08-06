@@ -7,7 +7,12 @@ import { decideWhetherBoltShouldReply } from "../agents/slack-reply-gate.ts";
 import { pool } from "../db.ts";
 import { reportError } from "../sentry.ts";
 import { createConfiguredSlackAdapter } from "./slack-adapter.ts";
-import { mergeRecentMessages, REPLY_GATE_CONTEXT_MESSAGE_LIMIT, shouldRunReplyGate } from "./slack-reply-routing.ts";
+import {
+	mergeMessages,
+	mergeRecentMessages,
+	REPLY_GATE_CONTEXT_MESSAGE_LIMIT,
+	shouldRunReplyGate,
+} from "./slack-reply-routing.ts";
 import { streamAgentReply } from "./stream-agent-reply.ts";
 
 export function createSlackChannel(): {
@@ -25,7 +30,7 @@ export function createSlackChannel(): {
 
 	bot.onNewMention(async (thread, message, context) => {
 		await thread.subscribe();
-		await respond(thread, message, context, true);
+		await respond(thread, message, context, true, true);
 	});
 
 	bot.onSubscribedMessage((thread, message, context) => respond(thread, message, context, message.isMention));
@@ -51,12 +56,16 @@ async function respond(
 	message: Message,
 	context?: MessageContext,
 	wasMentioned = false,
+	includeThreadHistory = false,
 ): Promise<void> {
-	const messages = [...(context?.skipped ?? []), message];
-	if (shouldRunReplyGate(thread.isDM, wasMentioned) && !(await replyGateAllowsReply(thread, messages))) return;
+	const incomingMessages = [...(context?.skipped ?? []), message];
+	if (shouldRunReplyGate(thread.isDM, wasMentioned) && !(await replyGateAllowsReply(thread, incomingMessages))) return;
 
 	await thread.startTyping();
 	try {
+		const messages = includeThreadHistory
+			? await messagesWithThreadHistory(thread, incomingMessages)
+			: incomingMessages;
 		const attachmentMessageIds = messages
 			.filter((candidate) => candidate.attachments.some(isWpilogAttachment))
 			.map((candidate) => candidate.id);
@@ -90,6 +99,12 @@ async function respond(
 	} finally {
 		await thread.startTyping("");
 	}
+}
+
+async function messagesWithThreadHistory(thread: Thread, incomingMessages: Message[]): Promise<Message[]> {
+	const history: Message[] = [];
+	for await (const message of thread.allMessages) history.push(message);
+	return mergeMessages(history, incomingMessages);
 }
 
 async function replyGateAllowsReply(thread: Thread, messages: Message[]): Promise<boolean> {

@@ -1,6 +1,6 @@
 import type { AgentInstanceHandle, ConversationStreamChunk, DispatchReceipt } from "@flue/runtime";
 import { describe, expect, it } from "vite-plus/test";
-import { mergeRecentMessages, shouldRunReplyGate } from "./slack-reply-routing.ts";
+import { mergeMessages, mergeRecentMessages, shouldRunReplyGate } from "./slack-reply-routing.ts";
 import { streamAgentReply } from "./stream-agent-reply.ts";
 
 describe("Slack agent reply streaming", () => {
@@ -95,6 +95,13 @@ describe("Slack agent reply streaming", () => {
 
 	it("gates unmentioned messages in subscribed threads", () => {
 		expect(shouldRunReplyGate(false, false)).toBe(true);
+	});
+
+	it("combines existing thread history with the first mention", () => {
+		const history = [{ id: "1" }, { id: "2" }];
+		const messages = mergeMessages(history, [{ id: "2" }, { id: "3" }]);
+
+		expect(messages.map(({ id }) => id)).toEqual(["1", "2", "3"]);
 	});
 
 	it("gives the reply gate only a bounded, deduplicated recent context", () => {
