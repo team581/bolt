@@ -67,14 +67,14 @@ describe("Slack agent reply streaming", () => {
 			},
 		];
 		const agent = {
-			read: async (_receipt: DispatchReceipt, options?: { onEvent?(event: ConversationStreamChunk): void }) => {
+			read: (_receipt: DispatchReceipt, options?: { onEvent?(event: ConversationStreamChunk): void }) => {
 				for (const event of events) options?.onEvent?.(event);
-				return {
+				return Promise.resolve({
 					data: {},
 					submissionId: receipt.submissionId,
 					text: "Here is the final answer.",
 					uid: receipt.uid,
-				};
+				});
 			},
 		} as unknown as AgentInstanceHandle;
 

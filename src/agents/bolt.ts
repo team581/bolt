@@ -41,10 +41,12 @@ export function Bolt({ id }: AgentProps) {
 					const attachments = await fetchSlackMessageAttachments(slack.threadId, messageId);
 					for (const [attachmentIndex, attachment] of attachments.entries()) {
 						const filename = attachment.name;
-						if (!filename?.toLowerCase().endsWith(".wpilog")) continue;
-						if (!attachment.fetchData) throw new Error(`Slack attachment ${filename} cannot be downloaded.`);
+						if (filename === undefined || !filename.toLowerCase().endsWith(".wpilog")) continue;
+						if (attachment.fetchData === undefined) {
+							throw new Error(`Slack attachment ${filename} cannot be downloaded.`);
+						}
 
-						const safeName = filename.replace(/[^A-Za-z0-9._-]/g, "_");
+						const safeName = filename.replaceAll(/[^A-Za-z0-9._-]/gu, "_");
 						const path = harness.sandbox.resolvePath(`uploads/${messageId}-${attachmentIndex}-${safeName}`);
 						const bytes = await attachment.fetchData();
 						await harness.sandbox.writeFile(path, new Uint8Array(bytes));
@@ -62,7 +64,7 @@ export function Bolt({ id }: AgentProps) {
 				}
 			});
 		}
-		const startedBy = slack.startedBy ? ` by <@${slack.startedBy}>` : "";
+		const startedBy = slack.startedBy === undefined || slack.startedBy.length === 0 ? "" : ` by <@${slack.startedBy}>`;
 		useInstruction(
 			`This conversation started${startedBy} in ${slack.isDM ? "a Slack DM" : "a Slack thread"} at ${slack.startedAt}. Your response is streamed to Slack automatically.`,
 		);
@@ -76,7 +78,7 @@ Bolt.initialData = v.optional(slackInitialData);
 function getAttachmentMessageIds(delivery: ReturnType<typeof useDelivery>): string[] {
 	if (delivery.kind !== "signal" || delivery.type !== "slack.message") return [];
 	const encoded = delivery.attributes?.attachmentMessageIds;
-	if (!encoded) return [];
+	if (encoded === undefined || encoded.length === 0) return [];
 
 	try {
 		const parsed: unknown = JSON.parse(encoded);

@@ -111,7 +111,7 @@ export function useBoltSandbox(instanceId: string): void {
 				}
 				return session;
 			} catch (error) {
-				if (githubToken) {
+				if (githubToken !== undefined && githubToken.length > 0) {
 					try {
 						await revokeGitHubInstallationToken(githubToken);
 					} catch (cleanupError) {
@@ -149,7 +149,7 @@ export function useBoltSandbox(instanceId: string): void {
 				reportError(error, "Failed to sync Modal sandbox workspace", { instanceId });
 			}
 		}
-		if (githubToken) {
+		if (githubToken !== undefined && githubToken.length > 0) {
 			try {
 				await revokeGitHubInstallationToken(githubToken);
 			} catch (error) {

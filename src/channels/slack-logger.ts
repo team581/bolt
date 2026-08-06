@@ -10,7 +10,7 @@ class SentrySlackLogger extends ConsoleLogger {
 	override warn(message: string, ...args: unknown[]): void {
 		super.warn(message, ...args);
 		const context = args[0];
-		if (context && typeof context === "object" && "error" in context) {
+		if (typeof context === "object" && context !== null && "error" in context) {
 			reportError(context.error, `Slack adapter warning: ${message}`);
 		}
 	}

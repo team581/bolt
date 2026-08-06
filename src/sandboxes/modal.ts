@@ -21,7 +21,7 @@ export interface ModalAdapterOptions {
 }
 
 function shellQuote(value: string): string {
-	return `'${value.replace(/'/g, `'\\''`)}'`;
+	return `'${value.replaceAll("'", `'\\''`)}'`;
 }
 
 const SANDBOX_LIVENESS_POLL = Temporal.Duration.from({ seconds: 5 });
@@ -44,7 +44,9 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 
 		const probe = async (): Promise<void> => {
 			silenceTimer = setTimeout(() => {
-				settle(() => reject(new SandboxDiedError({ operation, reason: "probe_silent" })));
+				settle(() => {
+					reject(new SandboxDiedError({ operation, reason: "probe_silent" }));
+				});
 			}, PROBE_SILENCE.total("milliseconds"));
 			let exitCode: number | null;
 			try {
@@ -52,25 +54,39 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 			} catch {
 				if (settled) return;
 				clearTimeout(silenceTimer);
-				pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
+				pollTimer = setTimeout(() => {
+					void probe();
+				}, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 				return;
 			}
 			if (settled) return;
 			clearTimeout(silenceTimer);
-			if (exitCode !== null) {
-				settle(() => reject(new SandboxDiedError({ operation, reason: "stopped" })));
+			if (exitCode === null) {
+				pollTimer = setTimeout(() => {
+					void probe();
+				}, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 			} else {
-				pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
+				settle(() => {
+					reject(new SandboxDiedError({ operation, reason: "stopped" }));
+				});
 			}
 		};
-		pollTimer = setTimeout(probe, SANDBOX_LIVENESS_POLL.total("milliseconds"));
+		pollTimer = setTimeout(() => {
+			void probe();
+		}, SANDBOX_LIVENESS_POLL.total("milliseconds"));
 
 		const settleCall = async (): Promise<void> => {
 			try {
 				const value = await call;
-				settle(() => resolve(value));
+				settle(() => {
+					resolve(value);
+				});
 			} catch (error) {
-				settle(() => reject(error));
+				const rejection =
+					error instanceof Error ? error : new Error("Modal sandbox operation failed.", { cause: error });
+				settle(() => {
+					reject(rejection);
+				});
 			}
 		};
 		void settleCall();
@@ -87,11 +103,11 @@ class ModalSandboxApi implements SandboxApi {
 		return raceSandboxDeath(this.sandbox, operation, call);
 	}
 
-	async readFile(path: string): Promise<string> {
+	readFile(path: string): Promise<string> {
 		return this.guarded("readFile", this.sandbox.filesystem.readText(path));
 	}
 
-	async readFileBuffer(path: string): Promise<Uint8Array> {
+	readFileBuffer(path: string): Promise<Uint8Array> {
 		return this.guarded("readFile", this.sandbox.filesystem.readBytes(path));
 	}
 
@@ -118,8 +134,10 @@ class ModalSandboxApi implements SandboxApi {
 		const mtime = new Date(mtimeSecs * 1000);
 		if (
 			fields.length !== 3 ||
-			!sizeStr ||
-			!mtimeStr ||
+			sizeStr === undefined ||
+			sizeStr.length === 0 ||
+			mtimeStr === undefined ||
+			mtimeStr.length === 0 ||
 			!Number.isSafeInteger(size) ||
 			size < 0 ||
 			!Number.isSafeInteger(mtimeSecs) ||
@@ -152,7 +170,7 @@ class ModalSandboxApi implements SandboxApi {
 	}
 
 	async mkdir(path: string, options?: { recursive?: boolean }): Promise<void> {
-		const cmd = options?.recursive ? `mkdir -p ${shellQuote(path)}` : `mkdir ${shellQuote(path)}`;
+		const cmd = options?.recursive === true ? `mkdir -p ${shellQuote(path)}` : `mkdir ${shellQuote(path)}`;
 		const result = await this.runShell("mkdir", cmd);
 		if (result.exitCode !== 0) {
 			throw new Error(
@@ -162,8 +180,8 @@ class ModalSandboxApi implements SandboxApi {
 	}
 
 	async rm(path: string, options?: { recursive?: boolean; force?: boolean }): Promise<void> {
-		const flags = `${options?.recursive ? "r" : ""}${options?.force ? "f" : ""}`;
-		const flagArg = flags ? ` -${flags}` : "";
+		const flags = `${options?.recursive === true ? "r" : ""}${options?.force === true ? "f" : ""}`;
+		const flagArg = flags.length > 0 ? ` -${flags}` : "";
 		const result = await this.runShell("rm", `rm${flagArg} ${shellQuote(path)}`);
 		if (result.exitCode !== 0) {
 			throw new Error(
@@ -172,7 +190,7 @@ class ModalSandboxApi implements SandboxApi {
 		}
 	}
 
-	async exec(
+	exec(
 		command: string,
 		options?: {
 			cwd?: string;
@@ -215,10 +233,10 @@ class ModalSandboxApi implements SandboxApi {
 
 export function modal(sandbox: ModalSandbox, options?: ModalAdapterOptions): SandboxFactory {
 	return {
-		async createSessionEnv(): Promise<SessionEnv> {
+		createSessionEnv(): Promise<SessionEnv> {
 			const sandboxCwd = options?.cwd ?? "/";
 			const api = new ModalSandboxApi(sandbox, options?.env);
-			return createSandboxSessionEnv(api, sandboxCwd);
+			return Promise.resolve(createSandboxSessionEnv(api, sandboxCwd));
 		},
 	};
 }

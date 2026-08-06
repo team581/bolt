@@ -114,7 +114,7 @@ async function replyGateAllowsReply(thread: Thread, messages: Message[]): Promis
 			direction: "backward",
 		});
 		const context = mergeRecentMessages(history.messages, messages);
-		return decideWhetherBoltShouldReply(messageBody(context));
+		return await decideWhetherBoltShouldReply(messageBody(context));
 	} catch (error) {
 		reportError(error, "Slack reply gate failed; defaulting to a reply", { threadId: thread.id });
 		return true;

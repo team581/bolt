@@ -60,26 +60,20 @@ function projectToolEvent(
 	responseMessageId: string | undefined,
 	activeTools: Map<string, string>,
 ): StreamChunk | undefined {
-	switch (event.type) {
-		case "tool-input": {
-			if (event.messageId !== responseMessageId) return;
-			const title = toolTitle(event.toolName);
-			activeTools.set(event.toolCallId, title);
-			return { type: "task_update", id: event.toolCallId, title, status: "in_progress" };
-		}
-		case "tool-output": {
-			const title = activeTools.get(event.toolCallId);
-			if (!title) return;
-			activeTools.delete(event.toolCallId);
-			return { type: "task_update", id: event.toolCallId, title, status: "complete" };
-		}
-		case "tool-output-error": {
-			const title = activeTools.get(event.toolCallId);
-			if (!title) return;
-			activeTools.delete(event.toolCallId);
-			return { type: "task_update", id: event.toolCallId, title, status: "error", details: "Step failed" };
-		}
+	if (event.type === "tool-input") {
+		if (event.messageId !== responseMessageId) return undefined;
+		const title = toolTitle(event.toolName);
+		activeTools.set(event.toolCallId, title);
+		return { type: "task_update", id: event.toolCallId, title, status: "in_progress" };
 	}
+	if (event.type !== "tool-output" && event.type !== "tool-output-error") return undefined;
+
+	const title = activeTools.get(event.toolCallId);
+	if (title === undefined || title.length === 0) return undefined;
+	activeTools.delete(event.toolCallId);
+	return event.type === "tool-output"
+		? { type: "task_update", id: event.toolCallId, title, status: "complete" }
+		: { type: "task_update", id: event.toolCallId, title, status: "error", details: "Step failed" };
 }
 
 function isDuplicate(event: ConversationStreamChunk, seenPositions: Set<string>): boolean {

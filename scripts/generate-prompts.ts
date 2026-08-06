@@ -132,7 +132,7 @@ async function getData(): Promise<ManageGithubProjectsData> {
 		"100",
 	]);
 
-	const openProjects = projects.filter((project) => !project.closed).sort((a, b) => b.number - a.number);
+	const openProjects = projects.filter((project) => !project.closed).toSorted((a, b) => b.number - a.number);
 	if (openProjects.length === 0) throw new Error(`No open projects found for ${OWNER}`);
 
 	const [issueTypes, rawIssueFields, projectFields] = await Promise.all([

@@ -6,10 +6,11 @@ import { resolveDevSandboxImage } from "./scripts/dev-sandbox-image.ts";
 const bundledPackages = new Set(["@flue/runtime", "debug"]);
 const externalPackages = [...Object.keys(packageJson.dependencies), ...Object.keys(packageJson.devDependencies)]
 	.filter((packageName) => !bundledPackages.has(packageName))
-	.map((packageName) => new RegExp(`^${packageName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:/|$)`));
+	.map((packageName) => new RegExp(`^${packageName.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&")}(?:/|$)`, "u"));
+const isUnset = (value: string | undefined): value is undefined | "" => value === undefined || value.length === 0;
 
 export default defineConfig(async ({ command }) => {
-	if (command === "serve" && !process.env.VITEST && !process.env.BOLT_SANDBOX_IMAGE) {
+	if (command === "serve" && isUnset(process.env.VITEST) && isUnset(process.env.BOLT_SANDBOX_IMAGE)) {
 		process.env.BOLT_SANDBOX_IMAGE = await resolveDevSandboxImage();
 		console.log(`[bolt] Using sandbox image ${process.env.BOLT_SANDBOX_IMAGE}`);
 	}
@@ -23,7 +24,31 @@ export default defineConfig(async ({ command }) => {
 			printWidth: 120,
 			ignorePatterns: ["**/*.hbs", "src/agents/bolt/skills/analyze-wpilog/SKILL.md"],
 		},
-		lint: { options: { typeAware: true, typeCheck: true } },
+		lint: {
+			categories: {
+				correctness: "error",
+				pedantic: "error",
+				perf: "error",
+				suspicious: "error",
+			} as const,
+			options: { typeAware: true, typeCheck: true },
+			overrides: [
+				{
+					files: ["**/*.test.ts"],
+					rules: { "typescript/no-unsafe-type-assertion": "off" } as const,
+				},
+				{
+					files: ["scripts/**/*.ts"],
+					rules: { "typescript/no-unsafe-type-assertion": "off" } as const,
+				},
+			],
+			rules: {
+				"max-lines-per-function": "off",
+				"no-await-in-loop": "off",
+				"oxc/no-map-spread": "off",
+				"typescript/prefer-readonly-parameter-types": "off",
+			} as const,
+		},
 		build: {
 			rolldownOptions: {
 				external: externalPackages,
@@ -32,7 +57,7 @@ export default defineConfig(async ({ command }) => {
 		server: {
 			allowedHosts: true as const,
 		},
-		plugins: process.env.VITEST ? [] : [flue({ providers: ["vercel-ai-gateway"] })],
+		plugins: isUnset(process.env.VITEST) ? [flue({ providers: ["vercel-ai-gateway"] })] : [],
 		test: {
 			env: { NODE_ENV: "test" },
 			passWithNoTests: true,

@@ -5,15 +5,15 @@ import { DEFAULT_EXEC_TIMEOUT, modal } from "./modal.ts";
 function fakeSandbox(): { sandbox: Sandbox; execParams: SandboxExecParams[] } {
 	const execParams: SandboxExecParams[] = [];
 	const sandbox = {
-		exec: async (_command: string[], params: SandboxExecParams) => {
+		exec: (_command: string[], params: SandboxExecParams) => {
 			execParams.push(params);
-			return {
-				stderr: { readText: async () => "" },
-				stdout: { readText: async () => "" },
-				wait: async () => 0,
-			};
+			return Promise.resolve({
+				stderr: { readText: () => Promise.resolve("") },
+				stdout: { readText: () => Promise.resolve("") },
+				wait: () => Promise.resolve(0),
+			});
 		},
-		poll: async () => null,
+		poll: () => Promise.resolve(null),
 	} as unknown as Sandbox;
 	return { sandbox, execParams };
 }

@@ -18,7 +18,7 @@ export async function decideWhetherBoltShouldReply(conversation: string): Promis
 		providerOptions: config.BOLT_REPLY_GATE_MODEL_ID.startsWith("openai/")
 			? { openai: { reasoningEffort: "medium" } }
 			: undefined,
-		system: `Decide whether Bolt, Team 581's software assistant, should reply to the latest message in a Slack thread.
+		instructions: `Decide whether Bolt, Team 581's software assistant, should reply to the latest message in a Slack thread.
 
 Reply when the latest message asks Bolt a question, requests information or an action from Bolt, follows up on Bolt's work, reports that Bolt's answer did not work, or otherwise clearly expects Bolt to continue.
 

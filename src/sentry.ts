@@ -40,7 +40,9 @@ instrument({
 				durationMs: event.durationMs,
 				operationKind: event.operationKind,
 			});
-			if (event.submissionId) capturedFailedSubmissions.add(event.submissionId);
+			if (event.submissionId !== undefined && event.submissionId.length > 0) {
+				capturedFailedSubmissions.add(event.submissionId);
+			}
 			return;
 		}
 		if (event.type === "submission_settled") {
@@ -72,23 +74,27 @@ function captureTerminalFailure(error: unknown, tags: Record<string, string>, co
 	Sentry.withScope((scope) => {
 		scope.setTags(tags);
 		scope.setLevel("error");
-		if (context) scope.setContext("flue.incident", context);
+		if (context !== undefined) scope.setContext("flue.incident", context);
 		Sentry.captureException(toError(error));
 	});
 }
 
 function correlationTags(event: FlueObservation): Record<string, string> {
 	const tags: Record<string, string> = {};
-	if (event.instanceId) tags["flue.instance.id"] = event.instanceId;
-	if (event.agentName) tags["flue.agent.name"] = event.agentName;
-	if (event.conversationId) tags["flue.conversation.id"] = event.conversationId;
-	if (event.submissionId) tags["flue.submission.id"] = event.submissionId;
-	if (event.harness) tags["flue.harness"] = event.harness;
-	if (event.session) tags["flue.session"] = event.session;
-	if (event.parentSession) tags["flue.parent_session"] = event.parentSession;
-	if (event.operationId) tags["flue.operation.id"] = event.operationId;
-	if (event.taskId) tags["flue.task.id"] = event.taskId;
+	setOptionalTag(tags, "flue.instance.id", event.instanceId);
+	setOptionalTag(tags, "flue.agent.name", event.agentName);
+	setOptionalTag(tags, "flue.conversation.id", event.conversationId);
+	setOptionalTag(tags, "flue.submission.id", event.submissionId);
+	setOptionalTag(tags, "flue.harness", event.harness);
+	setOptionalTag(tags, "flue.session", event.session);
+	setOptionalTag(tags, "flue.parent_session", event.parentSession);
+	setOptionalTag(tags, "flue.operation.id", event.operationId);
+	setOptionalTag(tags, "flue.task.id", event.taskId);
 	return tags;
+}
+
+function setOptionalTag(tags: Record<string, string>, key: string, value: string | undefined): void {
+	if (value !== undefined && value.length > 0) tags[key] = value;
 }
 
 type LogAttribute = string | number | boolean;
@@ -105,7 +111,7 @@ function logAttributes(event: Extract<FlueObservation, { type: "log" }>): Record
 
 function toError(value: unknown): Error {
 	if (value instanceof Error) return value;
-	if (value && typeof value === "object") {
+	if (typeof value === "object" && value !== null) {
 		const source = value as { name?: unknown; message?: unknown; stack?: unknown };
 		const error = new Error(typeof source.message === "string" ? source.message : stringify(value));
 		if (typeof source.name === "string") error.name = source.name;

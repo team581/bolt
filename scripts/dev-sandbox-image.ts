@@ -20,6 +20,8 @@ export async function resolveDevSandboxImage(): Promise<string> {
 		"headSha",
 	]);
 	const [run] = JSON.parse(stdout) as { headSha?: string }[];
-	if (!run?.headSha) throw new Error("No successful sandbox image workflow run was found.");
+	if (run?.headSha === undefined || run.headSha.length === 0) {
+		throw new Error("No successful sandbox image workflow run was found.");
+	}
 	return `${SANDBOX_IMAGE}:${run.headSha}`;
 }

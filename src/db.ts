@@ -1,17 +1,20 @@
-import { postgres } from "@flue/postgres";
+import { postgres, type PostgresQuery } from "@flue/postgres";
+import type { PersistenceAdapter } from "@flue/runtime/adapter";
 import { Pool } from "pg";
 import { config } from "./config.ts";
 
 export const pool: Pool = new Pool({ connectionString: config.DATABASE_URL });
 
-export default postgres({
-	query: async (text, params) => (await pool.query(text, params)).rows,
+const query: PostgresQuery = async (text, params) => (await pool.query<Record<string, unknown>>(text, params)).rows;
+
+const database: PersistenceAdapter = postgres({
+	query,
 	transaction: async (fn) => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
 			const result = await fn({
-				query: async (text, params) => (await client.query(text, params)).rows,
+				query: async (text, params) => (await client.query<Record<string, unknown>>(text, params)).rows,
 			});
 			await client.query("COMMIT");
 			return result;
@@ -24,3 +27,5 @@ export default postgres({
 	},
 	close: () => pool.end(),
 });
+
+export default database;
