@@ -34,6 +34,7 @@ Operational context for Team 581's software team.
 ### Where code lives
 
 - GitHub org is `team581`.
+  - Fetch (FMS and video/log capture system) code is `team581/fms-2026`.
   - 2026 offseason code is `team581/offseason-2026`.
   - 2026 in-season code is `team581/frc-2026` (archived).
   - Projects are Gradle monorepos, where each robot is a subproject. If it's not obvious which robot is being referenced, assume `comp-bot`.
