@@ -21,7 +21,7 @@ function fakeSandbox(): { sandbox: Sandbox; execParams: SandboxExecParams[] } {
 describe("Modal sandbox adapter", () => {
 	it("applies a bounded default exec timeout", async () => {
 		const { sandbox, execParams } = fakeSandbox();
-		const session = await modal(sandbox).createSessionEnv({ id: "default-timeout" });
+		const session = await modal(sandbox).createSandbox({ id: "default-timeout" });
 
 		await session.exec("true");
 
@@ -30,7 +30,7 @@ describe("Modal sandbox adapter", () => {
 
 	it("preserves an explicit exec timeout", async () => {
 		const { sandbox, execParams } = fakeSandbox();
-		const session = await modal(sandbox).createSessionEnv({ id: "explicit-timeout" });
+		const session = await modal(sandbox).createSandbox({ id: "explicit-timeout" });
 
 		const timeout = Temporal.Duration.from({ milliseconds: 1_234 });
 		await session.exec("true", { timeoutMs: timeout.total("milliseconds") });
@@ -42,7 +42,7 @@ describe("Modal sandbox adapter", () => {
 		const { sandbox, execParams } = fakeSandbox();
 		const session = await modal(sandbox, {
 			env: { GH_TOKEN: "fresh-token", SHARED: "default" },
-		}).createSessionEnv({ id: "session-env" });
+		}).createSandbox({ id: "session-env" });
 
 		await session.exec("true", { env: { COMMAND: "value", SHARED: "override" } });
 

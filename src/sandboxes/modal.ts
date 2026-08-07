@@ -6,8 +6,8 @@
  * interface. The user creates and configures the Sandbox using the Modal
  * JS SDK directly — Flue just adapts it.
  */
-import { createSandboxSessionEnv, SandboxDiedError } from "@flue/runtime";
-import type { FileStat, SandboxApi, SandboxFactory, SessionEnv } from "@flue/runtime";
+import { sandboxFromDriver, SandboxDiedError } from "@flue/runtime";
+import type { FileStat, SandboxDriver, SandboxFactory } from "@flue/runtime";
 import type { Sandbox as ModalSandbox } from "modal";
 
 export interface ModalAdapterOptions {
@@ -93,7 +93,7 @@ function raceSandboxDeath<T>(sandbox: ModalSandbox, operation: string, call: Pro
 	});
 }
 
-class ModalSandboxApi implements SandboxApi {
+class ModalSandboxDriver implements SandboxDriver {
 	constructor(
 		private sandbox: ModalSandbox,
 		private env?: Record<string, string>,
@@ -233,10 +233,10 @@ class ModalSandboxApi implements SandboxApi {
 
 export function modal(sandbox: ModalSandbox, options?: ModalAdapterOptions): SandboxFactory {
 	return {
-		createSessionEnv(): Promise<SessionEnv> {
+		createSandbox() {
 			const sandboxCwd = options?.cwd ?? "/";
-			const api = new ModalSandboxApi(sandbox, options?.env);
-			return Promise.resolve(createSandboxSessionEnv(api, sandboxCwd));
+			const driver = new ModalSandboxDriver(sandbox, options?.env);
+			return Promise.resolve(sandboxFromDriver(driver, sandboxCwd));
 		},
 	};
 }

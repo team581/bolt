@@ -109,14 +109,14 @@ export function useBoltSandbox(instanceId: string): void {
 	let githubToken: string | undefined;
 
 	useSandbox({
-		async createSessionEnv(options) {
+		async createSandbox(options) {
 			const sandbox = await acquireSandbox(options.id);
 			try {
 				githubToken = await createGitHubInstallationToken();
 				const session = await modal(sandbox, {
 					cwd: "/workspace",
 					env: { GH_TOKEN: githubToken },
-				}).createSessionEnv(options);
+				}).createSandbox(options);
 				const setup = await session.exec("/usr/local/libexec/bolt-sandbox-setup", {
 					env: {
 						BOLT_SANDBOX_READY_PATH: SANDBOX_READY_PATH,

@@ -13,7 +13,7 @@ overrides:
   vitest: 4.1.10
 patchedDependencies:
   "@earendil-works/pi-ai@0.83.0": patches/@earendil-works__pi-ai@0.83.0.patch
-  "@flue/vite@2.0.2": patches/@flue__vite@2.0.2.patch
+  "@flue/vite@2.0.3": patches/@flue__vite@2.0.3.patch
 peerDependencyRules:
   allowAny:
     - vite
