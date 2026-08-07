@@ -36,13 +36,13 @@ importers:
         version: 2.0.2(@types/node@26.1.2)(hono@4.13.0)(jiti@2.7.0)(typescript@7.0.2)(ws@8.21.0)(yaml@2.9.0)(zod@4.4.3)
       '@flue/opentelemetry':
         specifier: ^2.0.1
-        version: 2.0.3(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
+        version: 2.0.3(@flue/runtime@2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)
       '@flue/postgres':
         specifier: ^2.0.1
         version: 2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/runtime':
         specifier: ^2.0.1
-        version: 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+        version: 2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@flue/vite':
         specifier: ^2.0.1
         version: 2.0.2(patch_hash=23bb7c64e67ec333bd31679226ddae29a6e2e8e12043700fa810289cf857568d)(@voidzero-dev/vite-plus-core@0.2.8(@types/node@26.1.2)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(hono@4.13.0)(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
@@ -337,10 +337,6 @@ packages:
     resolution: {integrity: sha512-0Wt4DZMb9jRdp7+TbBtfZMlqRFy74tTacbTlWHt6OWCBEYo+MwVRxbiAcVnJlfBWMVhGAgvogkK4O1l8cJ5HjQ==}
     engines: {node: '>=22.19.0'}
 
-  '@flue/runtime@2.0.1':
-    resolution: {integrity: sha512-as+rrm8oHLuaLfpSReExwsuzOb1gC0sxQWgz3o+RvJUwHyGcQAcfBcn/R6j8logAq1j+ryfH1WsXf4J7Th9puQ==}
-    engines: {node: '>=22.19.0'}
-
   '@flue/runtime@2.0.2':
     resolution: {integrity: sha512-Rz9GyeD2hxeFiTI2KjBHZ9lk9qSRRdzO9MGapeJ1id5Pq6vO5DSkQl8Qzr97rRJaBtxrCBmU0sksnJYH47to4A==}
     engines: {node: '>=22.19.0'}
@@ -372,12 +368,6 @@ packages:
     resolution: {integrity: sha512-wtF6h+DY6M3YaDBPAmvuuA6jV8Sif9MjtOI5euKFWRgCDl5PeDpPsHR9u2l6St5ceY8AZgoNDww5+HvEsXFsGg==}
     engines: {node: '>=6'}
     hasBin: true
-
-  '@hono/node-server@2.0.12':
-    resolution: {integrity: sha512-eWpQYr67tqJLeaSUl0Q+TquuYfUdTibpOJlUMV2FfUP7+KqCC5TufnwnlXL6mobZBJbGAYRd7ZvEBDCbLInjhg==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      hono: ^4
 
   '@hono/node-server@2.1.0':
     resolution: {integrity: sha512-XovyyCCnBzW+zKu+z/zq8hwNs4KOR5rEMAOxo2f40Q5xoOI37IMm6MIg2COOUtUApo0i6850MTBKH2u4QLGIqg==}
@@ -1898,8 +1888,8 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
-  jose@6.2.7:
-    resolution: {integrity: sha512-hq1OB1bALKfydZNoViyg6hPVGV4i93ny9Op+n4zP5RSf7SCZEXa/TsG2O3IEr7+WlHRTPnpqDmHfMH6qXAD60w==}
+  jose@6.2.8:
+    resolution: {integrity: sha512-Bsdjwm3Qsd/P0jR+BHDe3LytDfY7WBq2HmCCLIwuVRHMuEC9ae7/R474GIUdF1NgCyZjzVo/A9DOiOBtXq8ZoQ==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3093,34 +3083,14 @@ snapshots:
       - yaml
       - zod
 
-  '@flue/opentelemetry@2.0.3(@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)':
+  '@flue/opentelemetry@2.0.3(@flue/runtime@2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3))(@opentelemetry/api@1.9.1)':
     dependencies:
-      '@flue/runtime': 2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
+      '@flue/runtime': 2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
       '@opentelemetry/api': 1.9.1
 
   '@flue/postgres@2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@flue/runtime': 2.0.3(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@modelcontextprotocol/sdk'
-      - bufferutil
-      - supports-color
-      - typescript
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@flue/runtime@2.0.1(typescript@7.0.2)(ws@8.21.0)(zod@4.4.3)':
-    dependencies:
-      '@earendil-works/pi-agent-core': 0.83.0(ws@8.21.0)(zod@4.4.3)
-      '@earendil-works/pi-ai': 0.83.0(patch_hash=2a880a0ca0fb928e222e55c385114c91572bd4552377396506edb0f22f8d190e)(ws@8.21.0)(zod@4.4.3)
-      '@hono/node-server': 2.0.12(hono@4.13.0)
-      '@modelcontextprotocol/client': 2.0.0
-      '@valibot/to-json-schema': 1.7.1(valibot@1.4.2(typescript@7.0.2))
-      hono: 4.13.0
-      js-yaml: 5.2.3
-      ulidx: 2.4.1
-      valibot: 1.4.2(typescript@7.0.2)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
@@ -3229,10 +3199,6 @@ snapshots:
       protobufjs: 7.6.5
       yargs: 17.7.3
 
-  '@hono/node-server@2.0.12(hono@4.13.0)':
-    dependencies:
-      hono: 4.13.0
-
   '@hono/node-server@2.1.0(hono@4.13.0)':
     dependencies:
       hono: 4.13.0
@@ -3259,7 +3225,7 @@ snapshots:
       cross-spawn: 7.0.6
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
-      jose: 6.2.7
+      jose: 6.2.8
       pkce-challenge: 5.0.1
       zod: 4.4.3
 
@@ -4429,7 +4395,7 @@ snapshots:
   jiti@2.7.0:
     optional: true
 
-  jose@6.2.7: {}
+  jose@6.2.8: {}
 
   js-tokens@4.0.0: {}
 
