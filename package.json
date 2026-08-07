@@ -12,7 +12,7 @@
 	"dependencies": {
 		"@chat-adapter/slack": "^4.36.0",
 		"@chat-adapter/state-pg": "^4.36.0",
-		"@earendil-works/pi-ai": "^0.83.0",
+		"@earendil-works/pi-ai": "^0.84.0",
 		"@flue/cli": "^2.0.1",
 		"@flue/opentelemetry": "^2.0.1",
 		"@flue/postgres": "^2.0.1",
