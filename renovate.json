@@ -1,3 +1,10 @@
 {
-	"extends": ["github>jonahsnider/renovate-config"]
+	"extends": ["github>jonahsnider/renovate-config"],
+	"packageRules": [
+		{
+			"description": "Keep Pi compatible with Flue's 0.83 auth contract",
+			"matchPackageNames": ["@earendil-works/pi-ai"],
+			"allowedVersions": "<0.84.0"
+		}
+	]
 }
