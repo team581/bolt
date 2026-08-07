@@ -8,6 +8,7 @@ export function streamAgentReply(agent: AgentInstanceHandle, receipt: DispatchRe
 	const seenPositions = new Set<string>();
 	let cancelled = false;
 	let responseMessageId: string | undefined;
+	let finalStepText: string | undefined;
 
 	const readReply = async (controller: ReadableStreamDefaultController<StreamChunk>): Promise<void> => {
 		try {
@@ -15,15 +16,18 @@ export function streamAgentReply(agent: AgentInstanceHandle, receipt: DispatchRe
 				onEvent(event) {
 					if (cancelled || isDuplicate(event, seenPositions)) return;
 
-					if (event.type === "message-started" && event.submissionId === receipt.submissionId) {
+					if (event.type === "message-started") {
 						responseMessageId = event.messageId;
+						finalStepText = "";
+					} else if (event.type === "message-delta" && event.messageId === responseMessageId && event.kind === "text") {
+						finalStepText += event.delta;
 					}
 					const chunk = projectToolEvent(event, responseMessageId, activeTools);
 					if (chunk) controller.enqueue(chunk);
 				},
 			});
 			if (cancelled) return;
-			controller.enqueue({ type: "markdown_text", text: reply.text || "Done." });
+			controller.enqueue({ type: "markdown_text", text: (finalStepText ?? reply.text) || "Done." });
 			controller.close();
 		} catch (error) {
 			// Failed Flue runs are captured by the global Flue/Sentry instrumentation.

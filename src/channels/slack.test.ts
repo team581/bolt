@@ -72,7 +72,7 @@ describe("Slack agent reply streaming", () => {
 				return Promise.resolve({
 					data: {},
 					submissionId: receipt.submissionId,
-					text: "Here is the final answer.",
+					text: "I'll inspect the repository.\n\nHere is the final answer.",
 					uid: receipt.uid,
 				});
 			},
