@@ -12,6 +12,7 @@ const SANDBOX_SETUP_TIMEOUT = Temporal.Duration.from({ minutes: 5 });
 const SANDBOX_CLEANUP_TIMEOUT = Temporal.Duration.from({ seconds: 10 });
 const SANDBOX_READY_PATH = "/tmp/bolt-ready";
 const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox repository.";
+export const FALLBACK_SANDBOX_IMAGE = "ghcr.io/team581/bolt-sandbox:latest";
 
 function createModalClient(): ModalClient {
 	return new ModalClient({
@@ -45,6 +46,24 @@ async function runCleanupCommand(sandbox: ModalSandbox, command: string[]): Prom
 	if (exitCode !== 0) throw new Error(`Sandbox cleanup command exited with code ${exitCode}.`);
 }
 
+export async function withSandboxImageFallback<T>(image: string, create: (image: string) => Promise<T>): Promise<T> {
+	try {
+		return await create(image);
+	} catch (error) {
+		if (image === FALLBACK_SANDBOX_IMAGE || !isModalImageBuildError(error)) throw error;
+
+		reportError(error, "Failed to create sandbox from configured image; falling back to latest", {
+			fallbackImage: FALLBACK_SANDBOX_IMAGE,
+			image,
+		});
+		return create(FALLBACK_SANDBOX_IMAGE);
+	}
+}
+
+function isModalImageBuildError(error: unknown): boolean {
+	return error instanceof Error && error.message.startsWith("Image build for ") && error.message.includes(" failed");
+}
+
 async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 	const client = createModalClient();
 	const { name, workspaceKey } = sandboxIdentity(instanceId);
@@ -52,36 +71,38 @@ async function acquireSandbox(instanceId: string): Promise<ModalSandbox> {
 	if (existingSandbox) return existingSandbox;
 
 	const app = await client.apps.fromName(config.MODAL_APP_NAME, { createIfMissing: true });
-	const image = client.images.fromRegistry(config.BOLT_SANDBOX_IMAGE);
 	const workspaceVolume = await client.volumes.fromName(`${config.MODAL_APP_NAME}-workspaces`, {
 		createIfMissing: true,
 	});
-	try {
-		return await client.sandboxes.create(app, image, {
-			cpu: 1,
-			cpuLimit: 2,
-			env: {
-				GRADLE_RO_DEP_CACHE: "/opt/bolt/gradle-dependencies",
-				GRADLE_USER_HOME: "/workspace/.gradle",
-			},
-			idleTimeoutMs: SANDBOX_IDLE_TIMEOUT.total("milliseconds"),
-			memoryLimitMiB: 4_096,
-			memoryMiB: 2_048,
-			name,
-			readinessProbe: Probe.withExec(["test", "-f", SANDBOX_READY_PATH]),
-			tags: { "bolt-instance": workspaceKey },
-			timeoutMs: SANDBOX_TIMEOUT.total("milliseconds"),
-			volumes: {
-				"/workspace": workspaceVolume.withMountOptions({ subPath: `conversations/${workspaceKey}` }),
-			},
-			workdir: "/workspace",
-		});
-	} catch (error) {
-		if (error instanceof AlreadyExistsError) {
-			return client.sandboxes.fromName(config.MODAL_APP_NAME, name);
+	return withSandboxImageFallback(config.BOLT_SANDBOX_IMAGE, async (imageName) => {
+		const image = client.images.fromRegistry(imageName);
+		try {
+			return await client.sandboxes.create(app, image, {
+				cpu: 1,
+				cpuLimit: 2,
+				env: {
+					GRADLE_RO_DEP_CACHE: "/opt/bolt/gradle-dependencies",
+					GRADLE_USER_HOME: "/workspace/.gradle",
+				},
+				idleTimeoutMs: SANDBOX_IDLE_TIMEOUT.total("milliseconds"),
+				memoryLimitMiB: 4_096,
+				memoryMiB: 2_048,
+				name,
+				readinessProbe: Probe.withExec(["test", "-f", SANDBOX_READY_PATH]),
+				tags: { "bolt-instance": workspaceKey },
+				timeoutMs: SANDBOX_TIMEOUT.total("milliseconds"),
+				volumes: {
+					"/workspace": workspaceVolume.withMountOptions({ subPath: `conversations/${workspaceKey}` }),
+				},
+				workdir: "/workspace",
+			});
+		} catch (error) {
+			if (error instanceof AlreadyExistsError) {
+				return client.sandboxes.fromName(config.MODAL_APP_NAME, name);
+			}
+			throw error;
 		}
-		throw error;
-	}
+	});
 }
 
 export function useBoltSandbox(instanceId: string): void {
