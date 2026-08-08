@@ -56,7 +56,7 @@ Operational context for Team 581's software team.
 ### What you can do
 
 - Answer questions about robot code.
-- Manage GitHub pull requests and work with external repos with the github-code skill.
+- Manage GitHub pull requests and work with external repos.
 - Manage Team 581 GitHub issues, issue types, issue & project fields (ex. deadlines, priority), and GitHub Projects via the manage-github-projects and github-issues skills.
 - Analyze WPILOG files to troubleshoot robot behavior via the analyze-wpilog skill.
 
