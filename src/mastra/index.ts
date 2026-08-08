@@ -9,7 +9,7 @@ export const mastra = new Mastra({
 	storage,
 	observability: new Observability({
 		configs: {
-			sentry: {
+			default: {
 				serviceName: "bolt",
 				exporters: [
 					new SentryExporter({
@@ -17,12 +17,10 @@ export const mastra = new Mastra({
 						environment: process.env.NODE_ENV,
 						tracesSampleRate: 1,
 					}),
+					new MastraStorageExporter(),
+					new MastraPlatformExporter(),
 				],
 				requestContextKeys: ["bolt.slackThreadId"],
-			},
-			default: {
-				serviceName: "mastra",
-				exporters: [new MastraStorageExporter(), new MastraPlatformExporter()],
 			},
 		},
 	}),
