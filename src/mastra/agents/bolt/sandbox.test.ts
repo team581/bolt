@@ -4,8 +4,6 @@ import { Message } from "chat";
 import { describe, expect, it } from "vite-plus/test";
 import {
 	BOLT_SANDBOX_CONTEXT_KEY,
-	FALLBACK_SANDBOX_IMAGE,
-	isDaytonaImageError,
 	sandboxIdentity,
 	sanitizeFilename,
 	type BoltSandbox,
@@ -33,11 +31,6 @@ describe("Bolt Daytona sandbox", () => {
 		expect(sanitizeFilename("match 1/../auto?.wpilog")).toBe("match_1_.._auto_.wpilog");
 	});
 
-	it("recognizes image provisioning failures without treating unrelated failures as image errors", () => {
-		expect(isDaytonaImageError(new Error("Failed to pull OCI image manifest"))).toBe(true);
-		expect(isDaytonaImageError(new Error("Daytona authentication failed"))).toBe(false);
-	});
-
 	it("sets up the sandbox, uploads WPILOG files, and always cleans up", async () => {
 		const events: string[] = [];
 		const writes: SandboxFileInput[][] = [];
@@ -62,7 +55,6 @@ describe("Bolt Daytona sandbox", () => {
 		expect(result).toBe("done");
 		expect(events).toEqual([
 			"token:create",
-			"sandbox:start",
 			"exec:/usr/local/libexec/bolt-sandbox-setup",
 			"exec:mkdir",
 			"write",
@@ -93,56 +85,11 @@ describe("Bolt Daytona sandbox", () => {
 
 		expect(events.slice(-2)).toEqual(["sandbox:stop", "token:revoke"]);
 	});
-
-	it("falls back to the latest image after an image provisioning failure", async () => {
-		const images: string[] = [];
-		const reports: string[] = [];
-		const stoppedImages: string[] = [];
-		const dependencies: SandboxDependencies = {
-			sandboxImage: "ghcr.io/team581/bolt-sandbox:missing",
-			createGitHubToken: () => Promise.resolve("token"),
-			revokeGitHubToken: () => Promise.resolve(),
-			report: (_error, message) => {
-				reports.push(message);
-			},
-			createSandbox: (_threadKey, _token, image) => {
-				images.push(image);
-				return {
-					_start: () =>
-						image === FALLBACK_SANDBOX_IMAGE ? Promise.resolve() : Promise.reject(new Error("Image pull failed")),
-					_stop: () => {
-						stoppedImages.push(image);
-						return Promise.resolve();
-					},
-					executeCommand: () => Promise.resolve(successfulCommand),
-					writeFiles: () => Promise.resolve(),
-				};
-			},
-		};
-
-		await withBoltSandbox(
-			{
-				threadId: "thread",
-				messages: [],
-				requestContext: new RequestContext(),
-				run: () => Promise.resolve(),
-			},
-			dependencies,
-		);
-
-		expect(images).toEqual(["ghcr.io/team581/bolt-sandbox:missing", FALLBACK_SANDBOX_IMAGE]);
-		expect(stoppedImages).toEqual(["ghcr.io/team581/bolt-sandbox:missing", FALLBACK_SANDBOX_IMAGE]);
-		expect(reports).toContain("Failed to create Daytona sandbox from configured image; falling back to latest");
-	});
 });
 
 function fakeSandbox(events: string[], writes: SandboxFileInput[][] = []): BoltSandbox {
 	return {
-		_start: () => {
-			events.push("sandbox:start");
-			return Promise.resolve();
-		},
-		_stop: () => {
+		stop: () => {
 			events.push("sandbox:stop");
 			return Promise.resolve();
 		},
@@ -160,7 +107,6 @@ function fakeSandbox(events: string[], writes: SandboxFileInput[][] = []): BoltS
 
 function fakeDependencies(sandbox: BoltSandbox, events: string[]): SandboxDependencies {
 	return {
-		sandboxImage: FALLBACK_SANDBOX_IMAGE,
 		createSandbox: () => sandbox,
 		createGitHubToken: () => {
 			events.push("token:create");

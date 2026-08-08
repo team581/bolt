@@ -1,40 +1,30 @@
-name: Publish sandbox image
+name: Publish sandbox snapshot
 
 on:
   push:
     branches: [main]
 
 concurrency:
-  group: publish-sandbox-image
+  group: publish-sandbox-snapshot
   cancel-in-progress: false
 
 env:
-  IMAGE_LATEST: ghcr.io/team581/bolt-sandbox:latest
-  IMAGE_SHA: ghcr.io/team581/bolt-sandbox:${{ github.sha }}
+  SNAPSHOT_NAME: bolt-sandbox
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  build:
-    name: Build ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux/amd64
-            runner: ubuntu-24.04
-            suffix: amd64
-          - platform: linux/arm64
-            runner: ubuntu-24.04-arm
-            suffix: arm64
-    runs-on: ${{ matrix.runner }}
+  publish:
+    name: Build Daytona snapshot
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
+    env:
+      DAYTONA_API_KEY: ${{ secrets.DAYTONA_API_KEY }}
+      DAYTONA_API_URL: ${{ vars.DAYTONA_API_URL }}
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v7
-      # TODO: Seed team581/fms-2026 after the sandbox image is private. Embedding it in the public image would expose the repository.
       - name: Checkout offseason repository
         uses: actions/checkout@v7
         with:
@@ -42,44 +32,25 @@ jobs:
           path: sandbox/repositories/offseason-2026
           persist-credentials: false
           repository: team581/offseason-2026
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-      - name: Build and publish native image
-        uses: docker/build-push-action@v7
-        with:
-          cache-from: type=gha,scope=bolt-sandbox-${{ matrix.suffix }}
-          cache-to: type=gha,mode=max,scope=bolt-sandbox-${{ matrix.suffix }}
-          context: sandbox
-          file: sandbox/Containerfile
-          platforms: ${{ matrix.platform }}
-          push: true
-          tags: ${{ env.IMAGE_SHA }}-${{ matrix.suffix }}
-
-  publish:
-    name: Publish multi-platform image
-    needs: build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-      - name: Publish manifest
+      - name: Install Daytona CLI
+        run: brew install daytonaio/cli/daytona
+      - name: Replace snapshot
+        working-directory: sandbox
         run: |
-          docker buildx imagetools create \
-            --tag "$IMAGE_SHA" \
-            --tag "$IMAGE_LATEST" \
-            "$IMAGE_SHA-amd64" \
-            "$IMAGE_SHA-arm64"
-          docker buildx imagetools inspect "$IMAGE_SHA"
+          if daytona snapshot list --format json --limit 100 \
+            | jq --exit-status --arg name "$SNAPSHOT_NAME" '.[] | select(.name == $name)' > /dev/null; then
+            daytona snapshot delete "$SNAPSHOT_NAME"
+          fi
+
+          snapshot_args=(
+            --dockerfile Containerfile
+            --context .
+            --cpu 2
+            --memory 4
+            --disk 3
+            --sandbox-class container
+          )
+          if [[ -n "$DAYTONA_TARGET" ]]; then
+            snapshot_args+=(--region "$DAYTONA_TARGET")
+          fi
+          daytona snapshot create "$SNAPSHOT_NAME" "${snapshot_args[@]}"
