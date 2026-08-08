@@ -6,3 +6,7 @@ url = "https://mcp.sentry.dev/mcp/team581/bolt"
 [mcp_servers.railway]
 command = "railway"
 args = ["mcp"]
+
+[mcp_servers.daytona]
+command = "daytona"
+args = ["mcp", "start"]
