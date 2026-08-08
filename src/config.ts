@@ -12,7 +12,6 @@ const nonEmptyString = makeValidator<string>((input) => {
 export const config = cleanEnv(process.env, {
 	AI_GATEWAY_API_KEY: nonEmptyString({
 		desc: "Vercel AI Gateway API key",
-		testDefault: "test-ai-gateway-key",
 	}),
 	BOLT_MODEL_ID: nonEmptyString({
 		default: "alibaba/qwen3.8-max",
@@ -28,12 +27,9 @@ export const config = cleanEnv(process.env, {
 	}),
 	DATABASE_URL: url({
 		desc: "PostgreSQL connection URL",
-		default: "postgresql://bolt:bolt@localhost:5432/bolt",
-		testDefault: "postgresql://localhost:5432/bolt_test",
 	}),
 	DAYTONA_API_KEY: nonEmptyString({
 		desc: "Daytona API key used to create Bolt sandboxes",
-		testDefault: "test-daytona-api-key",
 	}),
 	DAYTONA_API_URL: url({
 		default: undefined,
@@ -53,17 +49,12 @@ export const config = cleanEnv(process.env, {
 	}),
 	GITHUB_APP_ID: nonEmptyString({
 		desc: "GitHub App ID",
-		default: "3658873",
-		testDefault: "test-github-app-id",
 	}),
 	GITHUB_APP_PRIVATE_KEY: nonEmptyString({
 		desc: "GitHub App private key",
-		testDefault: "test-github-private-key",
 	}),
 	GITHUB_INSTALLATION_ID: num({
 		desc: "GitHub App installation ID",
-		default: 130950814,
-		testDefault: 12_345,
 	}),
 	SENTRY_DSN: url({
 		default: undefined,
@@ -71,7 +62,6 @@ export const config = cleanEnv(process.env, {
 	}),
 	SLACK_BOT_TOKEN: nonEmptyString({
 		desc: "Slack bot OAuth token",
-		testDefault: "xoxb-test",
 	}),
 	SLACK_APP_TOKEN: nonEmptyString({
 		default: undefined,
@@ -82,6 +72,5 @@ export const config = cleanEnv(process.env, {
 		default: undefined,
 		desc: "Slack webhook signing secret used outside development",
 		requiredWhen: () => process.env.NODE_ENV !== "development",
-		testDefault: "test-slack-signing-secret",
 	}),
 });

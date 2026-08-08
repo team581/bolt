@@ -6,6 +6,11 @@ pnpm = "11"
 [settings]
 env_file = ".env.local"
 
+[env]
+DATABASE_URL = "postgresql://bolt:bolt@localhost:5432/bolt"
+GITHUB_APP_ID = "3658873"
+GITHUB_INSTALLATION_ID = "130950814"
+
 [tasks.postgres]
 run = "pitchfork start postgres"
 hide = true

@@ -31,7 +31,17 @@ export default defineConfig({
 		},
 	},
 	test: {
-		env: { NODE_ENV: "test" },
+		env: {
+			AI_GATEWAY_API_KEY: "test-ai-gateway-key",
+			DATABASE_URL: "postgresql://localhost:5432/bolt_test",
+			DAYTONA_API_KEY: "test-daytona-api-key",
+			GITHUB_APP_ID: "test-github-app-id",
+			GITHUB_APP_PRIVATE_KEY: "test-github-private-key",
+			GITHUB_INSTALLATION_ID: "12345",
+			NODE_ENV: "test",
+			SLACK_BOT_TOKEN: "xoxb-test",
+			SLACK_SIGNING_SECRET: "test-slack-signing-secret",
+		},
 		passWithNoTests: true,
 	},
 });
