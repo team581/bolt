@@ -3,9 +3,11 @@ import { registerApiRoute } from "@mastra/core/server";
 import { MastraPlatformExporter, MastraStorageExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
 import { config } from "../config.ts";
+import { replyGateAgent } from "./agents/bolt/reply-gate.ts";
 import { storage } from "./storage.ts";
 
 export const mastra = new Mastra({
+	agents: { replyGateAgent },
 	storage,
 	observability: new Observability({
 		configs: {
