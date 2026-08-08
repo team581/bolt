@@ -3,6 +3,7 @@ allowBuilds:
   "@mongodb-js/zstd": true
   "@sentry/cli": true
   cbor-extract: false
+  esbuild: true
   node-liblzma: true
   protobufjs: true
 catalog:
