@@ -8,6 +8,7 @@ export default agentConfig({
 	name: "Bolt",
 	description: "FRC Team 581's software subteam Slack assistant",
 	model: `vercel/${config.BOLT_MODEL_ID}`,
+	durable: true,
 	defaultOptions: {
 		maxSteps: BOLT_MAX_STEPS,
 		modelSettings: { reasoning: "high" },

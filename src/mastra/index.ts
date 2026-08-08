@@ -9,6 +9,7 @@ import { storage } from "./storage.ts";
 export const mastra = new Mastra({
 	agents: { replyGateAgent },
 	storage,
+	recovery: { durableAgents: "auto" },
 	observability: new Observability({
 		configs: {
 			default: {
