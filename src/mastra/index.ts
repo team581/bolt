@@ -1,5 +1,5 @@
 import { Mastra } from "@mastra/core";
-import { registerApiRoute } from "@mastra/core/server";
+import { registerApiRoute, SimpleAuth } from "@mastra/core/server";
 import { MastraPlatformExporter, MastraStorageExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
 import { config } from "../config.ts";
@@ -27,6 +27,11 @@ export const mastra = new Mastra({
 		},
 	}),
 	server: {
+		auth: new SimpleAuth({
+			tokens: {
+				[config.MASTRA_API_KEY]: { id: "bolt-api" },
+			},
+		}),
 		apiRoutes: [
 			registerApiRoute("/health", {
 				method: "GET",
