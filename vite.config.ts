@@ -7,7 +7,12 @@ export default defineConfig({
 	fmt: {
 		useTabs: true,
 		printWidth: 120,
-		ignorePatterns: ["**/*.hbs", "src/mastra/agents/bolt/skills/analyze-wpilog/SKILL.md"],
+		ignorePatterns: [
+			"**/*.hbs",
+			"src/mastra/agents/bolt/skills/analyze-wpilog/SKILL.md",
+			".agents/skills/**/*",
+			"skills-lock.json",
+		],
 	},
 	lint: {
 		categories: {
@@ -16,6 +21,7 @@ export default defineConfig({
 			perf: "error",
 			suspicious: "error",
 		},
+		ignorePatterns: [".agents/skills/**/*", "skills-lock.json"],
 		options: { typeAware: true, typeCheck: true },
 		overrides: [
 			{
