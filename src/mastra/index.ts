@@ -1,6 +1,6 @@
 import { Mastra } from "@mastra/core";
 import { registerApiRoute } from "@mastra/core/server";
-import { Observability } from "@mastra/observability";
+import { MastraPlatformExporter, MastraStorageExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
 import { config } from "../config.ts";
 import { storage } from "./storage.ts";
@@ -19,6 +19,10 @@ export const mastra = new Mastra({
 					}),
 				],
 				requestContextKeys: ["bolt.slackThreadId"],
+			},
+			default: {
+				serviceName: "mastra",
+				exporters: [new MastraStorageExporter(), new MastraPlatformExporter()],
 			},
 		},
 	}),
