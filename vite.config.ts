@@ -47,6 +47,7 @@ export default defineConfig({
 			NODE_ENV: "test",
 			SLACK_BOT_TOKEN: "xoxb-test",
 			SLACK_SIGNING_SECRET: "test-slack-signing-secret",
+			MASTRA_API_KEY: "test-mastra-api-key",
 		},
 		passWithNoTests: true,
 	},
