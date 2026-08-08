@@ -18,7 +18,7 @@ export const config = cleanEnv(process.env, {
 		desc: "Model ID served by the Vercel AI Gateway",
 	}),
 	BOLT_REPLY_GATE_MODEL_ID: nonEmptyString({
-		default: "openai/gpt-5.4-nano",
+		default: "openai/gpt-5.6-luna",
 		desc: "Fast model used to decide whether Bolt should reply to an unmentioned Slack message",
 	}),
 	BOLT_SANDBOX_IMAGE: nonEmptyString({
