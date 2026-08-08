@@ -25,7 +25,7 @@ gh auth status --active
 java -version
 seed /opt/bolt/repositories/offseason-2026 /workspace/offseason-2026
 seed /opt/bolt/gradle-home /workspace/.gradle
+mkdir --parents /workspace/uploads
 if ! timeout 1m git -C /workspace/offseason-2026 pull --ff-only --quiet; then
 	printf '%s\n' '[bolt] Failed to update sandbox repository.' >&2
 fi
-touch "$BOLT_SANDBOX_READY_PATH"

@@ -9,6 +9,7 @@ const REFERENCES_DIR = join(
 	import.meta.dirname,
 	"..",
 	"src",
+	"mastra",
 	"agents",
 	"bolt",
 	"skills",

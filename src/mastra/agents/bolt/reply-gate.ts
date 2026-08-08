@@ -1,6 +1,6 @@
 import { generateText, Output } from "ai";
 import { z } from "zod";
-import { config } from "../config.ts";
+import { config } from "../../../config.ts";
 
 const replyDecision = z.object({
 	shouldReply: z.boolean(),

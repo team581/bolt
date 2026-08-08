@@ -21,11 +21,15 @@ oauth_config:
   pkce_enabled: false
 settings:
   event_subscriptions:
+    request_url: https://bolt.example.com/api/agents/bolt/channels/slack/webhook
     bot_events:
       - app_mention
       - message.channels
       - message.groups
+  interactivity:
+    is_enabled: true
+    request_url: https://bolt.example.com/api/agents/bolt/channels/slack/webhook
   org_deploy_enabled: false
-  socket_mode_enabled: true
+  socket_mode_enabled: false
   token_rotation_enabled: false
   is_mcp_enabled: false

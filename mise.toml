@@ -13,7 +13,7 @@ hide = true
 [tasks.dev]
 description = "Start Bolt's development server"
 depends = ["postgres"]
-run = "vp dev"
+run = "vp run dev"
 raw = true
 
 [tasks.dev.env]

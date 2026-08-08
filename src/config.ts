@@ -31,6 +31,18 @@ export const config = cleanEnv(process.env, {
 		default: "postgresql://bolt:bolt@localhost:5432/bolt",
 		testDefault: "postgresql://localhost:5432/bolt_test",
 	}),
+	DAYTONA_API_KEY: nonEmptyString({
+		desc: "Daytona API key used to create Bolt sandboxes",
+		testDefault: "test-daytona-api-key",
+	}),
+	DAYTONA_API_URL: url({
+		default: undefined,
+		desc: "Optional Daytona API endpoint",
+	}),
+	DAYTONA_TARGET: nonEmptyString({
+		default: undefined,
+		desc: "Optional Daytona runner region",
+	}),
 	GITHUB_APP_BOT_EMAIL: email({
 		default: "283250081+team-581-bolt[bot]@users.noreply.github.com",
 		desc: "Git author email used in Bolt sandboxes",
@@ -52,18 +64,6 @@ export const config = cleanEnv(process.env, {
 		desc: "GitHub App installation ID",
 		default: 130950814,
 		testDefault: 12_345,
-	}),
-	MODAL_APP_NAME: nonEmptyString({
-		default: "bolt",
-		desc: "Modal app that owns Bolt sandboxes",
-	}),
-	MODAL_TOKEN_ID: nonEmptyString({
-		desc: "Modal API token ID",
-		testDefault: "test-modal-token-id",
-	}),
-	MODAL_TOKEN_SECRET: nonEmptyString({
-		desc: "Modal API token secret",
-		testDefault: "test-modal-token-secret",
 	}),
 	SENTRY_DSN: url({
 		default: undefined,
