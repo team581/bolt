@@ -53,6 +53,12 @@ export const config = cleanEnv(process.env, {
 	MASTRA_API_KEY: nonEmptyString({
 		desc: "API key used to authenticate requests to the Mastra server",
 	}),
+	MASTRA_PLATFORM_ACCESS_TOKEN: nonEmptyString({
+		desc: "Access token used to send observability data to the Mastra platform",
+	}),
+	MASTRA_PROJECT_ID: nonEmptyString({
+		desc: "Mastra platform project ID",
+	}),
 	SENTRY_DSN: url({
 		default: undefined,
 		desc: "Sentry project DSN",
