@@ -13,28 +13,15 @@ const SANDBOX_AUTO_DELETE_MINUTES = 24 * 60;
 const SANDBOX_SNAPSHOT = "bolt-sandbox";
 const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox repository.";
 
-export const BOLT_SANDBOX_CONTEXT_KEY = "bolt.sandbox";
 export const BOLT_SLACK_THREAD_CONTEXT_KEY = "bolt.slackThreadId";
 
-export interface BoltSandbox {
-	stop(): Promise<void>;
-	executeCommand(command: string, args?: string[], options?: ExecuteCommandOptions): Promise<CommandResult>;
-	writeFiles(files: SandboxFileInput[]): Promise<void>;
+interface SandboxSession {
+	sandbox: DaytonaSandbox;
+	githubToken: string;
+	threadKey: string;
 }
 
-export interface SandboxDependencies {
-	createSandbox(threadKey: string, githubToken: string): BoltSandbox;
-	createGitHubToken(): Promise<string>;
-	revokeGitHubToken(token: string): Promise<void>;
-	report(error: unknown, message: string, context?: Record<string, unknown>): void;
-}
-
-const defaultDependencies: SandboxDependencies = {
-	createSandbox: createDaytonaSandbox,
-	createGitHubToken: createGitHubInstallationToken,
-	revokeGitHubToken: revokeGitHubInstallationToken,
-	report: reportError,
-};
+const activeSandboxSessions = new WeakMap<RequestContext, SandboxSession>();
 
 export function slackConversationId(threadId: string): string {
 	return `slack:${threadId}`;
@@ -49,43 +36,60 @@ export function sanitizeFilename(filename: string): string {
 	return filename.replaceAll(/[^A-Za-z0-9._-]/gu, "_");
 }
 
-export async function withBoltSandbox<T>(
-	options: {
-		threadId: string;
-		messages: Message[];
-		requestContext: RequestContext;
-		run(): Promise<T>;
-	},
-	dependencies: SandboxDependencies = defaultDependencies,
-): Promise<T> {
-	const threadKey = slackConversationId(options.threadId);
-	let githubToken: string | undefined;
-	let sandbox: BoltSandbox | undefined;
+export async function withBoltSandbox<T>(options: {
+	threadId: string;
+	messages: Message[];
+	requestContext: RequestContext;
+	run(): Promise<T>;
+}): Promise<T> {
+	let session: SandboxSession | undefined;
 
 	try {
-		githubToken = await dependencies.createGitHubToken();
-		sandbox = dependencies.createSandbox(threadKey, githubToken);
-		await setupSandbox(sandbox, threadKey, dependencies);
-		await uploadWpilogAttachments(sandbox, options.messages);
-
-		options.requestContext.set(BOLT_SANDBOX_CONTEXT_KEY, sandbox);
 		options.requestContext.set(BOLT_SLACK_THREAD_CONTEXT_KEY, options.threadId);
+		session = await resolveSandboxSession(options.requestContext);
+		await uploadWpilogAttachments(session.sandbox, options.messages);
 		return await options.run();
 	} finally {
-		if (sandbox !== undefined) {
-			try {
-				await sandbox.stop();
-			} catch (error) {
-				dependencies.report(error, "Failed to stop Daytona sandbox", { threadKey });
-			}
-		}
-		if (githubToken !== undefined) {
-			try {
-				await dependencies.revokeGitHubToken(githubToken);
-			} catch (error) {
-				dependencies.report(error, "Failed to revoke sandbox GitHub token", { threadKey });
-			}
-		}
+		activeSandboxSessions.delete(options.requestContext);
+		if (session !== undefined) await cleanupSandbox(session);
+	}
+}
+
+export async function resolveBoltSandbox(requestContext: RequestContext): Promise<DaytonaSandbox> {
+	return (await resolveSandboxSession(requestContext)).sandbox;
+}
+
+async function resolveSandboxSession(requestContext: RequestContext): Promise<SandboxSession> {
+	const activeSession = activeSandboxSessions.get(requestContext);
+	if (activeSession !== undefined) return activeSession;
+
+	const slackThreadId = requestContext.get<string, string | undefined>(BOLT_SLACK_THREAD_CONTEXT_KEY);
+	if (slackThreadId === undefined) throw new Error("Bolt's Slack thread is not available for this request.");
+
+	const threadKey = slackConversationId(slackThreadId);
+	const githubToken = await createGitHubInstallationToken();
+	const session = { sandbox: createDaytonaSandbox(threadKey, githubToken), githubToken, threadKey };
+	try {
+		await setupSandbox(session.sandbox, threadKey);
+	} catch (error) {
+		await cleanupSandbox(session);
+		throw error;
+	}
+
+	activeSandboxSessions.set(requestContext, session);
+	return session;
+}
+
+async function cleanupSandbox({ sandbox, githubToken, threadKey }: SandboxSession): Promise<void> {
+	try {
+		await sandbox.stop();
+	} catch (error) {
+		reportError(error, "Failed to stop Daytona sandbox", { threadKey });
+	}
+	try {
+		await revokeGitHubInstallationToken(githubToken);
+	} catch (error) {
+		reportError(error, "Failed to revoke sandbox GitHub token", { threadKey });
 	}
 }
 
@@ -109,7 +113,7 @@ function createDaytonaSandbox(threadKey: string, githubToken: string): DaytonaSa
 	);
 }
 
-async function setupSandbox(sandbox: BoltSandbox, threadKey: string, dependencies: SandboxDependencies): Promise<void> {
+async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise<void> {
 	const setup = await sandbox.executeCommand("/usr/local/libexec/bolt-sandbox-setup", [], {
 		cwd: "/workspace",
 		env: {
@@ -120,7 +124,7 @@ async function setupSandbox(sandbox: BoltSandbox, threadKey: string, dependencie
 	});
 	if (setup.exitCode !== 0) throw new Error("Sandbox setup failed.", { cause: setup });
 	if (setup.stderr.includes(REPOSITORY_PULL_FAILURE_MARKER)) {
-		dependencies.report(
+		reportError(
 			new Error(REPOSITORY_PULL_FAILURE_MARKER, { cause: setup.stderr }),
 			"Failed to update sandbox repository",
 			{
@@ -146,7 +150,7 @@ class AuthenticatedDaytonaSandbox extends DaytonaSandbox {
 	}
 }
 
-async function uploadWpilogAttachments(sandbox: BoltSandbox, messages: Message[]): Promise<void> {
+async function uploadWpilogAttachments(sandbox: DaytonaSandbox, messages: Message[]): Promise<void> {
 	const files: SandboxFileInput[] = [];
 	for (const message of messages) {
 		for (const [attachmentIndex, attachment] of message.attachments.entries()) {
