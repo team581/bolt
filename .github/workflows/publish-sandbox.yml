@@ -43,6 +43,7 @@ jobs:
           if daytona snapshot list --format json --limit 100 \
             | jq --exit-status --arg name "$SNAPSHOT_NAME" '.[] | select(.name == $name)' > /dev/null; then
             daytona snapshot delete "$SNAPSHOT_NAME"
+            sleep 5
           fi
 
           snapshot_args=(
