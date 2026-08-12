@@ -8,6 +8,7 @@
 		"dev": "mastra dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config",
+		"publish:sandbox": "node scripts/publish-sandbox.ts",
 		"start": "mastra start"
 	},
 	"dependencies": {
@@ -27,10 +28,12 @@
 		"mastra": "^1.23.0"
 	},
 	"devDependencies": {
+		"@daytona/sdk": "^0.204.0",
 		"@sentry/cli": "^3.4.1",
 		"@sindresorhus/slugify": "^3.0.0",
 		"@types/node": "^26.0.0",
 		"handlebars": "^4.7.8",
+		"p-retry": "^8.0.0",
 		"tinyexec": "^1.1.2",
 		"typescript": "^7.0.0",
 		"vite": "catalog:",
