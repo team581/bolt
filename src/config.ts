@@ -5,6 +5,8 @@ const nonEmptyString = makeValidator<string>((input) => {
 	return input;
 });
 
+export const isDevelopment = process.env.MASTRA_DEV === "true" || process.env.NODE_ENV === "development";
+
 export const config = cleanEnv(process.env, {
 	AI_GATEWAY_API_KEY: nonEmptyString({
 		desc: "Vercel AI Gateway API key",
@@ -61,11 +63,11 @@ export const config = cleanEnv(process.env, {
 	SLACK_APP_TOKEN: nonEmptyString({
 		default: undefined,
 		desc: "Slack app-level token used for Socket Mode in development",
-		requiredWhen: () => process.env.NODE_ENV === "development",
+		requiredWhen: () => isDevelopment,
 	}),
 	SLACK_SIGNING_SECRET: nonEmptyString({
 		default: undefined,
 		desc: "Slack webhook signing secret used outside development",
-		requiredWhen: () => process.env.NODE_ENV !== "development",
+		requiredWhen: () => !isDevelopment,
 	}),
 });

@@ -1,5 +1,5 @@
 import { createSlackAdapter } from "@chat-adapter/slack";
-import { config } from "../config.ts";
+import { config, isDevelopment } from "../config.ts";
 import { createSlackLogger } from "./slack-logger.ts";
 
 const sharedOptions = {
@@ -12,7 +12,7 @@ const sharedOptions = {
 
 export function createConfiguredSlackAdapter(): ReturnType<typeof createSlackAdapter> {
 	return createSlackAdapter(
-		config.isDevelopment
+		isDevelopment
 			? {
 					mode: "socket",
 					appToken: config.SLACK_APP_TOKEN,
