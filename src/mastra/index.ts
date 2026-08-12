@@ -1,6 +1,6 @@
 import { Mastra } from "@mastra/core";
 import { registerApiRoute, SimpleAuth } from "@mastra/core/server";
-import { MastraPlatformExporter, MastraStorageExporter, Observability } from "@mastra/observability";
+import { MastraPlatformExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
 import { config } from "../config.ts";
 import { replyGateAgent } from "./agents/bolt/reply-gate.ts";
@@ -20,7 +20,6 @@ export const mastra = new Mastra({
 						environment: process.env.NODE_ENV,
 						tracesSampleRate: 1,
 					}),
-					new MastraStorageExporter(),
 					new MastraPlatformExporter(),
 				],
 				requestContextKeys: ["bolt.slackThreadId"],
