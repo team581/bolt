@@ -6,6 +6,7 @@ import type { Message } from "chat";
 import { config } from "../../../config.ts";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../../github-app.ts";
 import { reportError } from "../../../sentry.ts";
+import { createFetchFilesystem, FETCH_GCS_MOUNT_PATH } from "./fetch-filesystem.ts";
 
 const SANDBOX_TIMEOUT_MS = 30 * 60 * 1_000;
 const SANDBOX_SETUP_TIMEOUT_MS = 5 * 60 * 1_000;
@@ -132,6 +133,9 @@ async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise
 			},
 		);
 	}
+
+	const mount = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
+	if (!mount.success) throw new Error("Failed to mount the Fetch GCS bucket.", { cause: mount.error });
 }
 
 class AuthenticatedDaytonaSandbox extends DaytonaSandbox {

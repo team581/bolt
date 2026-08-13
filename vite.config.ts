@@ -44,6 +44,8 @@ export default defineConfig({
 			GITHUB_APP_ID: "test-github-app-id",
 			GITHUB_APP_PRIVATE_KEY: "test-github-private-key",
 			GITHUB_INSTALLATION_ID: "12345",
+			GCS_SERVICE_ACCOUNT_KEY:
+				'{"client_email":"bolt@example.iam.gserviceaccount.com","private_key":"test-private-key","project_id":"test-gcs-project"}',
 			NODE_ENV: "test",
 			MASTRA_API_KEY: "test-mastra-api-key",
 			MASTRA_PLATFORM_ACCESS_TOKEN: "test-mastra-platform-access-token",

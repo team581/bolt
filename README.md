@@ -17,6 +17,8 @@ To learn more about Bolt, check out:
 - Run `vp install`
 - Copy `.env.example` to `.env.local` and set the remaining secrets
 - Create a Daytona API key and set it as `DAYTONA_API_KEY`
+- Set `GCS_SERVICE_ACCOUNT_KEY` to the full JSON for a service account with read-only access to the
+  `fetch_storage` bucket
 - Configure a Slack app from [slack-manifest.example.yaml](./slack-manifest.example.yaml), then enable Socket Mode for development
 - Generate an app-level Slack token with the `connections:write` scope and set it as `SLACK_APP_TOKEN`
 - [Activate Pitchfork in your shell](https://pitchfork.jdx.dev/guides/shell-hook) so PostgreSQL starts when you enter the project and stops when you leave it
