@@ -8,6 +8,31 @@ import { storage } from "./storage.ts";
 
 export const mastra = new Mastra({
 	agents: { replyGateAgent },
+	bundler: {
+		// Bundle @mastra/daytona so its pnpm patch is preserved in the deployment artifact.
+		externals: [
+			"@chat-adapter/slack",
+			"@daytonaio/sdk",
+			"@mastra/core",
+			"@mastra/gcs",
+			"@mastra/memory",
+			"@mastra/observability",
+			"@mastra/pg",
+			"@mastra/sentry",
+			"@octokit/auth-app",
+			"@octokit/request",
+			"@sentry/node",
+			"ai",
+			"chat",
+			"chrono-node",
+			"croner",
+			"envalid",
+			"hono",
+			"mastra",
+			"tslib",
+			"zod",
+		],
+	},
 	storage,
 	recovery: { durableAgents: "auto" },
 	observability: new Observability({

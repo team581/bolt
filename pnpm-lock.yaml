@@ -18,6 +18,7 @@ packageExtensionsChecksum: sha256-n6PQeVp0eUgh1VDm3zxnT1gxeVNCDJm65mF/bm9/JFk=
 
 patchedDependencies:
   '@mastra/daytona@0.6.0': c42cfb1ac0831dbfdec725b1d2009c98ef5588e64b5fe01ae726787b47f510f7
+  mastra@1.23.0: 9249098d82f078c90f31ce306345fa3a209c1b0be73cb81c520d59a174ee2794
 
 importers:
 
@@ -73,7 +74,7 @@ importers:
         version: 8.2.0
       mastra:
         specifier: 1.23.0
-        version: 1.23.0(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3)
+        version: 1.23.0(patch_hash=9249098d82f078c90f31ce306345fa3a209c1b0be73cb81c520d59a174ee2794)(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3)
       tslib:
         specifier: 2.8.1
         version: 2.8.1
@@ -8493,7 +8494,7 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  mastra@1.23.0(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3):
+  mastra@1.23.0(patch_hash=9249098d82f078c90f31ce306345fa3a209c1b0be73cb81c520d59a174ee2794)(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3):
     dependencies:
       '@babel/parser': 8.0.4
       '@babel/types': 8.0.4
