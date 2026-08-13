@@ -1,18 +1,17 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
-import {
-	DEFAULT_SCHEDULE_TIMEZONE,
-	normalizeOneOffTime,
-	scheduledTaskRecordSchema,
-	type ScheduledTaskRecord,
-} from "../../../scheduled-tasks.ts";
+import { resolveOneOffTime, scheduledTaskRecordSchema, type ScheduledTaskRecord } from "../../../scheduled-tasks.ts";
 import { createOneOffTask, scheduledTaskModelOutput, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
 
 const inputSchema = z.object({
 	name: z.string().min(1),
 	prompt: z.string().min(1).describe("A self-contained prompt with all context needed when the task runs."),
-	runAt: z.string().min(1).describe("An ISO date/time or local date/time."),
-	timezone: z.string().optional().describe("IANA timezone; defaults to America/Los_Angeles."),
+	when: z
+		.string()
+		.min(1)
+		.describe(
+			'A natural-language or ISO date/time, optionally including a timezone abbreviation or offset, such as "today at 5pm", "in a week", "tomorrow at 5pm PT", or an ISO timestamp.',
+		),
 });
 
 export default createTool({
@@ -34,10 +33,10 @@ export function createOneOffScheduledTask(
 	services: ScheduledTaskServices,
 	input: z.infer<typeof inputSchema>,
 ): Promise<ScheduledTaskRecord> {
-	const timezone = input.timezone ?? DEFAULT_SCHEDULE_TIMEZONE;
+	const resolved = resolveOneOffTime(input.when);
 	return createOneOffTask(services, {
-		...input,
-		timezone,
-		runAt: normalizeOneOffTime(input.runAt, timezone),
+		name: input.name,
+		prompt: input.prompt,
+		...resolved,
 	});
 }

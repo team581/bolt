@@ -1,8 +1,8 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 import {
-	normalizeOneOffTime,
 	oneOffCron,
+	resolveOneOffTime,
 	scheduledTaskRecordSchema,
 	toScheduledTaskRecord,
 	type ScheduledTaskRecord,
@@ -22,8 +22,13 @@ const inputSchema = z.object({
 		.min(1)
 		.optional()
 		.describe("A self-contained replacement prompt with all context needed when the task runs."),
-	runAt: z.string().min(1).optional().describe("A replacement ISO date/time or local date/time."),
-	timezone: z.string().optional().describe("IANA timezone; only used with runAt."),
+	when: z
+		.string()
+		.min(1)
+		.optional()
+		.describe(
+			"A replacement natural-language or ISO date/time, optionally including a timezone abbreviation or offset.",
+		),
 });
 
 export default createTool({
@@ -45,10 +50,8 @@ export async function updateOneOffScheduledTask(
 	services: ScheduledTaskServices,
 	input: z.infer<typeof inputSchema>,
 ): Promise<ScheduledTaskRecord> {
-	if (input.timezone !== undefined && input.runAt === undefined)
-		throw new TypeError("A timezone update must include runAt.");
-	if (input.name === undefined && input.prompt === undefined && input.runAt === undefined)
-		throw new TypeError("Provide a name, prompt, or runAt to update.");
+	if (input.name === undefined && input.prompt === undefined && input.when === undefined)
+		throw new TypeError("Provide a name, prompt, or when to update.");
 
 	const { schedule, task } = await getManagedTask(services, input.id);
 	if (task.kind !== "one-off") throw new Error("This is a recurring task; delete and recreate it to change its kind.");
@@ -60,11 +63,14 @@ export async function updateOneOffScheduledTask(
 
 	let updatedTask = { ...task, name, prompt };
 	let cron = schedule.cron;
-	if (input.runAt !== undefined) {
-		const timezone = input.timezone ?? task.timezone;
-		const runAt = normalizeOneOffTime(input.runAt, timezone);
-		updatedTask = { ...updatedTask, timezone, runAt: runAt.toISOString() };
-		cron = oneOffCron(runAt);
+	if (input.when !== undefined) {
+		const resolved = resolveOneOffTime(input.when);
+		updatedTask = {
+			...updatedTask,
+			timezone: resolved.timezone,
+			runAt: resolved.runAt.toString({ fractionalSecondDigits: 3 }),
+		};
+		cron = oneOffCron(resolved.runAt);
 	}
 
 	const updated = await services.schedules.update(schedule.id, {

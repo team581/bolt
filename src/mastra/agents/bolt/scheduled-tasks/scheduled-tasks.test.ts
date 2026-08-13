@@ -61,7 +61,7 @@ describe("scheduled task CRUD", () => {
 			{
 				name: "Check CI",
 				prompt: "Check CI for team581/offseason-2026 and summarize any failures.",
-				runAt: "2090-08-13T09:00:00",
+				when: "August 13, 2090 at 9am",
 			},
 		);
 
@@ -74,7 +74,7 @@ describe("scheduled task CRUD", () => {
 		).toEqual([]);
 		const updated = await updateOneOffScheduledTask(
 			{ schedules, requestContext: creationContext },
-			{ id: task.id, name: "Check CI again", runAt: "2090-08-13T10:00:00" },
+			{ id: task.id, name: "Check CI again", when: "August 13, 2090 at 10am" },
 		);
 		expect(updated).toMatchObject({ id: task.id, kind: "one-off", name: "Check CI again" });
 		await expect(
@@ -112,7 +112,7 @@ function createScheduleStore(): Schedules {
 	return {
 		create(input) {
 			if (!("workflowId" in input)) throw new Error("Expected workflow schedule.");
-			const now = Date.now();
+			const now = Temporal.Now.instant().epochMilliseconds;
 			const id = input.id ?? "schedule_test";
 			const row: WorkflowSchedule = {
 				id,
@@ -142,7 +142,7 @@ function createScheduleStore(): Schedules {
 				...patch,
 				nextFireAt:
 					new Cron(patch.cron ?? row.cron, { timezone: patch.timezone ?? row.timezone }).nextRun()?.getTime() ?? 0,
-				updatedAt: Date.now(),
+				updatedAt: Temporal.Now.instant().epochMilliseconds,
 			};
 			rows.set(id, updated);
 			return Promise.resolve(updated);

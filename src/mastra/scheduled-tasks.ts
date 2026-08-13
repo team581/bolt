@@ -1,6 +1,7 @@
 import type { ChannelContext } from "@mastra/core/channels";
 import type { RequestContext } from "@mastra/core/request-context";
 import type { WorkflowSchedule } from "@mastra/core/schedules";
+import * as chrono from "chrono-node";
 import { Cron } from "croner";
 import { z } from "zod";
 
@@ -51,17 +52,67 @@ export function requireSlackContext(
 	return { channelId: channel.channelId, threadId: channel.threadId, userId: channel.userId };
 }
 
-export function normalizeOneOffTime(runAt: string, timezone = DEFAULT_SCHEDULE_TIMEZONE, now = new Date()): Date {
-	let next: Date | null;
-	try {
-		next = new Cron(runAt, { timezone }).nextRun(new Date(0));
-	} catch (error) {
-		throw new Error(`Invalid one-off date or timezone: ${runAt} (${timezone}).`, { cause: error });
+export function resolveOneOffTime(
+	when: string,
+	now = Temporal.Now.instant(),
+): { runAt: Temporal.Instant; timezone: string } {
+	const expression = when.trim();
+	const localNow = now.toZonedDateTimeISO(DEFAULT_SCHEDULE_TIMEZONE);
+
+	const results = chrono.casual.parse(
+		expression,
+		{ instant: new Date(now.epochMilliseconds), timezone: localNow.offsetNanoseconds / 60_000_000_000 },
+		{ forwardDate: true },
+	);
+	const result = results[0];
+	if (
+		results.length !== 1 ||
+		result === undefined ||
+		result.index !== 0 ||
+		result.text.length !== expression.length ||
+		(result.end !== undefined && result.end !== null)
+	) {
+		throw new Error(`Invalid or ambiguous one-off time: ${when}.`);
 	}
-	if (next === null || next.getTime() <= now.getTime())
-		throw new Error("A one-off task must be scheduled in the future.");
-	if (next.getUTCFullYear() >= 9999) throw new Error("A one-off task must be scheduled before the year 9999.");
-	return next;
+
+	let runAt: Temporal.Instant;
+	try {
+		runAt = result.start.isCertain("timezoneOffset")
+			? Temporal.Instant.fromEpochMilliseconds(result.start.date().getTime())
+			: Temporal.ZonedDateTime.from(
+					{
+						timeZone: DEFAULT_SCHEDULE_TIMEZONE,
+						year: requireDateComponent(result.start, "year"),
+						month: requireDateComponent(result.start, "month"),
+						day: requireDateComponent(result.start, "day"),
+						hour: requireDateComponent(result.start, "hour"),
+						minute: requireDateComponent(result.start, "minute"),
+						second: requireDateComponent(result.start, "second"),
+						millisecond: requireDateComponent(result.start, "millisecond"),
+					},
+					{ disambiguation: "reject" },
+				).toInstant();
+	} catch (error) {
+		throw new Error(`Invalid or ambiguous one-off time: ${when}.`, { cause: error });
+	}
+
+	if (Temporal.Instant.compare(runAt, now) <= 0) throw new Error("A one-off task must be scheduled in the future.");
+	if (runAt.toZonedDateTimeISO("UTC").year >= 9999)
+		throw new Error("A one-off task must be scheduled before the year 9999.");
+	const parsedOffset = result.start.get("timezoneOffset");
+	return {
+		runAt,
+		timezone:
+			parsedOffset === null || result.start.tags().has("result/relativeDateAndTime")
+				? DEFAULT_SCHEDULE_TIMEZONE
+				: offsetToTimeZone(parsedOffset),
+	};
+}
+
+function requireDateComponent(components: chrono.ParsedComponents, component: chrono.Component): number {
+	const value = components.get(component);
+	if (value === null) throw new Error(`Parsed time is missing ${component}.`);
+	return value;
 }
 
 export function validateRecurringCron(cron: string, timezone = DEFAULT_SCHEDULE_TIMEZONE): string {
@@ -76,28 +127,34 @@ export function validateRecurringCron(cron: string, timezone = DEFAULT_SCHEDULE_
 	return cron.trim();
 }
 
-export function oneOffCron(runAt: Date): string {
-	return [
-		runAt.getUTCSeconds(),
-		runAt.getUTCMinutes(),
-		runAt.getUTCHours(),
-		runAt.getUTCDate(),
-		runAt.getUTCMonth() + 1,
-		"*",
-		`${runAt.getUTCFullYear()},9999`,
-	].join(" ");
+export function oneOffCron(runAt: Temporal.Instant): string {
+	const utc = runAt.toZonedDateTimeISO("UTC");
+	return [utc.second, utc.minute, utc.hour, utc.day, utc.month, "*", `${utc.year},9999`].join(" ");
 }
 
-export function parseScheduledFireAt(runId: string): number | undefined {
+function offsetToTimeZone(offsetMinutes: number): string {
+	const sign = offsetMinutes < 0 ? "-" : "+";
+	const absoluteMinutes = Math.abs(offsetMinutes);
+	const hours = Math.floor(absoluteMinutes / 60)
+		.toString()
+		.padStart(2, "0");
+	const minutes = (absoluteMinutes % 60).toString().padStart(2, "0");
+	return `${sign}${hours}:${minutes}`;
+}
+
+export function parseScheduledFireAt(runId: string): Temporal.Instant | undefined {
 	const match = /_(\d{13})$/u.exec(runId);
 	if (match === null) return undefined;
 	const timestamp = Number(match[1]);
-	return Number.isSafeInteger(timestamp) ? timestamp : undefined;
+	return Number.isSafeInteger(timestamp) ? Temporal.Instant.fromEpochMilliseconds(timestamp) : undefined;
 }
 
-export function isMissedScheduledFire(runId: string, now = Date.now()): boolean {
+export function isMissedScheduledFire(runId: string, now = Temporal.Now.instant()): boolean {
 	const scheduledFireAt = parseScheduledFireAt(runId);
-	return scheduledFireAt !== undefined && now - scheduledFireAt > SCHEDULE_GRACE_PERIOD_MS;
+	return (
+		scheduledFireAt !== undefined &&
+		now.epochMilliseconds - scheduledFireAt.epochMilliseconds > SCHEDULE_GRACE_PERIOD_MS
+	);
 }
 
 export function canManageScheduledTask(
@@ -119,8 +176,14 @@ export function toScheduledTaskRecord(schedule: WorkflowSchedule): ScheduledTask
 		status: schedule.status,
 		...(task.kind === "one-off" ? { runAt: task.runAt } : { cron: task.cron }),
 		timezone: task.timezone,
-		nextRunAt: new Date(schedule.nextFireAt).toISOString(),
-		...(schedule.lastFireAt === undefined ? {} : { lastRunAt: new Date(schedule.lastFireAt).toISOString() }),
+		nextRunAt: Temporal.Instant.fromEpochMilliseconds(schedule.nextFireAt).toString({ fractionalSecondDigits: 3 }),
+		...(schedule.lastFireAt === undefined
+			? {}
+			: {
+					lastRunAt: Temporal.Instant.fromEpochMilliseconds(schedule.lastFireAt).toString({
+						fractionalSecondDigits: 3,
+					}),
+				}),
 	};
 }
 

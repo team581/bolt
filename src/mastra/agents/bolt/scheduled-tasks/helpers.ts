@@ -57,7 +57,7 @@ export async function createRecurringTask(
 		channelId: context.channelId,
 		sourceThreadId: context.threadId,
 		creatorUserId: context.userId,
-		createdAt: new Date().toISOString(),
+		createdAt: Temporal.Now.instant().toString({ fractionalSecondDigits: 3 }),
 		timezone: input.timezone,
 	};
 	const task: ScheduledTaskInput = { ...common, ...input, name, prompt };
@@ -74,11 +74,11 @@ export async function createRecurringTask(
 
 export function createOneOffTask(
 	services: ScheduledTaskServices,
-	input: NewTask & { runAt: Date },
+	input: NewTask & { runAt: Temporal.Instant },
 ): Promise<ScheduledTaskRecord> {
 	return createRecurringTask(
 		services,
-		{ ...input, kind: "one-off", runAt: input.runAt.toISOString() },
+		{ ...input, kind: "one-off", runAt: input.runAt.toString({ fractionalSecondDigits: 3 }) },
 		oneOffCron(input.runAt),
 		"UTC",
 	);

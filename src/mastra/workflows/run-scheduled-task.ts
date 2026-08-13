@@ -168,7 +168,7 @@ export async function saveChannelMemoryThread(mastra: Mastra, target: ScheduledD
 	if (memory === undefined) throw new Error("Mastra memory storage is unavailable.");
 	const existing = await memory.getThreadById({ threadId: target.resourceId, resourceId: target.resourceId });
 	if (existing !== null) return;
-	const now = new Date();
+	const now = new Date(Temporal.Now.instant().epochMilliseconds);
 	await memory.saveThread({
 		thread: {
 			id: target.resourceId,
