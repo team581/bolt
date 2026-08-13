@@ -110,7 +110,10 @@ const runScheduledTask = createWorkflow({
 				...(task.success ? { scheduleId: task.data.scheduleId, taskKind: task.data.kind } : {}),
 			});
 		},
-		onFinish: async ({ getInitData, mastra, runId }) => {
+		onFinish: async ({ getInitData, mastra, result, runId, status }) => {
+			if (status !== "success") return;
+			const output = workflowOutputSchema.safeParse(result);
+			if (!output.success || output.data.status !== "completed") return;
 			const task = scheduledTaskInputSchema.safeParse(getInitData());
 			if (!task.success || mastra === undefined) return;
 			try {

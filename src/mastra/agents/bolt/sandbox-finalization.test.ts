@@ -18,6 +18,10 @@ vi.mock("@mastra/daytona", () => ({
 			return Promise.resolve({ exitCode: 0, stdout: "", stderr: "" });
 		}
 
+		mount() {
+			return Promise.resolve({ success: true });
+		}
+
 		stop() {
 			return mocks.stop();
 		}
