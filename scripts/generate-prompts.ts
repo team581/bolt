@@ -1,10 +1,15 @@
 import { mkdir, readFile, readdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { request } from "@octokit/request";
 import slugify from "@sindresorhus/slugify";
 import Handlebars from "handlebars";
-import { x } from "tinyexec";
 
 const OWNER = "team581";
+const GITHUB_TOKEN = process.env.GH_TOKEN;
+if (GITHUB_TOKEN === undefined || GITHUB_TOKEN === "") {
+	throw new Error("GH_TOKEN is required to generate GitHub project prompts.");
+}
+
 const REFERENCES_DIR = join(
 	import.meta.dirname,
 	"..",
@@ -18,6 +23,12 @@ const REFERENCES_DIR = join(
 );
 const ORGANIZATION_TEMPLATE = join(import.meta.dirname, "prompts", "manage-github-projects.organization.md.hbs");
 const PROJECT_TEMPLATE = join(import.meta.dirname, "prompts", "manage-github-projects.project.md.hbs");
+const github = request.defaults({
+	headers: {
+		authorization: `bearer ${GITHUB_TOKEN}`,
+		"x-github-api-version": "2026-03-10",
+	},
+});
 
 // Names of built-in fields that ship with every GitHub project.
 // Anything outside this set was added by us and is worth documenting.
@@ -33,11 +44,11 @@ const BUILTIN_FIELD_NAMES = new Set([
 	"Reviewers",
 	"Sub-issues progress",
 	"Title",
+	"Type",
 	"Updated",
 ]);
 
 type ProjectListEntry = {
-	closed: boolean;
 	id: string;
 	number: number;
 	title: string;
@@ -105,6 +116,23 @@ type RestIssueType = {
 	node_id: string;
 };
 
+type RestProject = {
+	node_id: string;
+	number: number;
+	state: "closed" | "open";
+	title: string;
+};
+
+type RestProjectField = {
+	data_type: string;
+	name: string;
+	node_id: string;
+	options?: Array<{
+		id: string;
+		name: { raw: string };
+	}>;
+};
+
 type ManageGithubProjectsData = {
 	issueFields: IssueField[];
 	issueTypes: IssueType[];
@@ -116,46 +144,49 @@ type ManageGithubProjectsData = {
 	}>;
 };
 
-async function gh<T>(args: string[]): Promise<T> {
-	const { stdout } = await x("gh", args, { throwOnError: true });
-	return JSON.parse(stdout) as T;
+async function githubApi<T>(url: string, parameters: Record<string, number | string> = {}): Promise<T> {
+	const { data } = await github<T>({ method: "GET", url, ...parameters });
+	return data;
+}
+
+function toProjectField(field: RestProjectField): ProjectField {
+	const base = { id: field.node_id, name: field.name };
+	if (field.data_type === "single_select") {
+		return {
+			...base,
+			options: field.options!.map((option) => ({ id: option.id, name: option.name.raw })),
+			type: "ProjectV2SingleSelectField",
+		};
+	}
+	if (field.data_type === "iteration") return { ...base, type: "ProjectV2IterationField" };
+	return { ...base, type: "ProjectV2Field" };
 }
 
 async function getData(): Promise<ManageGithubProjectsData> {
-	const { projects } = await gh<{ projects: ProjectListEntry[] }>([
-		"project",
-		"list",
-		"--owner",
-		OWNER,
-		"--format",
-		"json",
-		"--limit",
-		"100",
+	const [projects, issueTypes, rawIssueFields] = await Promise.all([
+		githubApi<RestProject[]>(`/orgs/${OWNER}/projectsV2`, { per_page: 100 }),
+		githubApi<RestIssueType[]>(`/orgs/${OWNER}/issue-types`),
+		githubApi<IssueField[]>(`/orgs/${OWNER}/issue-fields`),
 	]);
 
-	const openProjects = projects.filter((project) => !project.closed).toSorted((a, b) => b.number - a.number);
+	const openProjects = projects.filter((project) => project.state === "open").toSorted((a, b) => b.number - a.number);
 	if (openProjects.length === 0) throw new Error(`No open projects found for ${OWNER}`);
 
-	const [issueTypes, rawIssueFields, projectFields] = await Promise.all([
-		gh<RestIssueType[]>(["api", "--header", "X-GitHub-Api-Version: 2026-03-10", `/orgs/${OWNER}/issue-types`]),
-		gh<IssueField[]>(["api", "--header", "X-GitHub-Api-Version: 2026-03-10", `/orgs/${OWNER}/issue-fields`]),
-		Promise.all(
-			openProjects.map(async (project) => {
-				const { fields } = await gh<{ fields: ProjectField[] }>([
-					"project",
-					"field-list",
-					String(project.number),
-					"--owner",
-					OWNER,
-					"--format",
-					"json",
-					"--limit",
-					"100",
-				]);
-				return { project, fields };
-			}),
-		),
-	]);
+	const projectFields = await Promise.all(
+		openProjects.map(async (project) => ({
+			fields: (
+				await githubApi<RestProjectField[]>(`/orgs/${OWNER}/projectsV2/${project.number}/fields`, {
+					per_page: 100,
+				})
+			).map((field) => toProjectField(field)),
+			project: {
+				id: project.node_id,
+				number: project.number,
+				title: project.title,
+				url: `https://github.com/orgs/${OWNER}/projects/${project.number}`,
+			},
+		})),
+	);
 
 	const issueFields = rawIssueFields.map((field) => ({
 		...field,
@@ -175,7 +206,7 @@ async function getData(): Promise<ManageGithubProjectsData> {
 		issueSingleSelectFields: issueFields.filter(
 			(field): field is IssueSingleSelectField => field.data_type === "single_select",
 		),
-		projects: projectFields.map(({ project, fields: allFields }) => {
+		projects: projectFields.map(({ fields: allFields, project }) => {
 			const fields = allFields.filter(
 				(field) => !BUILTIN_FIELD_NAMES.has(field.name) && !issueFieldNames.has(field.name),
 			);
