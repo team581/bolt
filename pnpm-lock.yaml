@@ -28,8 +28,8 @@ importers:
         specifier: 0.6.0
         version: 0.6.0(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)
       '@mastra/gcs':
-        specifier: 0.3.1
-        version: 0.3.1(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)
+        specifier: 0.3.2
+        version: 0.3.2(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)
       '@mastra/memory':
         specifier: 1.26.0
         version: 1.26.0(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)
@@ -693,8 +693,8 @@ packages:
     peerDependencies:
       '@mastra/core': '>=1.50.0-0 <2.0.0-0'
 
-  '@mastra/gcs@0.3.1':
-    resolution: {integrity: sha512-IJ6I8DeRm2omIZw/CILS6PiSqpQRUn7xHfcY0D8bN0pfHTkJAsru7wGYscuX5uDuegnsTRyw+DSlBcCE5ePblg==}
+  '@mastra/gcs@0.3.2':
+    resolution: {integrity: sha512-oE9/1KHtEmWbS5jp5ruR29g0vpfyVmUrvFA/7vCcNCfoQHouA3WPThDLynZVsx7nNrMr2d9YgPpb8WNrNLgRHw==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
       '@mastra/core': '>=1.4.0-0 <2.0.0-0'
@@ -5682,7 +5682,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@mastra/gcs@0.3.1(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)':
+  '@mastra/gcs@0.3.2(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)':
     dependencies:
       '@google-cloud/storage': 7.22.0(supports-color@7.2.0)
       '@mastra/core': 1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)

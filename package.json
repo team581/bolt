@@ -15,7 +15,7 @@
 		"@chat-adapter/slack": "4.37.0",
 		"@mastra/core": "1.57.0",
 		"@mastra/daytona": "0.6.0",
-		"@mastra/gcs": "0.3.1",
+		"@mastra/gcs": "0.3.2",
 		"@mastra/memory": "1.26.0",
 		"@mastra/observability": "1.16.5",
 		"@mastra/pg": "1.19.0",
