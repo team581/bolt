@@ -36,20 +36,33 @@ export function sanitizeFilename(filename: string): string {
 	return filename.replaceAll(/[^A-Za-z0-9._-]/gu, "_");
 }
 
-export async function withBoltSandbox<T>(options: {
+export function withBoltSandbox<T>(options: {
 	threadId: string;
 	messages: Message[];
 	requestContext: RequestContext;
 	run(): Promise<T>;
 }): Promise<T> {
-	let session: SandboxSession | undefined;
+	return withBoltSandboxContext({
+		threadId: options.threadId,
+		requestContext: options.requestContext,
+		run: async () => {
+			const session = await resolveSandboxSession(options.requestContext);
+			await uploadWpilogAttachments(session.sandbox, options.messages);
+			return options.run();
+		},
+	});
+}
 
+export async function withBoltSandboxContext<T>(options: {
+	threadId: string;
+	requestContext: RequestContext;
+	run(): Promise<T>;
+}): Promise<T> {
 	try {
 		options.requestContext.set(BOLT_SLACK_THREAD_CONTEXT_KEY, options.threadId);
-		session = await resolveSandboxSession(options.requestContext);
-		await uploadWpilogAttachments(session.sandbox, options.messages);
 		return await options.run();
 	} finally {
+		const session = activeSandboxSessions.get(options.requestContext);
 		activeSandboxSessions.delete(options.requestContext);
 		if (session !== undefined) await cleanupSandbox(session);
 	}

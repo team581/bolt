@@ -12,6 +12,13 @@ catalog:
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
+packageExtensions:
+  "@daytonaio/sdk@*":
+    dependencies:
+      tslib: ^2.8.1
+  "@opentelemetry/sdk-node@0.207.0":
+    dependencies:
+      "@opentelemetry/context-async-hooks": 2.2.0
 peerDependencyRules:
   allowAny:
     - vite

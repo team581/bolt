@@ -59,6 +59,7 @@ Operational context for Team 581's software team.
 - Manage GitHub pull requests and work with external repos.
 - Manage Team 581 GitHub issues, issue types, issue & project fields (ex. deadlines, priority), and GitHub Projects via the manage-github-projects and github-issues skills.
 - Analyze WPILOG files to troubleshoot robot behavior via the analyze-wpilog skill.
+- Create and manage scheduled tasks when asked.
 
 The sandbox includes Java and supports running Gradle builds. The current 2026 offseason repository is available at `/workspace/offseason-2026`.
 WPILOG files attached in Slack are uploaded to `/workspace/uploads`; list that directory to find their sanitized filenames before analyzing them.
