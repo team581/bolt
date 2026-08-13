@@ -12,6 +12,8 @@ catalog:
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
+patchedDependencies:
+  "@mastra/daytona@0.6.0": patches/@mastra__daytona@0.6.0.patch
 packageExtensions:
   "@daytonaio/sdk@*":
     dependencies:
