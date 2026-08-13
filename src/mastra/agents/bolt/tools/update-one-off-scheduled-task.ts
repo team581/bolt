@@ -7,7 +7,12 @@ import {
 	toScheduledTaskRecord,
 	type ScheduledTaskRecord,
 } from "../../../scheduled-tasks.ts";
-import { getManagedTask, isWorkflowSchedule, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
+import {
+	getManagedTask,
+	isWorkflowSchedule,
+	scheduledTaskModelOutput,
+	type ScheduledTaskServices,
+} from "../scheduled-tasks/helpers.ts";
 
 const inputSchema = z.object({
 	id: z.string(),
@@ -26,6 +31,7 @@ export default createTool({
 	description: "Update a one-off scheduled task's name, self-contained prompt, or run time.",
 	inputSchema,
 	outputSchema: scheduledTaskRecordSchema,
+	toModelOutput: scheduledTaskModelOutput,
 	execute: (input, context) => {
 		if (context?.mastra === undefined) throw new Error("Mastra is unavailable.");
 		return updateOneOffScheduledTask(

@@ -6,7 +6,7 @@ import {
 	scheduledTaskRecordSchema,
 	type ScheduledTaskRecord,
 } from "../../../scheduled-tasks.ts";
-import { createOneOffTask, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
+import { createOneOffTask, scheduledTaskModelOutput, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
 
 const inputSchema = z.object({
 	name: z.string().min(1),
@@ -20,6 +20,7 @@ export default createTool({
 	description: "Create a one-off Bolt task that runs once and replies in this Slack thread.",
 	inputSchema,
 	outputSchema: scheduledTaskRecordSchema,
+	toModelOutput: scheduledTaskModelOutput,
 	execute: (input, context) => {
 		if (context?.mastra === undefined) throw new Error("Mastra is unavailable.");
 		return createOneOffScheduledTask(

@@ -9,13 +9,18 @@ import {
 	toScheduledTaskRecord,
 	type ScheduledTaskRecord,
 } from "../../../scheduled-tasks.ts";
-import { isWorkflowSchedule, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
+import {
+	isWorkflowSchedule,
+	scheduledTaskModelOutput,
+	type ScheduledTaskServices,
+} from "../scheduled-tasks/helpers.ts";
 
 export default createTool({
 	id: "list_scheduled_tasks",
 	description: "List scheduled tasks manageable from this Slack conversation.",
 	inputSchema: z.object({}),
 	outputSchema: z.array(scheduledTaskRecordSchema),
+	toModelOutput: scheduledTaskModelOutput,
 	execute: (_input, context) => {
 		if (context?.mastra === undefined) throw new Error("Mastra is unavailable.");
 		return listScheduledTasks({ schedules: context.mastra.schedules, requestContext: context.requestContext });

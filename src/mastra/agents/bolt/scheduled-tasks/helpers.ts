@@ -17,6 +17,19 @@ export interface ScheduledTaskServices {
 	requestContext?: RequestContext;
 }
 
+const RESPONSE_INSTRUCTIONS = `Respond with one sentence per scheduled task in this form: "{task summary} scheduled to run {where} {when}."
+Use "in this thread" for one-off tasks and "in this channel" for recurring tasks.
+Express the schedule as concise natural language in the user's timezone.
+Don't need to mention any internal technical details unless it's relevant. Keep things simple and conversational.
+If there are no tasks, say there are no scheduled tasks in this conversation.`;
+
+export function scheduledTaskModelOutput(tasks: ScheduledTaskRecord | ScheduledTaskRecord[]) {
+	return {
+		responseInstructions: RESPONSE_INSTRUCTIONS,
+		scheduledTasks: Array.isArray(tasks) ? tasks : [tasks],
+	};
+}
+
 type NewTask = {
 	name: string;
 	prompt: string;

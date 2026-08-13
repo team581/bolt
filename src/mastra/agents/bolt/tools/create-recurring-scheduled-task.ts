@@ -6,7 +6,11 @@ import {
 	type ScheduledTaskRecord,
 	validateRecurringCron,
 } from "../../../scheduled-tasks.ts";
-import { createRecurringTask, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
+import {
+	createRecurringTask,
+	scheduledTaskModelOutput,
+	type ScheduledTaskServices,
+} from "../scheduled-tasks/helpers.ts";
 
 const inputSchema = z.object({
 	name: z.string().min(1),
@@ -21,6 +25,7 @@ export default createTool({
 		"Create a recurring Bolt task. Each run starts a fresh Slack thread in this channel, so the prompt must be self-contained.",
 	inputSchema,
 	outputSchema: scheduledTaskRecordSchema,
+	toModelOutput: scheduledTaskModelOutput,
 	execute: (input, context) => {
 		if (context?.mastra === undefined) throw new Error("Mastra is unavailable.");
 		return createRecurringScheduledTask(
