@@ -25,8 +25,12 @@
 		"@sentry/node": "10.70.0",
 		"ai": "7.0.62",
 		"chat": "4.37.0",
+		"chrono-node": "2.10.1",
+		"croner": "10.0.1",
 		"envalid": "8.2.0",
-		"mastra": "1.23.0"
+		"mastra": "1.23.0",
+		"tslib": "2.8.1",
+		"zod": "4.4.3"
 	},
 	"devDependencies": {
 		"@daytona/sdk": "0.204.0",
@@ -39,8 +43,7 @@
 		"typescript": "7.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:",
-		"yaml": "2.9.0",
-		"zod": "4.4.3"
+		"yaml": "2.9.0"
 	},
 	"engines": {
 		"node": "26.x"

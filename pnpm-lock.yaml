@@ -14,6 +14,8 @@ overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
 
+packageExtensionsChecksum: sha256-n6PQeVp0eUgh1VDm3zxnT1gxeVNCDJm65mF/bm9/JFk=
+
 importers:
 
   .:
@@ -57,12 +59,24 @@ importers:
       chat:
         specifier: 4.37.0
         version: 4.37.0(ai@7.0.62(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+      chrono-node:
+        specifier: 2.10.1
+        version: 2.10.1
+      croner:
+        specifier: 10.0.1
+        version: 10.0.1
       envalid:
         specifier: 8.2.0
         version: 8.2.0
       mastra:
         specifier: 1.23.0
         version: 1.23.0(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3)
+      tslib:
+        specifier: 2.8.1
+        version: 2.8.1
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
     devDependencies:
       '@daytona/sdk':
         specifier: 0.204.0
@@ -97,9 +111,6 @@ importers:
       yaml:
         specifier: 2.9.0
         version: 2.9.0
-      zod:
-        specifier: 4.4.3
-        version: 4.4.3
 
 packages:
 
@@ -2742,6 +2753,10 @@ packages:
   chownr@3.0.0:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
     engines: {node: '>=18'}
+
+  chrono-node@2.10.1:
+    resolution: {integrity: sha512-tPOsBzYVAK5zth+CiHCgp5NGeqRc4mMD8FPthQ5IxkgjPWWxIFdM5odnmfw//IRAzl6C++Xy8olQW7wn5qBR1g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   cjs-module-lexer@2.2.0:
     resolution: {integrity: sha512-4bHTS2YuzUvtoLjdy+98ykbNB5jS0+07EvFNXerqZQJ89F7DI6ET7OQo/HJuW6K0aVsKA9hj9/RVb2kQVOrPDQ==}
@@ -5407,6 +5422,7 @@ snapshots:
       pathe: 2.0.3
       shell-quote: 1.10.0
       tar: 7.5.22
+      tslib: 2.8.1
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -6407,6 +6423,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.207.0
+      '@opentelemetry/context-async-hooks': 2.2.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/exporter-logs-otlp-grpc': 0.207.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/exporter-logs-otlp-http': 0.207.0(@opentelemetry/api@1.9.1)
@@ -7610,6 +7627,8 @@ snapshots:
       - supports-color
 
   chownr@3.0.0: {}
+
+  chrono-node@2.10.1: {}
 
   cjs-module-lexer@2.2.0: {}
 
