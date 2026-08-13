@@ -1,5 +1,5 @@
 import type { RequestContext } from "@mastra/core/request-context";
-import type { CommandResult, ExecuteCommandOptions, SandboxFileInput } from "@mastra/core/workspace";
+import type { CommandResult, ExecuteCommandOptions, MountResult, SandboxFileInput } from "@mastra/core/workspace";
 import { DaytonaSandbox, type DaytonaSandboxOptions } from "@mastra/daytona";
 import { createHash } from "node:crypto";
 import type { Message } from "chat";
@@ -134,7 +134,13 @@ async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise
 		);
 	}
 
-	const mount = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
+	let mount: MountResult;
+	try {
+		mount = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
+	} finally {
+		// Delete the GCP service account key files which are stored in the sandbox
+		await sandbox.executeCommand("rm -f /tmp/gcs-key-*.json");
+	}
 	if (!mount.success) throw new Error("Failed to mount the Fetch GCS bucket.", { cause: mount.error });
 }
 
