@@ -14,6 +14,9 @@ overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.10
 
+patchedDependencies:
+  '@mastra/daytona@0.6.0': c42cfb1ac0831dbfdec725b1d2009c98ef5588e64b5fe01ae726787b47f510f7
+
 importers:
 
   .:
@@ -26,7 +29,7 @@ importers:
         version: 1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
       '@mastra/daytona':
         specifier: 0.6.0
-        version: 0.6.0(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)
+        version: 0.6.0(patch_hash=c42cfb1ac0831dbfdec725b1d2009c98ef5588e64b5fe01ae726787b47f510f7)(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)
       '@mastra/gcs':
         specifier: 0.3.1
         version: 0.3.1(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)
@@ -5635,7 +5638,7 @@ snapshots:
       - utf-8-validate
       - workflow
 
-  '@mastra/daytona@0.6.0(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)':
+  '@mastra/daytona@0.6.0(patch_hash=c42cfb1ac0831dbfdec725b1d2009c98ef5588e64b5fe01ae726787b47f510f7)(@mastra/core@1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)':
     dependencies:
       '@daytonaio/sdk': 0.143.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(ws@8.21.3)
       '@mastra/core': 1.57.0(@cfworker/json-schema@4.1.1)(@grpc/grpc-js@1.14.4)(ai@7.0.62(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
