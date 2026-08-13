@@ -1,3 +1,4 @@
+import { RequestContext } from "@mastra/core/request-context";
 import type { WorkflowSchedule } from "@mastra/core/schedules";
 import { describe, expect, it } from "vite-plus/test";
 import {
@@ -5,6 +6,7 @@ import {
 	isMissedScheduledFire,
 	oneOffCron,
 	parseScheduledFireAt,
+	requireSlackContext,
 	resolveOneOffTime,
 	type ScheduledTaskInput,
 	toScheduledTaskRecord,
@@ -81,6 +83,18 @@ describe("scheduled task timing", () => {
 });
 
 describe("scheduled task ownership", () => {
+	it("requires a Slack user before creating an owned task", () => {
+		const requestContext = new RequestContext();
+		requestContext.set("channel", {
+			platform: "slack",
+			channelId: "slack:C123",
+			threadId: "slack:C123:100.000",
+		});
+		expect(() => requireSlackContext(requestContext)).toThrow(
+			"Scheduled tasks can only be managed from a Slack thread.",
+		);
+	});
+
 	it("scopes one-offs to their source thread and recurring tasks to their channel", () => {
 		const oneOff: ScheduledTaskInput = {
 			...recurringTask,

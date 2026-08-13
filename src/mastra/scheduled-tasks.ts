@@ -46,7 +46,12 @@ export function requireSlackContext(
 	requestContext: RequestContext | undefined,
 ): Required<Pick<ChannelContext, "channelId" | "threadId" | "userId">> {
 	const channel = requestContext?.get<"channel", ChannelContext | undefined>("channel");
-	if (channel?.platform !== "slack" || channel.channelId === undefined || channel.threadId === undefined) {
+	if (
+		channel?.platform !== "slack" ||
+		channel.channelId === undefined ||
+		channel.threadId === undefined ||
+		channel.userId === undefined
+	) {
 		throw new Error("Scheduled tasks can only be managed from a Slack thread.");
 	}
 	return { channelId: channel.channelId, threadId: channel.threadId, userId: channel.userId };
