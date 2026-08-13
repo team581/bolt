@@ -1,6 +1,6 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
-import { deleteScheduledTask } from "../scheduled-task-tools.ts";
+import { getManagedTask, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
 
 export default createTool({
 	id: "delete_scheduled_task",
@@ -12,3 +12,12 @@ export default createTool({
 		return deleteScheduledTask({ schedules: context.mastra.schedules, requestContext: context.requestContext }, id);
 	},
 });
+
+export async function deleteScheduledTask(
+	services: ScheduledTaskServices,
+	id: string,
+): Promise<{ deleted: true; id: string }> {
+	const { schedule } = await getManagedTask(services, id);
+	await services.schedules.delete(schedule.id);
+	return { deleted: true, id: schedule.id };
+}

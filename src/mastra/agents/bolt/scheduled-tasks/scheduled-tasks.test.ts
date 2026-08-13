@@ -2,18 +2,18 @@ import { RequestContext } from "@mastra/core/request-context";
 import type { Schedules, WorkflowSchedule } from "@mastra/core/schedules";
 import { Cron } from "croner";
 import { describe, expect, it } from "vite-plus/test";
-import {
-	createScheduledTask,
-	deleteScheduledTask,
-	listScheduledTasks,
-	updateScheduledTask,
-} from "./scheduled-task-tools.ts";
+import { createOneOffScheduledTask } from "../tools/create-one-off-scheduled-task.ts";
+import { createRecurringScheduledTask } from "../tools/create-recurring-scheduled-task.ts";
+import { deleteScheduledTask } from "../tools/delete-scheduled-task.ts";
+import { listScheduledTasks } from "../tools/list-scheduled-tasks.ts";
+import { updateOneOffScheduledTask } from "../tools/update-one-off-scheduled-task.ts";
+import { updateRecurringScheduledTask } from "../tools/update-recurring-scheduled-task.ts";
 
 describe("scheduled task CRUD", () => {
 	it("creates, lists, updates, and deletes channel-owned recurring tasks", async () => {
 		const schedules = createScheduleStore();
 		const creationContext = slackRequestContext("slack:C123", "slack:C123:100.000");
-		const task = await createScheduledTask(
+		const task = await createRecurringScheduledTask(
 			{ schedules, requestContext: creationContext },
 			{
 				name: "Weekly code review",
@@ -31,7 +31,7 @@ describe("scheduled task CRUD", () => {
 		const otherThread = slackRequestContext("slack:C123", "slack:C123:200.000");
 		expect(await listScheduledTasks({ schedules, requestContext: otherThread })).toHaveLength(1);
 
-		const updated = await updateScheduledTask(
+		const updated = await updateRecurringScheduledTask(
 			{ schedules, requestContext: otherThread },
 			{
 				id: task.id,
@@ -56,7 +56,7 @@ describe("scheduled task CRUD", () => {
 	it("keeps one-offs in their creation thread and rejects kind or cross-channel changes", async () => {
 		const schedules = createScheduleStore();
 		const creationContext = slackRequestContext("slack:C123", "slack:C123:100.000");
-		const task = await createScheduledTask(
+		const task = await createOneOffScheduledTask(
 			{ schedules, requestContext: creationContext },
 			{
 				name: "Check CI",
@@ -72,9 +72,17 @@ describe("scheduled task CRUD", () => {
 				requestContext: slackRequestContext("slack:C123", "slack:C123:200.000"),
 			}),
 		).toEqual([]);
+		const updated = await updateOneOffScheduledTask(
+			{ schedules, requestContext: creationContext },
+			{ id: task.id, name: "Check CI again", runAt: "2090-08-13T10:00:00" },
+		);
+		expect(updated).toMatchObject({ id: task.id, kind: "one-off", name: "Check CI again" });
 		await expect(
-			updateScheduledTask({ schedules, requestContext: creationContext }, { id: task.id, cron: "0 9 * * 1" }),
-		).rejects.toThrow("immutable");
+			updateRecurringScheduledTask(
+				{ schedules, requestContext: creationContext },
+				{ id: task.id, name: "Recurring CI" },
+			),
+		).rejects.toThrow("one-off task");
 		await expect(
 			deleteScheduledTask(
 				{ schedules, requestContext: slackRequestContext("slack:C999", "slack:C999:100.000") },

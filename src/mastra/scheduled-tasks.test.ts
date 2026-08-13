@@ -2,14 +2,12 @@ import type { WorkflowSchedule } from "@mastra/core/schedules";
 import { describe, expect, it } from "vite-plus/test";
 import {
 	canManageScheduledTask,
-	createScheduledTaskToolInputSchema,
 	isMissedScheduledFire,
 	normalizeOneOffTime,
 	oneOffCron,
 	parseScheduledFireAt,
 	type ScheduledTaskInput,
 	toScheduledTaskRecord,
-	updateScheduledTaskToolInputSchema,
 	validateRecurringCron,
 } from "./scheduled-tasks.ts";
 
@@ -27,24 +25,6 @@ const recurringTask: ScheduledTaskInput = {
 };
 
 describe("scheduled task timing", () => {
-	it("validates the flat tool timing schemas", () => {
-		const common = { name: "Review", prompt: "Review the open pull requests and summarize findings." };
-		expect(createScheduledTaskToolInputSchema.safeParse({ ...common, cron: "0 9 * * 1" }).success).toBe(true);
-		expect(createScheduledTaskToolInputSchema.safeParse({ ...common }).success).toBe(false);
-		expect(
-			createScheduledTaskToolInputSchema.safeParse({ ...common, runAt: "2090-08-13T09:00:00", cron: "0 9 * * 1" })
-				.success,
-		).toBe(false);
-		expect(updateScheduledTaskToolInputSchema.safeParse({ id: "schedule_1", name: "New name" }).success).toBe(true);
-		expect(
-			updateScheduledTaskToolInputSchema.safeParse({ id: "schedule_1", timezone: "America/New_York" }).success,
-		).toBe(false);
-		expect(
-			updateScheduledTaskToolInputSchema.safeParse({ id: "schedule_1", runAt: "2090-08-13", cron: "0 9 * * 1" })
-				.success,
-		).toBe(false);
-	});
-
 	it("interprets unspecified local times in the selected IANA timezone", () => {
 		const runAt = normalizeOneOffTime("2026-08-13T09:00:00", "America/Los_Angeles", new Date("2026-08-12T00:00:00Z"));
 		expect(runAt.toISOString()).toBe("2026-08-13T16:00:00.000Z");

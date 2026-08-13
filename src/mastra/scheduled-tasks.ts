@@ -41,45 +41,6 @@ export const scheduledTaskRecordSchema = z.object({
 
 export type ScheduledTaskRecord = z.infer<typeof scheduledTaskRecordSchema>;
 
-const taskTimingFields = {
-	runAt: z.string().min(1).optional().describe("Set only for a one-off task. An ISO date/time or local date/time."),
-	cron: z.string().min(1).optional().describe("Set only for a recurring task. A 5-, 6-, or 7-part cron expression."),
-	timezone: z.string().optional().describe("IANA timezone; defaults to America/Los_Angeles."),
-};
-
-export const createScheduledTaskToolInputSchema = z
-	.object({
-		name: z.string().min(1),
-		prompt: z.string().min(1).describe("A self-contained prompt with all context needed when the task runs."),
-		...taskTimingFields,
-	})
-	.superRefine((input, context) => {
-		validateToolTiming(input, context, true);
-	});
-
-export const updateScheduledTaskToolInputSchema = z
-	.object({
-		id: z.string(),
-		name: z.string().min(1).optional(),
-		prompt: z
-			.string()
-			.min(1)
-			.optional()
-			.describe("A self-contained replacement prompt with all context needed when the task runs."),
-		...taskTimingFields,
-	})
-	.superRefine((input, context) => {
-		validateToolTiming(input, context, false);
-		if (
-			input.name === undefined &&
-			input.prompt === undefined &&
-			input.runAt === undefined &&
-			input.cron === undefined
-		) {
-			context.addIssue({ code: "custom", message: "Provide a name, prompt, runAt, or cron to update." });
-		}
-	});
-
 export function requireSlackContext(
 	requestContext: RequestContext | undefined,
 ): Required<Pick<ChannelContext, "channelId" | "threadId" | "userId">> {
@@ -166,31 +127,4 @@ export function toScheduledTaskRecord(schedule: WorkflowSchedule): ScheduledTask
 export function asScheduledTask(schedule: WorkflowSchedule): ScheduledTaskInput | undefined {
 	const result = scheduledTaskInputSchema.safeParse(schedule.inputData);
 	return result.success ? result.data : undefined;
-}
-
-function validateToolTiming(
-	input: { runAt?: string; cron?: string; timezone?: string },
-	context: z.RefinementCtx,
-	required: boolean,
-): void {
-	const timingCount = Number(input.runAt !== undefined) + Number(input.cron !== undefined);
-	if (timingCount > 1 || (required && timingCount !== 1)) {
-		context.addIssue({
-			code: "custom",
-			message: required ? "Provide exactly one of runAt or cron." : "Provide at most one of runAt or cron.",
-		});
-		return;
-	}
-	if (!required && timingCount === 0 && input.timezone !== undefined) {
-		context.addIssue({ code: "custom", message: "A timezone update must include runAt or cron." });
-		return;
-	}
-
-	const timezone = input.timezone ?? DEFAULT_SCHEDULE_TIMEZONE;
-	try {
-		if (input.runAt !== undefined) normalizeOneOffTime(input.runAt, timezone);
-		else if (input.cron !== undefined) validateRecurringCron(input.cron, timezone);
-	} catch (error) {
-		context.addIssue({ code: "custom", message: error instanceof Error ? error.message : String(error) });
-	}
 }
