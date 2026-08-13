@@ -1,4 +1,4 @@
-import { cleanEnv, email, makeValidator, num, url } from "envalid";
+import { cleanEnv, email, json, makeValidator, num, url } from "envalid";
 
 const nonEmptyString = makeValidator<string>((input) => {
 	if (!input.trim()) throw new Error("Expected a non-empty string");
@@ -49,6 +49,9 @@ export const config = cleanEnv(process.env, {
 	}),
 	GITHUB_INSTALLATION_ID: num({
 		desc: "GitHub App installation ID",
+	}),
+	GCS_SERVICE_ACCOUNT_KEY: json<object>({
+		desc: "Service account key JSON with read-only access to the Fetch GCS bucket",
 	}),
 	MASTRA_API_KEY: nonEmptyString({
 		desc: "API key used to authenticate requests to the Mastra server",

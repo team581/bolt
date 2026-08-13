@@ -1,11 +1,12 @@
 import type { RequestContext } from "@mastra/core/request-context";
-import type { CommandResult, ExecuteCommandOptions, SandboxFileInput } from "@mastra/core/workspace";
+import type { CommandResult, ExecuteCommandOptions, MountResult, SandboxFileInput } from "@mastra/core/workspace";
 import { DaytonaSandbox, type DaytonaSandboxOptions } from "@mastra/daytona";
 import { createHash } from "node:crypto";
 import type { Message } from "chat";
 import { config } from "../../../config.ts";
 import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "../../../github-app.ts";
 import { reportError } from "../../../sentry.ts";
+import { createFetchFilesystem, FETCH_GCS_MOUNT_PATH } from "./fetch-filesystem.ts";
 
 const SANDBOX_TIMEOUT_MS = 30 * 60 * 1_000;
 const SANDBOX_SETUP_TIMEOUT_MS = 5 * 60 * 1_000;
@@ -132,6 +133,15 @@ async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise
 			},
 		);
 	}
+
+	let mount: MountResult;
+	try {
+		mount = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
+	} finally {
+		// Delete the GCP service account key files which are stored in the sandbox
+		await sandbox.executeCommand("rm -f /tmp/gcs-key-*.json");
+	}
+	if (!mount.success) throw new Error("Failed to mount the Fetch GCS bucket.", { cause: mount.error });
 }
 
 class AuthenticatedDaytonaSandbox extends DaytonaSandbox {
