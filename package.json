@@ -23,7 +23,7 @@
 		"@octokit/auth-app": "8.3.0",
 		"@octokit/request": "10.0.13",
 		"@sentry/node": "10.70.0",
-		"ai": "7.0.64",
+		"ai": "7.0.65",
 		"chat": "4.37.0",
 		"chrono-node": "2.10.1",
 		"croner": "10.0.1",
