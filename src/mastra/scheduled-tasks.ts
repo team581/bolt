@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const RUN_SCHEDULED_TASK_WORKFLOW_ID = "run-scheduled-task";
 export const DEFAULT_SCHEDULE_TIMEZONE = "America/Los_Angeles";
-export const SCHEDULE_GRACE_PERIOD_MS = 60_000;
+const SCHEDULE_GRACE_PERIOD_MS = 60_000;
 
 const commonTaskInputSchema = z.object({
 	scheduleId: z.string(),

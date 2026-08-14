@@ -14,7 +14,7 @@ const SANDBOX_AUTO_DELETE_MINUTES = 24 * 60;
 const SANDBOX_SNAPSHOT = "bolt-sandbox";
 const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox repository.";
 
-export const BOLT_SLACK_THREAD_CONTEXT_KEY = "bolt.slackThreadId";
+const BOLT_SLACK_THREAD_CONTEXT_KEY = "bolt.slackThreadId";
 
 interface SandboxSession {
 	sandbox: DaytonaSandbox;
