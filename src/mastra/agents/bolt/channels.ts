@@ -81,7 +81,7 @@ export async function replyGateAllowsReply(thread: Thread, message: Message): Pr
 	}
 }
 
-export function messageBody(messages: Message[]): string {
+function messageBody(messages: Message[]): string {
 	return messages
 		.map((message) => {
 			const attachments = message.attachments.map(({ name, mimeType, size }) => ({ name, mimeType, size }));

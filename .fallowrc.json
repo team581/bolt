@@ -1,0 +1,12 @@
+{
+	"$schema": "./node_modules/fallow/schema.json",
+	"entry": [
+		"src/mastra/index.ts",
+		"src/mastra/agents/**/{config,memory,workspace}.ts",
+		"src/mastra/agents/**/processors/**/*.ts",
+		"src/mastra/agents/**/tools/*.ts",
+		"src/mastra/workflows/*.ts"
+	],
+	"ignoreDependencies": ["@daytona/sdk", "@sindresorhus/slugify", "handlebars", "p-retry"],
+	"usedClassMembers": [{ "implements": "Processor", "members": ["id"] }]
+}

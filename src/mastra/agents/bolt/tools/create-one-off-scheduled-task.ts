@@ -1,11 +1,14 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
-import { resolveOneOffTime, scheduledTaskRecordSchema, type ScheduledTaskRecord } from "../../../scheduled-tasks.ts";
+import {
+	resolveOneOffTime,
+	scheduledTaskContentSchema,
+	scheduledTaskRecordSchema,
+	type ScheduledTaskRecord,
+} from "../../../scheduled-tasks.ts";
 import { createOneOffTask, scheduledTaskModelOutput, type ScheduledTaskServices } from "../scheduled-tasks/helpers.ts";
 
-const inputSchema = z.object({
-	name: z.string().min(1),
-	prompt: z.string().min(1).describe("A self-contained prompt with all context needed when the task runs."),
+const inputSchema = scheduledTaskContentSchema.extend({
 	when: z
 		.string()
 		.min(1)

@@ -57,9 +57,6 @@ importers:
       '@sentry/node':
         specifier: 10.70.0
         version: 10.70.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)
-      ai:
-        specifier: 7.0.65
-        version: 7.0.65(zod@4.4.3)
       chat:
         specifier: 4.37.0
         version: 4.37.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
@@ -75,9 +72,6 @@ importers:
       mastra:
         specifier: 1.23.0
         version: 1.23.0(patch_hash=9249098d82f078c90f31ce306345fa3a209c1b0be73cb81c520d59a174ee2794)(@hono/node-server@1.19.17(hono@4.13.1))(@mastra/core@1.58.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)(typescript@7.0.2)(zod@4.4.3)
-      tslib:
-        specifier: 2.8.1
-        version: 2.8.1
       zod:
         specifier: 4.4.3
         version: 4.4.3
@@ -94,6 +88,9 @@ importers:
       '@types/node':
         specifier: 26.2.0
         version: 26.2.0
+      fallow:
+        specifier: 3.15.0
+        version: 3.15.0
       handlebars:
         specifier: 4.7.9
         version: 4.7.9
@@ -109,9 +106,6 @@ importers:
       vite-plus:
         specifier: 'catalog:'
         version: 0.2.9(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0)
-      yaml:
-        specifier: 2.9.0
-        version: 2.9.0
 
 packages:
 
@@ -619,6 +613,46 @@ packages:
 
   '@expo/sudo-prompt@9.3.2':
     resolution: {integrity: sha512-HHQigo3rQWKMDzYDLkubN5WQOYXJJE2eNqIQC2axC2iO3mHdwnIR7FgZVvHWtBwAdzBgAP0ECp8KqS8TiMKvgw==}
+
+  '@fallow-cli/darwin-arm64@3.15.0':
+    resolution: {integrity: sha512-ZU8drCblcBnjBlaNpPnginBG8crHjbbUf3lsnmhpn+dPTx3rTUMDFxHtuLSMeiik1srAaH8/cKvvO/6qluYasQ==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@fallow-cli/darwin-x64@3.15.0':
+    resolution: {integrity: sha512-r9JtiLoFDpaSU9YhiXaily34BqEH5+jhCxE7r1w9PyawUtafDLrilkcX5pxYBpmLjS2r/wAja5kTdi3CttCDUA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@fallow-cli/linux-arm64-gnu@3.15.0':
+    resolution: {integrity: sha512-ospj4O9MibqY77Gjl/JvYzrN67F8NhKjn9dlnKafi6lAagr+w1JvfQqem6sFE1Eo5wGmiEZyOfLATfHaMYBbsw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@fallow-cli/linux-arm64-musl@3.15.0':
+    resolution: {integrity: sha512-7UIQI6TBFCqCdyTCLvXr4TbhCN5X/h4QDGnzxIc+aCegYbvekddAB6A5riv3nvsHajZD7Bgfn5qKhrGgwum2zQ==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@fallow-cli/linux-x64-gnu@3.15.0':
+    resolution: {integrity: sha512-S9hMl7gYhlDshQ3ZfF10/mFdTOfYOMLfVI1HpS4sqtdP7KFw0WnZosg1/9Pu+D1dlwAD8AI0/zi8gqBv9Bsv/A==}
+    cpu: [x64]
+    os: [linux]
+
+  '@fallow-cli/linux-x64-musl@3.15.0':
+    resolution: {integrity: sha512-Kqcn+Eja2vnY2Xnfs01EsYuph0AXWAztHPJF25pUskZ5+aqrmyHYjFFG35qWHkOKDThhZBCyqS+ofsOmbuEy+w==}
+    cpu: [x64]
+    os: [linux]
+
+  '@fallow-cli/win32-arm64-msvc@3.15.0':
+    resolution: {integrity: sha512-OHkGqmcs1sols7ZOHbnlfqpKCtJoMrX6+ixAenBK/DCnB3Kq/+Weh+wnhIMHWDF6YeqOz+umJP4YZNf64kJ01w==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@fallow-cli/win32-x64-msvc@3.15.0':
+    resolution: {integrity: sha512-ujriLYcUFUO+2cJ6fRBlZj9HWtVDv8WDOJWZ0D4nqgYPJI/LhHdH/fVXrkvE+XVtndC5vedcbQW0PgxEYGVX3A==}
+    cpu: [x64]
+    os: [win32]
 
   '@google-cloud/paginator@5.0.2':
     resolution: {integrity: sha512-DJS3s0OVH4zFDB1PzjxAsHqJT6sKVbRwwML0ZBP9PbU7Yebtu/7SWMRzvO2J3nUi9pRNITCfu4LJeooM2w4pjg==}
@@ -3094,6 +3128,16 @@ packages:
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
 
+  fallow-type-aware@3.15.0:
+    resolution: {integrity: sha512-VVt0XLRlSLZjczv1VonNoP6xIjB5GjTR1UBKMSK5q+GOCKiEmYoCvITGCbSXtOtmPfbeZTXOt/VLCylpinrQqw==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  fallow@3.15.0:
+    resolution: {integrity: sha512-WH+hrP/97uA7pzC7y+EpQbc1PbOYfCMtOWcdXbVSjWn58uVsoECSeqdnn/hRGk1ZQy8jxQGzeW2w2XIIhasvGg==}
+    engines: {node: '>=22'}
+    hasBin: true
+
   fast-copy@4.0.4:
     resolution: {integrity: sha512-eVAiWVNPSEGIzDl5yPuLrx8fNMogScXvD9xp1Kzd41FjRIz2I3sSIcxsFeM5EzFfHAfobdvs8ZySffUopljvIA==}
 
@@ -4847,6 +4891,7 @@ snapshots:
       '@ai-sdk/provider-utils': 5.0.27(zod@4.4.3)
       '@vercel/oidc': 3.2.0
       zod: 4.4.3
+    optional: true
 
   '@ai-sdk/provider-utils@3.0.30(zod@4.4.3)':
     dependencies:
@@ -4878,6 +4923,7 @@ snapshots:
       eventsource-parser: 3.1.1
       undici: 7.29.0
       zod: 4.4.3
+    optional: true
 
   '@ai-sdk/provider@2.0.3':
     dependencies:
@@ -4894,6 +4940,7 @@ snapshots:
   '@ai-sdk/provider@4.0.7':
     dependencies:
       json-schema: 0.4.0
+    optional: true
 
   '@apm-js-collab/code-transformer-bundler-plugins@0.7.4':
     dependencies:
@@ -5490,6 +5537,30 @@ snapshots:
       - supports-color
 
   '@expo/sudo-prompt@9.3.2': {}
+
+  '@fallow-cli/darwin-arm64@3.15.0':
+    optional: true
+
+  '@fallow-cli/darwin-x64@3.15.0':
+    optional: true
+
+  '@fallow-cli/linux-arm64-gnu@3.15.0':
+    optional: true
+
+  '@fallow-cli/linux-arm64-musl@3.15.0':
+    optional: true
+
+  '@fallow-cli/linux-x64-gnu@3.15.0':
+    optional: true
+
+  '@fallow-cli/linux-x64-musl@3.15.0':
+    optional: true
+
+  '@fallow-cli/win32-arm64-msvc@3.15.0':
+    optional: true
+
+  '@fallow-cli/win32-x64-msvc@3.15.0':
+    optional: true
 
   '@google-cloud/paginator@5.0.2':
     dependencies:
@@ -7100,7 +7171,8 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vercel/oidc@3.2.0': {}
+  '@vercel/oidc@3.2.0':
+    optional: true
 
   '@vitest/browser-preview@4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))(vitest@4.1.10)':
     dependencies:
@@ -7324,6 +7396,7 @@ snapshots:
       '@ai-sdk/provider': 4.0.7
       '@ai-sdk/provider-utils': 5.0.27(zod@4.4.3)
       zod: 4.4.3
+    optional: true
 
   ajv@8.18.0:
     dependencies:
@@ -7943,6 +8016,25 @@ snapshots:
       is-extendable: 0.1.1
 
   extend@3.0.2: {}
+
+  fallow-type-aware@3.15.0:
+    dependencies:
+      typescript: 7.0.2
+    optional: true
+
+  fallow@3.15.0:
+    dependencies:
+      detect-libc: 2.1.2
+    optionalDependencies:
+      '@fallow-cli/darwin-arm64': 3.15.0
+      '@fallow-cli/darwin-x64': 3.15.0
+      '@fallow-cli/linux-arm64-gnu': 3.15.0
+      '@fallow-cli/linux-arm64-musl': 3.15.0
+      '@fallow-cli/linux-x64-gnu': 3.15.0
+      '@fallow-cli/linux-x64-musl': 3.15.0
+      '@fallow-cli/win32-arm64-msvc': 3.15.0
+      '@fallow-cli/win32-x64-msvc': 3.15.0
+      fallow-type-aware: 3.15.0
 
   fast-copy@4.0.4: {}
 
@@ -9748,7 +9840,8 @@ snapshots:
 
   undici@6.28.0: {}
 
-  undici@7.29.0: {}
+  undici@7.29.0:
+    optional: true
 
   unicorn-magic@0.3.0: {}
 
