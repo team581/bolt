@@ -1,8 +1,10 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 import {
+	normalizeScheduledTaskContent,
 	oneOffCron,
 	resolveOneOffTime,
+	scheduledTaskContentSchema,
 	scheduledTaskRecordSchema,
 	toScheduledTaskRecord,
 	type ScheduledTaskRecord,
@@ -14,14 +16,8 @@ import {
 	type ScheduledTaskServices,
 } from "../scheduled-tasks/helpers.ts";
 
-const inputSchema = z.object({
+const inputSchema = scheduledTaskContentSchema.partial().extend({
 	id: z.string(),
-	name: z.string().min(1).optional(),
-	prompt: z
-		.string()
-		.min(1)
-		.optional()
-		.describe("A self-contained replacement prompt with all context needed when the task runs."),
 	when: z
 		.string()
 		.min(1)
@@ -56,12 +52,7 @@ export async function updateOneOffScheduledTask(
 	const { schedule, task } = await getManagedTask(services, input.id);
 	if (task.kind !== "one-off") throw new Error("This is a recurring task; delete and recreate it to change its kind.");
 
-	const name = input.name?.trim() ?? task.name;
-	const prompt = input.prompt?.trim() ?? task.prompt;
-	if (name.length === 0) throw new Error("Task name cannot be empty.");
-	if (prompt.length === 0) throw new Error("Task prompt cannot be empty and must be self-contained.");
-
-	let updatedTask = { ...task, name, prompt };
+	let updatedTask = { ...task, ...normalizeScheduledTaskContent(task, input) };
 	let cron = schedule.cron;
 	if (input.when !== undefined) {
 		const resolved = resolveOneOffTime(input.when);

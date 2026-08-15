@@ -9,10 +9,17 @@ export const RUN_SCHEDULED_TASK_WORKFLOW_ID = "run-scheduled-task";
 export const DEFAULT_SCHEDULE_TIMEZONE = "America/Los_Angeles";
 const SCHEDULE_GRACE_PERIOD_MS = 60_000;
 
-const commonTaskInputSchema = z.object({
+export const scheduledTaskContentSchema = z.object({
+	name: z.string().trim().min(1, "Task name cannot be empty."),
+	prompt: z
+		.string()
+		.trim()
+		.min(1, "Task prompt cannot be empty and must be self-contained.")
+		.describe("A self-contained prompt with all context needed when the task runs."),
+});
+
+const commonTaskInputSchema = scheduledTaskContentSchema.extend({
 	scheduleId: z.string(),
-	name: z.string().min(1),
-	prompt: z.string().min(1),
 	channelId: z.string(),
 	sourceThreadId: z.string(),
 	creatorUserId: z.string(),
@@ -27,11 +34,9 @@ export const scheduledTaskInputSchema = z.discriminatedUnion("kind", [
 
 export type ScheduledTaskInput = z.infer<typeof scheduledTaskInputSchema>;
 
-export const scheduledTaskRecordSchema = z.object({
+export const scheduledTaskRecordSchema = scheduledTaskContentSchema.extend({
 	id: z.string(),
 	kind: z.enum(["one-off", "recurring"]),
-	name: z.string(),
-	prompt: z.string(),
 	status: z.enum(["active", "paused"]),
 	runAt: z.string().optional(),
 	cron: z.string().optional(),
@@ -41,6 +46,16 @@ export const scheduledTaskRecordSchema = z.object({
 });
 
 export type ScheduledTaskRecord = z.infer<typeof scheduledTaskRecordSchema>;
+
+export function normalizeScheduledTaskContent(
+	current: z.input<typeof scheduledTaskContentSchema>,
+	updates: Partial<z.input<typeof scheduledTaskContentSchema>> = {},
+): z.output<typeof scheduledTaskContentSchema> {
+	return scheduledTaskContentSchema.parse({
+		name: updates.name ?? current.name,
+		prompt: updates.prompt ?? current.prompt,
+	});
+}
 
 export function requireSlackContext(
 	requestContext: RequestContext | undefined,

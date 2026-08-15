@@ -8,8 +8,22 @@ import { deleteScheduledTask } from "../tools/delete-scheduled-task.ts";
 import { listScheduledTasks } from "../tools/list-scheduled-tasks.ts";
 import { updateOneOffScheduledTask } from "../tools/update-one-off-scheduled-task.ts";
 import { updateRecurringScheduledTask } from "../tools/update-recurring-scheduled-task.ts";
+import { normalizeScheduledTaskContent } from "../../../scheduled-tasks.ts";
 
 describe("scheduled task CRUD", () => {
+	it("normalizes task content and rejects blank values", () => {
+		expect(normalizeScheduledTaskContent({ name: "  Check CI  ", prompt: "  Summarize failures.  " })).toEqual({
+			name: "Check CI",
+			prompt: "Summarize failures.",
+		});
+		expect(() => normalizeScheduledTaskContent({ name: "   ", prompt: "Summarize failures." })).toThrow(
+			"Task name cannot be empty.",
+		);
+		expect(() => normalizeScheduledTaskContent({ name: "Check CI", prompt: "   " })).toThrow(
+			"Task prompt cannot be empty and must be self-contained.",
+		);
+	});
+
 	it("creates, lists, updates, and deletes channel-owned recurring tasks", async () => {
 		const schedules = createScheduleStore();
 		const creationContext = slackRequestContext("slack:C123", "slack:C123:100.000");

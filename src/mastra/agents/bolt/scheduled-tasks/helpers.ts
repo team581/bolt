@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import {
 	asScheduledTask,
 	canManageScheduledTask,
+	normalizeScheduledTaskContent,
 	oneOffCron,
 	requireSlackContext,
 	RUN_SCHEDULED_TASK_WORKFLOW_ID,
@@ -45,10 +46,7 @@ export async function createRecurringTask(
 	timezone = input.timezone,
 ): Promise<ScheduledTaskRecord> {
 	const context = requireSlackContext(services.requestContext);
-	const name = input.name.trim();
-	const prompt = input.prompt.trim();
-	if (name.length === 0) throw new Error("Task name cannot be empty.");
-	if (prompt.length === 0) throw new Error("Task prompt cannot be empty and must be self-contained.");
+	const { name, prompt } = normalizeScheduledTaskContent(input);
 
 	const common = {
 		scheduleId: `schedule_${randomUUID()}`,

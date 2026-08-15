@@ -2,6 +2,7 @@ import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 import {
 	DEFAULT_SCHEDULE_TIMEZONE,
+	scheduledTaskContentSchema,
 	scheduledTaskRecordSchema,
 	type ScheduledTaskRecord,
 	validateRecurringCron,
@@ -12,9 +13,7 @@ import {
 	type ScheduledTaskServices,
 } from "../scheduled-tasks/helpers.ts";
 
-const inputSchema = z.object({
-	name: z.string().min(1),
-	prompt: z.string().min(1).describe("A self-contained prompt with all context needed when the task runs."),
+const inputSchema = scheduledTaskContentSchema.extend({
 	cron: z.string().min(1).describe("A 5-, 6-, or 7-part cron expression."),
 	timezone: z.string().optional().describe("IANA timezone; defaults to America/Los_Angeles."),
 });
