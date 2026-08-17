@@ -9,6 +9,7 @@ import { listScheduledTasks } from "../tools/list-scheduled-tasks.ts";
 import { updateOneOffScheduledTask } from "../tools/update-one-off-scheduled-task.ts";
 import { updateRecurringScheduledTask } from "../tools/update-recurring-scheduled-task.ts";
 import { normalizeScheduledTaskContent } from "../../../scheduled-tasks.ts";
+import { scheduledTaskModelOutput } from "./helpers.ts";
 
 describe("scheduled task CRUD", () => {
 	it("normalizes task content and rejects blank values", () => {
@@ -42,6 +43,10 @@ describe("scheduled task CRUD", () => {
 			timezone: "America/Los_Angeles",
 			cron: "0 9 * * 1",
 		});
+		const modelOutput = scheduledTaskModelOutput(task);
+		expect(modelOutput.type).toBe("json");
+		expect(modelOutput.value.responseInstructions).not.toBe("");
+		expect(modelOutput.value.scheduledTasks).toEqual([task]);
 		const otherThread = slackRequestContext("slack:C123", "slack:C123:200.000");
 		expect(await listScheduledTasks({ schedules, requestContext: otherThread })).toHaveLength(1);
 

@@ -26,8 +26,11 @@ If there are no tasks, say there are no scheduled tasks in this conversation.`;
 
 export function scheduledTaskModelOutput(tasks: ScheduledTaskRecord | ScheduledTaskRecord[]) {
 	return {
-		responseInstructions: RESPONSE_INSTRUCTIONS,
-		scheduledTasks: Array.isArray(tasks) ? tasks : [tasks],
+		type: "json" as const,
+		value: {
+			responseInstructions: RESPONSE_INSTRUCTIONS,
+			scheduledTasks: Array.isArray(tasks) ? tasks : [tasks],
+		},
 	};
 }
 
