@@ -1,3 +1,4 @@
+import type { LanguageModelV2ToolResultOutput } from "@ai-sdk/provider";
 import type { RequestContext } from "@mastra/core/request-context";
 import type { Schedules, WorkflowSchedule } from "@mastra/core/schedules";
 import { randomUUID } from "node:crypto";
@@ -26,12 +27,12 @@ If there are no tasks, say there are no scheduled tasks in this conversation.`;
 
 export function scheduledTaskModelOutput(tasks: ScheduledTaskRecord | ScheduledTaskRecord[]) {
 	return {
-		type: "json" as const,
+		type: "json",
 		value: {
 			responseInstructions: RESPONSE_INSTRUCTIONS,
 			scheduledTasks: Array.isArray(tasks) ? tasks : [tasks],
 		},
-	};
+	} satisfies LanguageModelV2ToolResultOutput;
 }
 
 type NewTask = {
