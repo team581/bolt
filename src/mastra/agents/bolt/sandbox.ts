@@ -10,6 +10,7 @@ import { createFetchFilesystem, FETCH_GCS_MOUNT_PATH } from "./fetch-filesystem.
 
 const SANDBOX_TIMEOUT_MS = 30 * 60 * 1_000;
 const SANDBOX_SETUP_TIMEOUT_MS = 5 * 60 * 1_000;
+const SANDBOX_AUTO_STOP_MINUTES = 5;
 const SANDBOX_AUTO_DELETE_MINUTES = 24 * 60;
 const SANDBOX_SNAPSHOT = "bolt-sandbox";
 const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox repository.";
@@ -65,7 +66,7 @@ export async function withBoltSandboxContext<T>(options: {
 	} finally {
 		const session = activeSandboxSessions.get(options.requestContext);
 		activeSandboxSessions.delete(options.requestContext);
-		if (session !== undefined) await cleanupSandbox(session);
+		if (session !== undefined) await revokeSandboxGitHubToken(session);
 	}
 }
 
@@ -86,20 +87,14 @@ async function resolveSandboxSession(requestContext: RequestContext): Promise<Sa
 	try {
 		await setupSandbox(session.sandbox, threadKey);
 	} catch (error) {
-		await cleanupSandbox(session);
+		await revokeSandboxGitHubToken(session);
 		throw error;
 	}
 
 	activeSandboxSessions.set(requestContext, session);
 	return session;
 }
-
-async function cleanupSandbox({ sandbox, githubToken, threadKey }: SandboxSession): Promise<void> {
-	try {
-		await sandbox.stop();
-	} catch (error) {
-		reportError(error, "Failed to stop Daytona sandbox", { threadKey });
-	}
+async function revokeSandboxGitHubToken({ githubToken, threadKey }: SandboxSession): Promise<void> {
 	try {
 		await revokeGitHubInstallationToken(githubToken);
 	} catch (error) {
@@ -119,7 +114,7 @@ function createDaytonaSandbox(threadKey: string, githubToken: string): DaytonaSa
 			snapshot: SANDBOX_SNAPSHOT,
 			user: "root",
 			timeout: SANDBOX_TIMEOUT_MS,
-			autoStopInterval: 5,
+			autoStopInterval: SANDBOX_AUTO_STOP_MINUTES,
 			autoDeleteInterval: SANDBOX_AUTO_DELETE_MINUTES,
 			labels: { "bolt-thread": id.slice("bolt-".length) },
 		},

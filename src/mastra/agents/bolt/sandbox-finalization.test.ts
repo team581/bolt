@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const mocks = vi.hoisted(() => ({
 	createToken: vi.fn(() => Promise.resolve("github-token")),
+	executeCommand: vi.fn(() => Promise.resolve({ exitCode: 0, stdout: "", stderr: "" })),
 	revokeToken: vi.fn(() => Promise.resolve()),
-	stop: vi.fn(() => Promise.resolve()),
 }));
 
 vi.mock("../../../github-app.ts", () => ({
@@ -15,68 +15,59 @@ vi.mock("../../../github-app.ts", () => ({
 vi.mock("@mastra/daytona", () => ({
 	DaytonaSandbox: class {
 		executeCommand() {
-			return Promise.resolve({ exitCode: 0, stdout: "", stderr: "" });
+			return mocks.executeCommand();
 		}
 
 		mount() {
 			return Promise.resolve({ success: true });
-		}
-
-		stop() {
-			return mocks.stop();
 		}
 	},
 }));
 
 import { resolveBoltSandbox, withBoltSandboxContext } from "./sandbox.ts";
 
+function runWithSandbox(run: () => Promise<void> = () => Promise.resolve()): Promise<void> {
+	const requestContext = new RequestContext();
+	return withBoltSandboxContext({
+		threadId: "slack:C123:200.000",
+		requestContext,
+		run: async () => {
+			await resolveBoltSandbox(requestContext);
+			await run();
+		},
+	});
+}
+
 describe("programmatic sandbox finalization", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
-	it.each([
-		["success", undefined],
-		["failure", new Error("failed")],
-		["cancellation", new DOMException("canceled", "AbortError")],
-	] as const)("cleans up after %s", async (_name, failure) => {
-		const requestContext = new RequestContext();
-		const run = withBoltSandboxContext({
-			threadId: "slack:C123:200.000",
-			requestContext,
-			run: async () => {
-				await resolveBoltSandbox(requestContext);
-				if (failure !== undefined) throw failure;
-			},
-		});
-		if (failure === undefined) await expect(run).resolves.toBeUndefined();
-		else await expect(run).rejects.toBe(failure);
-
-		expect(mocks.stop).toHaveBeenCalledOnce();
-		expect(mocks.revokeToken).toHaveBeenCalledOnce();
-	});
-
-	it("keeps the sandbox alive until queued work completes", async () => {
-		const requestContext = new RequestContext();
-		let completeQueuedWork: (() => void) | undefined;
-		const queuedWork = new Promise<void>((resolve) => {
-			completeQueuedWork = resolve;
-		});
-		const run = withBoltSandboxContext({
-			threadId: "slack:C123:200.000",
-			requestContext,
-			run: async () => {
-				await resolveBoltSandbox(requestContext);
-				await queuedWork;
-			},
-		});
+	it("keeps the sandbox credentials alive until completed work settles", async () => {
+		const queuedWork = Promise.withResolvers<void>();
+		const run = runWithSandbox(() => queuedWork.promise);
 		await vi.waitFor(() => {
 			expect(mocks.createToken).toHaveBeenCalledOnce();
 		});
-		expect(mocks.stop).not.toHaveBeenCalled();
-		completeQueuedWork?.();
+		expect(mocks.revokeToken).not.toHaveBeenCalled();
+		queuedWork.resolve();
 		await run;
-		expect(mocks.stop).toHaveBeenCalledOnce();
+		expect(mocks.revokeToken).toHaveBeenCalledOnce();
+	});
+
+	it("revokes the sandbox credentials when completed work fails", async () => {
+		const failure = new Error("failed");
+
+		await expect(runWithSandbox(() => Promise.reject(failure))).rejects.toBe(failure);
+
+		expect(mocks.revokeToken).toHaveBeenCalledOnce();
+	});
+
+	it("revokes the sandbox credentials when setup fails", async () => {
+		mocks.executeCommand.mockResolvedValueOnce({ exitCode: 1, stdout: "", stderr: "setup failed" });
+
+		await expect(runWithSandbox()).rejects.toThrow("Sandbox setup failed");
+
 		expect(mocks.revokeToken).toHaveBeenCalledOnce();
 	});
 });
