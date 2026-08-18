@@ -13,7 +13,7 @@ ENV MISE_CACHE_DIR=/mise/cache \
 	PATH=/mise/shims:$PATH
 
 RUN apt-get update \
-	&& apt-get install --yes --no-install-recommends bash ca-certificates curl git libatomic1 python3 sudo \
+	&& apt-get install --yes --no-install-recommends bash ca-certificates curl git jq libatomic1 python3 sudo \
 	&& curl --fail --silent --show-error https://packages.cloud.google.com/apt/doc/apt-key.gpg --output /usr/share/keyrings/cloud.google.asc \
 	&& echo "deb [signed-by=/usr/share/keyrings/cloud.google.asc] https://packages.cloud.google.com/apt gcsfuse-bookworm main" > /etc/apt/sources.list.d/gcsfuse.list \
 	&& apt-get update \
