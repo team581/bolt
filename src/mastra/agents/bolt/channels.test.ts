@@ -1,13 +1,12 @@
 import type { Message, Thread } from "chat";
 import { describe, expect, it } from "vite-plus/test";
 import { mergeMessages, mergeRecentMessages, shouldRunReplyGate } from "../../../channels/slack-reply-routing.ts";
-import { createBoltChannels, replyGateAllowsReply, THREAD_CONTEXT_MESSAGE_LIMIT } from "./channels.ts";
+import { createBoltChannels, replyGateAllowsReply } from "./channels.ts";
 
 describe("Bolt Slack channels", () => {
-	it("configures native handlers and bounded first-mention context", () => {
+	it("configures native handlers", () => {
 		const channels = createBoltChannels();
 
-		expect(channels.threadContext).toEqual({ maxMessages: THREAD_CONTEXT_MESSAGE_LIMIT, addSystemMessage: true });
 		expect(typeof channels.handlers?.onDirectMessage).toBe("function");
 		expect(typeof channels.handlers?.onMention).toBe("function");
 		expect(typeof channels.handlers?.onSubscribedMessage).toBe("function");

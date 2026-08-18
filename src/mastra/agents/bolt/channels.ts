@@ -10,7 +10,7 @@ import { reportError } from "../../../sentry.ts";
 import { decideWhetherBoltShouldReply } from "./reply-gate.ts";
 import { slackConversationId, withBoltSandbox } from "./sandbox.ts";
 
-export const THREAD_CONTEXT_MESSAGE_LIMIT = 10;
+const THREAD_CONTEXT_MESSAGE_LIMIT = 10;
 
 export function createBoltChannels(): ChannelConfig {
 	return {
