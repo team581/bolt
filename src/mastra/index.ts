@@ -4,6 +4,7 @@ import { MastraPlatformExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
 import { config } from "../config.ts";
 import { replyGateAgent } from "./agents/bolt/reply-gate.ts";
+import { requestContextFilter } from "./request-context-filter.ts";
 import { storage } from "./storage.ts";
 
 export const mastra = new Mastra({
@@ -47,6 +48,7 @@ export const mastra = new Mastra({
 					}),
 					new MastraPlatformExporter(),
 				],
+				spanOutputProcessors: [requestContextFilter],
 				requestContextKeys: ["bolt.slackThreadId"],
 			},
 		},
