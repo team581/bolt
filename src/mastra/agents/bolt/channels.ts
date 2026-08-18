@@ -19,7 +19,7 @@ export function createBoltChannels(): ChannelConfig {
 				adapter: createConfiguredSlackAdapter(),
 				streaming: true,
 				toolDisplay: "grouped",
-				typingStatus: false,
+				typingStatus: true,
 				formatError: () => "I ran into an error while working on that. Please try again.",
 			},
 		},
@@ -38,6 +38,7 @@ function createHandler(options: { includeThreadContext: boolean; runReplyGate: b
 	return async (thread, message, defaultHandler, context) => {
 		if (options.runReplyGate && message.isMention !== true && !(await replyGateAllowsReply(thread, message))) return;
 
+		await thread.startTyping("is preparing the workspace…");
 		const messages = options.includeThreadContext ? await messagesWithThreadContext(thread, message) : [message];
 		try {
 			await withBoltSandbox({
