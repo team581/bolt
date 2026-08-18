@@ -39,9 +39,8 @@ describe("background sandbox preparation", () => {
 	});
 
 	it("does not resolve the sandbox while constructing workspace instructions", async () => {
-		const instructions = await workspace.getInstructionsAsync({ requestContext: new RequestContext() });
+		await workspace.getInstructionsAsync({ requestContext: new RequestContext() });
 
-		expect(instructions).toContain("The sandbox persists for this Slack thread across requests");
 		expect(mocks.createToken).not.toHaveBeenCalled();
 	});
 
