@@ -22,7 +22,7 @@ interface SandboxSession {
 	threadKey: string;
 }
 
-const activeSandboxSessions = new WeakMap<RequestContext, SandboxSession>();
+const activeSandboxPreparations = new WeakMap<RequestContext, Promise<SandboxSession>>();
 
 export function slackConversationId(threadId: string): string {
 	return `slack:${threadId}`;
@@ -46,9 +46,8 @@ export function withBoltSandbox<T>(options: {
 	return withBoltSandboxContext({
 		threadId: options.threadId,
 		requestContext: options.requestContext,
-		run: async () => {
-			const session = await resolveSandboxSession(options.requestContext);
-			await uploadWpilogAttachments(session.sandbox, options.messages);
+		run: () => {
+			void resolveSandboxSession(options.requestContext, options.messages);
 			return options.run();
 		},
 	});
@@ -63,9 +62,15 @@ export async function withBoltSandboxContext<T>(options: {
 		options.requestContext.set(BOLT_SLACK_THREAD_CONTEXT_KEY, options.threadId);
 		return await options.run();
 	} finally {
-		const session = activeSandboxSessions.get(options.requestContext);
-		activeSandboxSessions.delete(options.requestContext);
-		if (session !== undefined) await revokeSandboxGitHubToken(session);
+		const preparation = activeSandboxPreparations.get(options.requestContext);
+		activeSandboxPreparations.delete(options.requestContext);
+		if (preparation !== undefined) {
+			try {
+				await revokeSandboxGitHubToken(await preparation);
+			} catch {
+				// Preparation failures are reported and credentials are revoked before rejection.
+			}
+		}
 	}
 }
 
@@ -73,25 +78,34 @@ export async function resolveBoltSandbox(requestContext: RequestContext): Promis
 	return (await resolveSandboxSession(requestContext)).sandbox;
 }
 
-async function resolveSandboxSession(requestContext: RequestContext): Promise<SandboxSession> {
-	const activeSession = activeSandboxSessions.get(requestContext);
-	if (activeSession !== undefined) return activeSession;
+function resolveSandboxSession(requestContext: RequestContext, messages: Message[] = []): Promise<SandboxSession> {
+	const activePreparation = activeSandboxPreparations.get(requestContext);
+	if (activePreparation !== undefined) return activePreparation;
 
+	const preparation = prepareSandboxSession(requestContext, messages);
+	activeSandboxPreparations.set(requestContext, preparation);
+	// A message may finish without using sandbox tools, so attach a rejection handler immediately.
+	void preparation.catch(() => {});
+	return preparation;
+}
+
+async function prepareSandboxSession(requestContext: RequestContext, messages: Message[]): Promise<SandboxSession> {
 	const slackThreadId = requestContext.get<string, string | undefined>(BOLT_SLACK_THREAD_CONTEXT_KEY);
 	if (slackThreadId === undefined) throw new Error("Bolt's Slack thread is not available for this request.");
 
 	const threadKey = slackConversationId(slackThreadId);
-	const githubToken = await createGitHubInstallationToken();
-	const session = { sandbox: createDaytonaSandbox(threadKey, githubToken), githubToken, threadKey };
+	let session: SandboxSession | undefined;
 	try {
+		const githubToken = await createGitHubInstallationToken();
+		session = { sandbox: createDaytonaSandbox(threadKey, githubToken), githubToken, threadKey };
 		await setupSandbox(session.sandbox, threadKey);
+		await uploadWpilogAttachments(session.sandbox, messages);
+		return session;
 	} catch (error) {
-		await revokeSandboxGitHubToken(session);
+		if (session !== undefined) await revokeSandboxGitHubToken(session);
+		reportError(error, "Failed to prepare Daytona sandbox", { threadKey });
 		throw error;
 	}
-
-	activeSandboxSessions.set(requestContext, session);
-	return session;
 }
 async function revokeSandboxGitHubToken({ githubToken, threadKey }: SandboxSession): Promise<void> {
 	try {
