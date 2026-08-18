@@ -8,7 +8,6 @@ import { createGitHubInstallationToken, revokeGitHubInstallationToken } from "..
 import { reportError } from "../../../sentry.ts";
 import { createFetchFilesystem, FETCH_GCS_MOUNT_PATH } from "./fetch-filesystem.ts";
 
-const SANDBOX_TIMEOUT_MS = 30 * 60 * 1_000;
 const SANDBOX_SETUP_TIMEOUT_MS = 5 * 60 * 1_000;
 const SANDBOX_AUTO_STOP_MINUTES = 5;
 const SANDBOX_AUTO_DELETE_MINUTES = 24 * 60;
@@ -113,7 +112,6 @@ function createDaytonaSandbox(threadKey: string, githubToken: string): DaytonaSa
 			target: config.DAYTONA_TARGET,
 			snapshot: SANDBOX_SNAPSHOT,
 			user: "root",
-			timeout: SANDBOX_TIMEOUT_MS,
 			autoStopInterval: SANDBOX_AUTO_STOP_MINUTES,
 			autoDeleteInterval: SANDBOX_AUTO_DELETE_MINUTES,
 			labels: { "bolt-thread": id.slice("bolt-".length) },
