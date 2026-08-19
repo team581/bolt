@@ -1,0 +1,62 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index 6cf448fd6c0fb3c083f1fe781b76e79ffda416de..62ebb1c3330303eb27d843af1a55231966302d50 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -194,9 +194,10 @@ async function mountGCS(mountPath, config, ctx) {
+ 	const hasCredentials = !!config.serviceAccountKey;
+ 	const implicitDirsFlag = "--implicit-dirs";
+ 	let mountCmd;
++	let keyPath;
+ 	if (hasCredentials) {
+-		const keyPath = `/tmp/gcs-key-${(0, crypto.createHash)("md5").update(mountPath).digest("hex").slice(0, 8)}.json`;
+-		await run(`sudo rm -f ${shellQuote(keyPath)}`, 3e4);
++		const mountHash = (0, crypto.createHash)("md5").update(mountPath).digest("hex").slice(0, 8);
++		keyPath = `/tmp/gcs-key-${mountHash}-${crypto.randomUUID()}.json`;
+ 		await writeFile(keyPath, config.serviceAccountKey);
+ 		await run(`chmod 600 ${shellQuote(keyPath)}`, 3e4);
+ 		mountCmd = `gcsfuse --key-file=${shellQuote(keyPath)} ${implicitDirsFlag} ${onlyDirFlag}-o allow_other ${uidGidFlags} ${shellQuote(config.bucket)} ${quotedMountPath}`;
+@@ -205,7 +206,12 @@ async function mountGCS(mountPath, config, ctx) {
+ 		mountCmd = `gcsfuse --anonymous-access ${implicitDirsFlag} ${onlyDirFlag}-o allow_other ${uidGidFlags} ${shellQuote(config.bucket)} ${quotedMountPath}`;
+ 	}
+ 	logger.debug(`${LOG_PREFIX} Mounting GCS:`, mountCmd);
+-	const result = await run(mountCmd, 6e4);
++	let result;
++	try {
++		result = await run(mountCmd, 6e4);
++	} finally {
++		if (keyPath) await run(`sudo rm -f ${shellQuote(keyPath)}`, 3e4);
++	}
+ 	logger.debug(`${LOG_PREFIX} gcsfuse result:`, {
+ 		exitCode: result.exitCode,
+ 		stdout: result.stdout,
+diff --git a/dist/index.js b/dist/index.js
+index ae2233a4fc76b234ec631c01a5296f2cd3f45bd6..7141ca7d429979a529dae628cd01e18e454bcb3f 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -193,9 +193,10 @@ async function mountGCS(mountPath, config, ctx) {
+ 	const hasCredentials = !!config.serviceAccountKey;
+ 	const implicitDirsFlag = "--implicit-dirs";
+ 	let mountCmd;
++	let keyPath;
+ 	if (hasCredentials) {
+-		const keyPath = `/tmp/gcs-key-${createHash("md5").update(mountPath).digest("hex").slice(0, 8)}.json`;
+-		await run(`sudo rm -f ${shellQuote(keyPath)}`, 3e4);
++		const mountHash = createHash("md5").update(mountPath).digest("hex").slice(0, 8);
++		keyPath = `/tmp/gcs-key-${mountHash}-${globalThis.crypto.randomUUID()}.json`;
+ 		await writeFile(keyPath, config.serviceAccountKey);
+ 		await run(`chmod 600 ${shellQuote(keyPath)}`, 3e4);
+ 		mountCmd = `gcsfuse --key-file=${shellQuote(keyPath)} ${implicitDirsFlag} ${onlyDirFlag}-o allow_other ${uidGidFlags} ${shellQuote(config.bucket)} ${quotedMountPath}`;
+@@ -204,7 +205,12 @@ async function mountGCS(mountPath, config, ctx) {
+ 		mountCmd = `gcsfuse --anonymous-access ${implicitDirsFlag} ${onlyDirFlag}-o allow_other ${uidGidFlags} ${shellQuote(config.bucket)} ${quotedMountPath}`;
+ 	}
+ 	logger.debug(`${LOG_PREFIX} Mounting GCS:`, mountCmd);
+-	const result = await run(mountCmd, 6e4);
++	let result;
++	try {
++		result = await run(mountCmd, 6e4);
++	} finally {
++		if (keyPath) await run(`sudo rm -f ${shellQuote(keyPath)}`, 3e4);
++	}
+ 	logger.debug(`${LOG_PREFIX} gcsfuse result:`, {
+ 		exitCode: result.exitCode,
+ 		stdout: result.stdout,

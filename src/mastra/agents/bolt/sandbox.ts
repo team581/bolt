@@ -23,6 +23,7 @@ interface SandboxSession {
 }
 
 const activeSandboxPreparations = new WeakMap<RequestContext, Promise<SandboxSession>>();
+const activeSandboxSetups = new Map<string, Promise<void>>();
 
 export function slackConversationId(threadId: string): string {
 	return `slack:${threadId}`;
@@ -98,7 +99,7 @@ async function prepareSandboxSession(requestContext: RequestContext, messages: M
 	try {
 		const githubToken = await createGitHubInstallationToken();
 		session = { sandbox: createDaytonaSandbox(threadKey, githubToken), githubToken, threadKey };
-		await setupSandbox(session.sandbox, threadKey);
+		await setupSandboxOnce(session.sandbox, threadKey);
 		await uploadWpilogAttachments(session.sandbox, messages);
 		return session;
 	} catch (error) {
@@ -107,6 +108,16 @@ async function prepareSandboxSession(requestContext: RequestContext, messages: M
 		throw error;
 	}
 }
+
+async function setupSandboxOnce(sandbox: DaytonaSandbox, threadKey: string): Promise<void> {
+	const setup = activeSandboxSetups.getOrInsertComputed(threadKey, () => setupSandbox(sandbox, threadKey));
+	try {
+		await setup;
+	} finally {
+		if (activeSandboxSetups.get(threadKey) === setup) activeSandboxSetups.delete(threadKey);
+	}
+}
+
 async function revokeSandboxGitHubToken({ githubToken, threadKey }: SandboxSession): Promise<void> {
 	try {
 		await revokeGitHubInstallationToken(githubToken);
@@ -154,13 +165,10 @@ async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise
 		);
 	}
 
-	let mount: MountResult;
-	try {
-		mount = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
-	} finally {
-		// Delete the GCP service account key files which are stored in the sandbox
-		await sandbox.executeCommand("rm -f /tmp/gcs-key-*.json");
-	}
+	const mountStatus = await sandbox.executeCommand("mountpoint", ["-q", FETCH_GCS_MOUNT_PATH]);
+	if (mountStatus.exitCode === 0) return;
+
+	const mount: MountResult = await sandbox.mount(createFetchFilesystem(), FETCH_GCS_MOUNT_PATH);
 	if (!mount.success) throw new Error("Failed to mount the Fetch GCS bucket.", { cause: mount.error });
 }
 

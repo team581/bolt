@@ -3,7 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const mocks = vi.hoisted(() => ({
 	createToken: vi.fn(() => Promise.resolve("github-token")),
-	executeCommand: vi.fn(() => Promise.resolve({ exitCode: 0, stdout: "", stderr: "" })),
+	executeCommand: vi.fn((command: string) =>
+		Promise.resolve({ exitCode: command === "mountpoint" ? 32 : 0, stdout: "", stderr: "" }),
+	),
+	mount: vi.fn(() => Promise.resolve({ success: true })),
 	revokeToken: vi.fn(() => Promise.resolve()),
 }));
 
@@ -16,12 +19,12 @@ vi.mock("../../../sentry.ts", () => ({ reportError: vi.fn() }));
 
 vi.mock("@mastra/daytona", () => ({
 	DaytonaSandbox: class {
-		executeCommand() {
-			return mocks.executeCommand();
+		executeCommand(command: string) {
+			return mocks.executeCommand(command);
 		}
 
 		mount() {
-			return Promise.resolve({ success: true });
+			return mocks.mount();
 		}
 	},
 }));
@@ -35,7 +38,9 @@ const SETUP_SUCCESS = { exitCode: 0, stdout: "", stderr: "" };
 describe("background sandbox preparation", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		mocks.executeCommand.mockResolvedValue(SETUP_SUCCESS);
+		mocks.executeCommand.mockImplementation((command) =>
+			Promise.resolve({ ...SETUP_SUCCESS, exitCode: command === "mountpoint" ? 32 : 0 }),
+		);
 	});
 
 	it("does not resolve the sandbox while constructing workspace instructions", async () => {
@@ -93,5 +98,42 @@ describe("background sandbox preparation", () => {
 		setup.resolve(SETUP_SUCCESS);
 		await run;
 		expect(toolResolved).toBe(true);
+	});
+
+	it("deduplicates concurrent setup for the same sandbox", async () => {
+		const setup = Promise.withResolvers<typeof SETUP_SUCCESS>();
+		mocks.executeCommand.mockReturnValueOnce(setup.promise);
+		const createRun = () =>
+			withBoltSandbox({
+				threadId: THREAD_ID,
+				messages: [],
+				requestContext: new RequestContext(),
+				run: () => Promise.resolve(),
+			});
+
+		const runs = [createRun(), createRun()];
+		await vi.waitFor(() => {
+			expect(mocks.createToken).toHaveBeenCalledTimes(2);
+		});
+		expect(mocks.executeCommand).toHaveBeenCalledOnce();
+
+		setup.resolve(SETUP_SUCCESS);
+		await Promise.all(runs);
+
+		expect(mocks.mount).toHaveBeenCalledOnce();
+		expect(mocks.revokeToken).toHaveBeenCalledTimes(2);
+	});
+
+	it("does not remount an existing Fetch filesystem", async () => {
+		mocks.executeCommand.mockResolvedValue(SETUP_SUCCESS);
+
+		await withBoltSandbox({
+			threadId: THREAD_ID,
+			messages: [],
+			requestContext: new RequestContext(),
+			run: () => Promise.resolve(),
+		});
+
+		expect(mocks.mount).not.toHaveBeenCalled();
 	});
 });

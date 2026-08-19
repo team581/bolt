@@ -1,0 +1,44 @@
+diff --git a/dist/index.js b/dist/index.js
+index 32db440478f23dc38e96ca790f6895aeb7c7a060..eb60be3c6fcac393e0b57c31031df6f639980a1a 100755
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -28,7 +28,7 @@ import { getPackageInfo } from "local-pkg";
+ import { gtr, satisfies, validRange } from "semver";
+ import { PinoLogger } from "@mastra/loggers";
+ import { glob } from "tinyglobby";
+-import { Bundler } from "@mastra/deployer/bundler";
++import { Bundler, IS_DEFAULT } from "@mastra/deployer/bundler";
+ import { ZipArchive } from "archiver";
+ import { config, parse } from "dotenv";
+ import { parse as parse$1 } from "@babel/parser";
+@@ -854,13 +854,16 @@ async function checkBuildStaleness(rootDir, mastraDir, outputDirectory, projectT
+ //#region src/commands/build/BuildBundler.ts
+ var BuildBundler = class extends Bundler {
+ 	studio;
+-	constructor({ studio } = {}) {
++	configEntryFile;
++	constructor({ studio, configEntryFile } = {}) {
+ 		super("Build");
+ 		this.studio = studio ?? false;
++		this.configEntryFile = configEntryFile;
+ 		this.platform = process.versions?.bun ? "neutral" : "node";
+ 	}
+ 	async getUserBundlerOptions(mastraEntryFile, outputDirectory) {
+-		const bundlerOptions = await super.getUserBundlerOptions(mastraEntryFile, outputDirectory);
++		const bundlerOptions = await super.getUserBundlerOptions(this.configEntryFile ?? mastraEntryFile, outputDirectory);
++		if (!bundlerOptions?.[IS_DEFAULT]) return bundlerOptions;
+ 		const configuredExternals = Array.isArray(bundlerOptions.externals) ? bundlerOptions.externals : [];
+ 		if (bundlerOptions.externals === true || bundlerOptions.externals === false) return bundlerOptions;
+ 		const dynamicPackages = [.../* @__PURE__ */ new Set([...bundlerOptions.dynamicPackages ?? [], ...configuredExternals])];
+@@ -972,7 +975,10 @@ async function build({ dir, tools, root, studio, debug }) {
+ 		if (fsAgents.standalone) logger.info("No index.ts found — auto-constructing Mastra instance from file-based primitives.");
+ 		const platformDeployer = mastraEntryFile ? await getDeployer(mastraEntryFile, outputDirectory) : void 0;
+ 		if (!platformDeployer) {
+-			const deployer = new BuildBundler({ studio });
++			const deployer = new BuildBundler({
++				studio,
++				configEntryFile: mastraEntryFile
++			});
+ 			deployer.__setLogger(logger);
+ 			const discoveredTools = deployer.getAllToolPaths(mastraDir, [...tools ?? [], ...fsAgents.toolPaths]);
+ 			await deployer.prepare(outputDirectory);

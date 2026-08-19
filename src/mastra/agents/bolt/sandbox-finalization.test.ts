@@ -3,7 +3,9 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const mocks = vi.hoisted(() => ({
 	createToken: vi.fn(() => Promise.resolve("github-token")),
-	executeCommand: vi.fn(() => Promise.resolve({ exitCode: 0, stdout: "", stderr: "" })),
+	executeCommand: vi.fn((command: string) =>
+		Promise.resolve({ exitCode: command === "mountpoint" ? 32 : 0, stdout: "", stderr: "" }),
+	),
 	revokeToken: vi.fn(() => Promise.resolve()),
 }));
 
@@ -14,8 +16,8 @@ vi.mock("../../../github-app.ts", () => ({
 
 vi.mock("@mastra/daytona", () => ({
 	DaytonaSandbox: class {
-		executeCommand() {
-			return mocks.executeCommand();
+		executeCommand(command: string) {
+			return mocks.executeCommand(command);
 		}
 
 		mount() {
@@ -69,5 +71,12 @@ describe("programmatic sandbox finalization", () => {
 		await expect(runWithSandbox()).rejects.toThrow("Sandbox setup failed");
 
 		expect(mocks.revokeToken).toHaveBeenCalledOnce();
+	});
+
+	it("does not run application-level GCS key cleanup after mounting", async () => {
+		await runWithSandbox();
+
+		expect(mocks.executeCommand).toHaveBeenCalledTimes(2);
+		expect(mocks.executeCommand).not.toHaveBeenCalledWith(expect.stringContaining("gcs-key"));
 	});
 });

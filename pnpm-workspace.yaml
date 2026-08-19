@@ -13,8 +13,8 @@ overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.11
 patchedDependencies:
-  "@mastra/daytona@0.6.0": patches/@mastra__daytona@0.6.0.patch
-  "mastra@1.23.0": patches/mastra@1.23.0.patch
+  "@mastra/daytona@0.8.0": patches/@mastra__daytona@0.8.0.patch
+  mastra@1.25.1: patches/mastra@1.25.1.patch
 packageExtensions:
   "@daytonaio/sdk@*":
     dependencies:
@@ -29,3 +29,14 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+minimumReleaseAgeExclude:
+  - "@mastra/daytona@0.8.0"
+  - "@mastra/core@1.60.0"
+  - "@mastra/deployer@1.60.0"
+  - "@mastra/memory@1.27.0"
+  - "@mastra/observability@1.17.1"
+  - "@mastra/otel-exporter@1.3.9"
+  - "@mastra/pg@1.21.0"
+  - "@mastra/sentry@1.2.11"
+  - "@mastra/server@1.60.0"
+  - mastra@1.25.1
