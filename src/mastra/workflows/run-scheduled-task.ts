@@ -1,6 +1,5 @@
 import type { Mastra } from "@mastra/core/mastra";
 import { RequestContext } from "@mastra/core/request-context";
-import type { ChunkType } from "@mastra/core/stream";
 import { createStep, createWorkflow } from "@mastra/core/workflows";
 import type { Chat } from "chat";
 import { z } from "zod";
@@ -196,9 +195,6 @@ export async function queueAndWaitForBoltTurn(
 	abortSignal?: AbortSignal,
 ): Promise<void> {
 	await attachChannelRenderContext(agent, resourceId, requestContext);
-	const renderChunk = getScheduledChannelRenderer(agent, requestContext, abortSignal);
-	const renderState: Record<string, unknown> = {};
-	const streamParts: ChunkType[] = [];
 	const subscription = await agent.subscribeToThread({ resourceId, threadId: resourceId });
 	try {
 		const queued = agent.queueMessage(prompt, {
@@ -212,8 +208,6 @@ export async function queueAndWaitForBoltTurn(
 
 		for await (const chunk of subscription.stream) {
 			if (chunk.runId !== accepted.runId) continue;
-			streamParts.push(chunk);
-			await renderChunk(chunk, streamParts, renderState);
 			if (chunk.type === "error") throw new Error("The queued scheduled turn failed.", { cause: chunk.payload });
 			if (chunk.type === "abort") throw new Error("The queued scheduled turn was canceled.", { cause: chunk.payload });
 			if (chunk.type === "finish" && chunk.payload.finishReason !== "tool-calls") return;
@@ -222,34 +216,6 @@ export async function queueAndWaitForBoltTurn(
 	} finally {
 		subscription.unsubscribe();
 	}
-}
-
-function getScheduledChannelRenderer(
-	agent: RuntimeAgent,
-	requestContext: RequestContext,
-	abortSignal?: AbortSignal,
-): (part: ChunkType, streamParts: ChunkType[], state: Record<string, unknown>) => Promise<void> {
-	const renderer = agent
-		.getChannels()
-		?.getOutputProcessors()
-		.find((processor) => processor.id === "chat-channel-render" && processor.processOutputStream !== undefined);
-	const render = renderer?.processOutputStream?.bind(renderer);
-	if (render === undefined) throw new Error("Bolt's Slack output renderer is unavailable.");
-
-	return async (part, streamParts, state) => {
-		await render({
-			part,
-			streamParts,
-			state,
-			requestContext,
-			agent,
-			abortSignal,
-			retryCount: 0,
-			abort: (reason?: string) => {
-				throw new Error(reason ?? "Slack output rendering was aborted.");
-			},
-		});
-	};
 }
 
 export async function attachChannelRenderContext(

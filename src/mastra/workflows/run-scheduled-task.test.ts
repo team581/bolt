@@ -77,7 +77,7 @@ describe("scheduled Slack routing", () => {
 		});
 	});
 
-	it("starts an idle scheduled turn with the selected memory thread and request context", async () => {
+	it("starts one channel-rendered idle turn with the selected memory thread and request context", async () => {
 		const unsubscribe = vi.fn();
 		const renderContext = { platform: "slack" };
 		const buildRenderContextForThread = vi.fn(() => Promise.resolve(renderContext));
@@ -110,7 +110,7 @@ describe("scheduled Slack routing", () => {
 		});
 		expect(buildRenderContextForThread).toHaveBeenCalledWith("slack:slack:C123:200.000");
 		expect(requestContext.get("__mastra_chat_channel_render")).toBe(renderContext);
-		expect(processOutputStream).toHaveBeenCalledOnce();
+		expect(processOutputStream).not.toHaveBeenCalled();
 		expect(unsubscribe).toHaveBeenCalledOnce();
 	});
 
