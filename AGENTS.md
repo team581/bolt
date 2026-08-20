@@ -25,3 +25,16 @@ release. Add a tool name to select part of the graph. For example, run
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+## Tracing
+
+Bolt uses Sentry and Mastra Observability for tracing.
+There's one Sentry project configured for both production and local development, accessible via CLI and MCP (assuming auth is configured properly for our org).
+
+Mastra has one project for production and one for local development.
+Production project is in `.mastra-project.json`, development is in the `MASTRA_PROJECT_ID` environment variable.
+
+## Sandboxes
+
+Daytona is used as our sandbox provider.
+You can access it via CLI or MCP.
