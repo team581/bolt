@@ -19,7 +19,7 @@ Reply when the latest message asks Bolt a question, requests information or an a
 Do not reply to casual acknowledgements, thanks, conversation between humans, status updates that need no action, or messages where a Bolt response would add no value. When uncertain, reply.`,
 	defaultOptions: {
 		maxSteps: 1,
-		modelSettings: { reasoning: "low" },
+		modelSettings: { reasoning: "medium" },
 	},
 });
 
