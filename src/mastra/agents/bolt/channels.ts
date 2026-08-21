@@ -1,4 +1,7 @@
-import type { ChannelConfig, ChannelHandler } from "@mastra/core/channels";
+import type { AgentMessageInput, AgentSignalContents } from "@mastra/core/agent";
+import { AgentChannels, type ChannelHandler } from "@mastra/core/channels";
+import type { StorageThreadType } from "@mastra/core/memory";
+import type { RequestContext } from "@mastra/core/request-context";
 import type { Message, Thread } from "chat";
 import { createConfiguredSlackAdapter } from "../../../channels/slack-adapter.ts";
 import {
@@ -11,9 +14,63 @@ import { decideWhetherBoltShouldReply } from "./reply-gate.ts";
 import { slackConversationId, withBoltSandbox } from "./sandbox.ts";
 
 const THREAD_CONTEXT_MESSAGE_LIMIT = 10;
+const REPLY_EXPECTED_METADATA_KEY = "bolt.replyExpected";
 
-export function createBoltChannels(): ChannelConfig {
-	return {
+type MessageProviderOptions = NonNullable<Extract<AgentMessageInput, { contents: unknown }>["providerOptions"]>;
+
+interface DispatchInboundMessageArgs {
+	signalContents: AgentSignalContents;
+	attributes: Record<string, string | undefined>;
+	signalMetadata: Record<string, unknown>;
+	providerOptions: MessageProviderOptions;
+	requestContext: RequestContext;
+	thread: StorageThreadType;
+	memory: { thread: string; resource: string };
+	autoResumeSuspendedTools: true | undefined;
+}
+
+class BoltAgentChannels extends AgentChannels {
+	protected override async dispatchInboundMessage(args: DispatchInboundMessageArgs): Promise<void> {
+		if (args.signalMetadata[REPLY_EXPECTED_METADATA_KEY] !== false) {
+			await super.dispatchInboundMessage(args);
+			return;
+		}
+
+		const mastra = this.getMastra();
+		const ownerId = this.getOwnerId();
+		try {
+			if (mastra === undefined || ownerId === null) throw new Error("Bolt's Slack channels are not bound to an agent.");
+
+			const result = mastra.getAgentById(ownerId).sendMessage(
+				{
+					contents: args.signalContents,
+					attributes: args.attributes,
+					metadata: args.signalMetadata,
+					providerOptions: args.providerOptions,
+				},
+				{
+					resourceId: args.memory.resource,
+					threadId: args.memory.thread,
+					ifActive: { behavior: "deliver", attributes: { replyExpected: false } },
+					ifIdle: {
+						behavior: "persist",
+						attributes: { replyExpected: false },
+						streamOptions: { requestContext: args.requestContext },
+					},
+				},
+			);
+			await result.accepted;
+			await result.persisted;
+		} catch (error) {
+			reportError(error, "Failed to retain a Slack message that did not require a reply", {
+				threadId: args.memory.thread,
+			});
+		}
+	}
+}
+
+export function createBoltChannels(): AgentChannels {
+	return new BoltAgentChannels({
 		adapters: {
 			slack: {
 				adapter: createConfiguredSlackAdapter(),
@@ -31,12 +88,18 @@ export function createBoltChannels(): ChannelConfig {
 			onMention: createHandler({ includeThreadContext: true, runReplyGate: false }),
 			onSubscribedMessage: createHandler({ includeThreadContext: false, runReplyGate: true }),
 		},
-	};
+	});
 }
+
+export const boltChannels = createBoltChannels();
 
 function createHandler(options: { includeThreadContext: boolean; runReplyGate: boolean }): ChannelHandler {
 	return async (thread, message, defaultHandler, context) => {
-		if (options.runReplyGate && message.isMention !== true && !(await replyGateAllowsReply(thread, message))) return;
+		if (options.runReplyGate && message.isMention !== true && !(await replyGateAllowsReply(thread, message))) {
+			context.signalMetadata[REPLY_EXPECTED_METADATA_KEY] = false;
+			await defaultHandler(thread, message);
+			return;
+		}
 
 		await thread.startTyping("is preparing the workspace…");
 		const messages = options.includeThreadContext ? await messagesWithThreadContext(thread, message) : [message];
@@ -77,8 +140,8 @@ export async function replyGateAllowsReply(thread: Thread, message: Message): Pr
 		});
 		return await decideWhetherBoltShouldReply(messageBody(mergeRecentMessages(history.messages, [message])));
 	} catch (error) {
-		reportError(error, "Slack reply gate failed; defaulting to a reply", { threadId: thread.id });
-		return true;
+		reportError(error, "Slack reply gate failed; defaulting to no reply", { threadId: thread.id });
+		return false;
 	}
 }
 

@@ -1,15 +1,18 @@
 import type { Mastra } from "@mastra/core/mastra";
+import type { OutputProcessor } from "@mastra/core/processors";
 import { RequestContext } from "@mastra/core/request-context";
 import type { Chat } from "chat";
 import { describe, expect, it, vi } from "vite-plus/test";
 import type { ScheduledTaskInput } from "../scheduled-tasks.ts";
 import {
-	attachChannelRenderContext,
+	createScheduledChannelRenderer,
 	deleteOneOffScheduleOnFinish,
 	prepareRecurringDispatchTarget,
 	queueAndWaitForBoltTurn,
 	registerRecurringTarget,
 } from "./run-scheduled-task.ts";
+
+const CHAT_CHANNEL_RENDER_CONTEXT_KEY = "__mastra_chat_channel_render";
 
 const recurringTask: Extract<ScheduledTaskInput, { kind: "recurring" }> = {
 	scheduleId: "schedule_weekly",
@@ -79,12 +82,19 @@ describe("scheduled Slack routing", () => {
 
 	it("starts one channel-rendered idle turn with the selected memory thread and request context", async () => {
 		const unsubscribe = vi.fn();
-		const renderContext = { platform: "slack" };
+		const originalWrapStream = vi.fn(<T>(stream: AsyncIterable<T>) => stream);
+		const renderContext = { platform: "slack", wrapStream: originalWrapStream };
 		const buildRenderContextForThread = vi.fn(() => Promise.resolve(renderContext));
-		const processOutputStream = vi.fn(() => Promise.resolve());
-		const queueMessage = vi.fn(() => ({
-			accepted: Promise.resolve({ action: "wake", runId: "run-1", output: {} }),
-		}));
+		const processOutputStream = vi.fn((_args: { part: { type: string }; requestContext: RequestContext }) =>
+			Promise.resolve(),
+		);
+		let scheduledOutputProcessor: OutputProcessor | undefined;
+		const queueMessage = vi.fn(
+			(_prompt: string, options: { ifIdle: { streamOptions: { outputProcessors: OutputProcessor[] } } }) => {
+				[scheduledOutputProcessor] = options.ifIdle.streamOptions.outputProcessors;
+				return { accepted: Promise.resolve({ action: "wake", runId: "run-1", output: {} }) };
+			},
+		);
 		const agent = {
 			getChannels: () => ({
 				buildRenderContextForThread,
@@ -106,11 +116,35 @@ describe("scheduled Slack routing", () => {
 		expect(queueMessage).toHaveBeenCalledWith("Perform the review.", {
 			resourceId: "slack:slack:C123:200.000",
 			threadId: "slack:slack:C123:200.000",
-			ifIdle: { behavior: "wake", streamOptions: { requestContext, abortSignal: undefined } },
+			ifIdle: {
+				behavior: "wake",
+				streamOptions: {
+					requestContext,
+					abortSignal: undefined,
+					outputProcessors: [expect.objectContaining({ id: "scheduled-chat-channel-render" })],
+				},
+			},
 		});
 		expect(buildRenderContextForThread).toHaveBeenCalledWith("slack:slack:C123:200.000");
-		expect(requestContext.get("__mastra_chat_channel_render")).toBe(renderContext);
-		expect(processOutputStream).not.toHaveBeenCalled();
+		expect(requestContext.get(CHAT_CHANNEL_RENDER_CONTEXT_KEY)).toBe(renderContext);
+		if (scheduledOutputProcessor?.processOutputStream === undefined) throw new Error("Output processor was not queued");
+		await scheduledOutputProcessor.processOutputStream({
+			part: { runId: "run-1", type: "finish", payload: {} } as never,
+			streamParts: [],
+			state: {},
+			requestContext,
+			retryCount: 0,
+			abort: (reason?: string): never => {
+				throw new Error(reason);
+			},
+		});
+		expect(processOutputStream).toHaveBeenCalledTimes(2);
+		const firstRender = processOutputStream.mock.calls[0]![0];
+		const finalRender = processOutputStream.mock.calls[1]![0];
+		expect(firstRender.part).toEqual({ runId: "run-1", type: "finish", payload: {} });
+		expect(firstRender.requestContext).toBe(requestContext);
+		expect(renderContext.wrapStream).not.toBe(originalWrapStream);
+		expect(finalRender.part.type).toBe("abort");
 		expect(unsubscribe).toHaveBeenCalledOnce();
 	});
 
@@ -162,8 +196,8 @@ describe("scheduled Slack routing", () => {
 	it("fails before starting an agent turn when Slack render context cannot be reconstructed", async () => {
 		const agent = {
 			getChannels: () => ({ buildRenderContextForThread: () => Promise.resolve(null) }),
-		} as unknown as Parameters<typeof attachChannelRenderContext>[0];
-		await expect(attachChannelRenderContext(agent, "thread", new RequestContext())).rejects.toThrow(
+		} as unknown as Parameters<typeof createScheduledChannelRenderer>[0];
+		await expect(createScheduledChannelRenderer(agent, "thread", new RequestContext())).rejects.toThrow(
 			"Slack render context is unavailable",
 		);
 	});

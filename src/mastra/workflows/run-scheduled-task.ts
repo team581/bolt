@@ -1,5 +1,7 @@
 import type { Mastra } from "@mastra/core/mastra";
+import type { OutputProcessor } from "@mastra/core/processors";
 import { RequestContext } from "@mastra/core/request-context";
+import type { ChunkType } from "@mastra/core/stream";
 import { createStep, createWorkflow } from "@mastra/core/workflows";
 import type { Chat } from "chat";
 import { z } from "zod";
@@ -194,13 +196,13 @@ export async function queueAndWaitForBoltTurn(
 	requestContext: RequestContext,
 	abortSignal?: AbortSignal,
 ): Promise<void> {
-	await attachChannelRenderContext(agent, resourceId, requestContext);
+	const outputProcessor = await createScheduledChannelRenderer(agent, resourceId, requestContext);
 	const subscription = await agent.subscribeToThread({ resourceId, threadId: resourceId });
 	try {
 		const queued = agent.queueMessage(prompt, {
 			resourceId,
 			threadId: resourceId,
-			ifIdle: { behavior: "wake", streamOptions: { requestContext, abortSignal } },
+			ifIdle: { behavior: "wake", streamOptions: { requestContext, abortSignal, outputProcessors: [outputProcessor] } },
 		});
 		const accepted = await queued.accepted;
 		if (accepted.action !== "wake" && accepted.action !== "deliver")
@@ -218,16 +220,44 @@ export async function queueAndWaitForBoltTurn(
 	}
 }
 
-export async function attachChannelRenderContext(
+export async function createScheduledChannelRenderer(
 	agent: RuntimeAgent,
 	threadId: string,
 	requestContext: RequestContext,
-): Promise<void> {
+): Promise<OutputProcessor> {
 	const channels = agent.getChannels();
 	if (channels === null) throw new Error("Bolt's channel runtime is unavailable.");
 	const renderContext = await channels.buildRenderContextForThread(threadId);
 	if (renderContext === null) throw new Error(`Slack render context is unavailable for Mastra thread ${threadId}.`);
+	// Slack does not clear assistant status when a native stream ends.
+	// Scheduled turns render in the background, so skip Mastra's typing-status wrapper.
+	renderContext.wrapStream = (stream) => stream;
 	requestContext.set(CHAT_CHANNEL_RENDER_CONTEXT_KEY, renderContext);
+
+	const renderer = channels.getOutputProcessors().find(({ id }) => id === "chat-channel-render");
+	const render = renderer?.processOutputStream?.bind(renderer);
+	if (render === undefined) throw new Error("Bolt's channel renderer is unavailable.");
+	return {
+		id: "scheduled-chat-channel-render",
+		processDataParts: true,
+		async processOutputStream(args) {
+			await render(args);
+			if (args.part.type === "finish") {
+				await render({ ...args, part: terminalAbort(args.part) });
+			}
+			return args.part;
+		},
+	};
+}
+
+function terminalAbort(part: ChunkType): Extract<ChunkType, { type: "abort" }> {
+	return {
+		runId: part.runId,
+		from: part.from,
+		metadata: part.metadata,
+		type: "abort",
+		payload: {},
+	};
 }
 
 function getBoltChannelRuntime(mastra: Mastra | undefined): {
