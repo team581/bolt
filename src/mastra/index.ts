@@ -35,6 +35,7 @@ export const mastra = new Mastra({
 		],
 	},
 	storage,
+	scheduler: { enabled: true },
 	recovery: { durableAgents: "auto" },
 	observability: new Observability({
 		configs: {
