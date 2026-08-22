@@ -21,7 +21,7 @@
 		"@mastra/pg": "1.21.1",
 		"@mastra/sentry": "1.2.11",
 		"@octokit/auth-app": "8.3.0",
-		"@octokit/request": "10.0.14",
+		"@octokit/request": "10.0.15",
 		"@sentry/node": "10.70.0",
 		"chat": "4.38.1",
 		"chrono-node": "2.10.1",
