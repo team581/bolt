@@ -32,7 +32,7 @@
 	},
 	"devDependencies": {
 		"@ai-sdk/provider": "4.0.7",
-		"@daytona/sdk": "0.205.1",
+		"@daytona/sdk": "0.207.0",
 		"@sentry/cli": "3.6.2",
 		"@sindresorhus/slugify": "3.0.0",
 		"@types/node": "26.2.0",
