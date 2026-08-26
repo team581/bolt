@@ -77,8 +77,8 @@ importers:
         version: 4.4.3
     devDependencies:
       '@ai-sdk/provider':
-        specifier: 4.0.7
-        version: 4.0.7
+        specifier: 4.0.8
+        version: 4.0.8
       '@daytona/sdk':
         specifier: 0.207.0
         version: 0.207.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
@@ -186,6 +186,10 @@ packages:
 
   '@ai-sdk/provider@4.0.7':
     resolution: {integrity: sha512-6or44XprPzKbr8zkmzosowSE0pxkvJcoojBL+mCZvPUt3kvXp3XSNqeVun9golb1acEfSo6yaEBRT18h2VU+1Q==}
+    engines: {node: '>=22'}
+
+  '@ai-sdk/provider@4.0.8':
+    resolution: {integrity: sha512-aWO7iwhFUGf347tCwNGggggfmZigaSu7TF739IZSrWWABUp7zkb4Cr3fMqvBe5EIS7ABJJu3Cadn0g/zs1G0QQ==}
     engines: {node: '>=22'}
 
   '@apm-js-collab/code-transformer-bundler-plugins@0.7.4':
@@ -1966,9 +1970,6 @@ packages:
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
-
-  '@types/node@26.2.0':
-    resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
 
   '@types/node@26.3.0':
     resolution: {integrity: sha512-L3fgrnchriRC2ExBflb8j4uZZURHZfQsmQeyVzhjcHW4kkwVyo8/0h1B2MVzMTrYUJYu6G7EWs14hW/L9putqw==}
@@ -4656,6 +4657,11 @@ snapshots:
   '@ai-sdk/provider@4.0.7':
     dependencies:
       json-schema: 0.4.0
+    optional: true
+
+  '@ai-sdk/provider@4.0.8':
+    dependencies:
+      json-schema: 0.4.0
 
   '@apm-js-collab/code-transformer-bundler-plugins@0.7.4':
     dependencies:
@@ -6664,10 +6670,6 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/ms@2.1.0': {}
-
-  '@types/node@26.2.0':
-    dependencies:
-      undici-types: 8.3.0
 
   '@types/node@26.3.0':
     dependencies:
@@ -8711,7 +8713,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 26.2.0
+      '@types/node': 26.3.0
       long: 5.3.2
 
   proxy-addr@2.0.7:
