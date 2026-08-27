@@ -4,6 +4,6 @@
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 60,
 		"restartPolicyType": "ON_FAILURE",
-		"startCommand": "pnpm start"
+		"startCommand": "node .mastra/output/index.mjs"
 	}
 }
