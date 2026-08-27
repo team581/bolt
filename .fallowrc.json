@@ -8,5 +8,6 @@
 		"src/mastra/workflows/*.ts"
 	],
 	"ignoreDependencies": ["@daytona/sdk", "@sindresorhus/slugify", "handlebars", "p-retry"],
+	"ignoreDependencyOverrides": [{ "package": "vitest", "source": "pnpm-workspace.yaml" }],
 	"usedClassMembers": [{ "implements": "Processor", "members": ["id"] }]
 }
