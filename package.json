@@ -27,7 +27,7 @@
 		"chrono-node": "2.10.1",
 		"croner": "10.0.1",
 		"envalid": "8.2.0",
-		"mastra": "1.25.1",
+		"mastra": "1.26.0",
 		"zod": "4.4.3"
 	},
 	"devDependencies": {

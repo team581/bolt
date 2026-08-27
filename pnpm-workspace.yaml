@@ -14,7 +14,7 @@ overrides:
   vitest: 4.1.11
 patchedDependencies:
   "@mastra/daytona@0.8.0": patches/@mastra__daytona@0.8.0.patch
-  mastra@1.25.1: patches/mastra@1.25.1.patch
+  mastra@1.26.0: patches/mastra@1.26.0.patch
 packageExtensions:
   "@daytonaio/sdk@*":
     dependencies:
