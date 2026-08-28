@@ -144,8 +144,8 @@ importers:
         specifier: 1.17.3
         version: 1.17.3(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(zod@4.4.3)
       '@mastra/pg':
-        specifier: 1.21.1
-        version: 1.21.1(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))
+        specifier: 1.22.0
+        version: 1.22.0(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))
       '@mastra/sentry':
         specifier: 1.2.13
         version: 1.2.13(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.4.3)
@@ -887,8 +887,8 @@ packages:
     peerDependencies:
       '@mastra/core': '>=1.16.0-0 <2.0.0-0'
 
-  '@mastra/pg@1.21.1':
-    resolution: {integrity: sha512-HpMojerOULXj7aDCK1Xa/QUDgcNiq+XqYFlsjsWy3xun2vi9gcOYGMrgKaHBlXD4G86g6vO+w5aMgdJ6rNOChw==}
+  '@mastra/pg@1.22.0':
+    resolution: {integrity: sha512-RCg6GIqL37FSgjRyj8HVL2FBvbOJsQu0s4u/EcKsAd9o1Wv9FVSoE84uInKdznQZPGj9Ok2FiXbbbsZQvRNQ7A==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
       '@mastra/core': '>=1.53.0-0 <2.0.0-0'
@@ -5631,7 +5631,7 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@mastra/pg@1.21.1(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))':
+  '@mastra/pg@1.22.0(@mastra/core@1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))':
     dependencies:
       '@mastra/core': 1.63.0(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
       async-mutex: 0.5.0
