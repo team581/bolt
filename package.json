@@ -19,7 +19,7 @@
 		"@mastra/memory": "1.27.0",
 		"@mastra/observability": "1.17.3",
 		"@mastra/pg": "1.21.1",
-		"@mastra/sentry": "1.2.11",
+		"@mastra/sentry": "1.2.13",
 		"@octokit/auth-app": "8.3.0",
 		"@octokit/request": "10.0.15",
 		"@sentry/node": "10.71.0",
