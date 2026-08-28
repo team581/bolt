@@ -16,7 +16,7 @@
 		"@mastra/core": "1.61.0",
 		"@mastra/daytona": "0.8.0",
 		"@mastra/gcs": "0.3.2",
-		"@mastra/memory": "1.27.0",
+		"@mastra/memory": "1.28.0",
 		"@mastra/observability": "1.17.3",
 		"@mastra/pg": "1.21.1",
 		"@mastra/sentry": "1.2.13",
