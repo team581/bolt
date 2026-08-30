@@ -31,17 +31,41 @@ interface DispatchInboundMessageArgs {
 
 class BoltAgentChannels extends AgentChannels {
 	protected override async dispatchInboundMessage(args: DispatchInboundMessageArgs): Promise<void> {
-		if (args.signalMetadata[REPLY_EXPECTED_METADATA_KEY] !== false) {
-			await super.dispatchInboundMessage(args);
-			return;
-		}
-
 		const mastra = this.getMastra();
 		const ownerId = this.getOwnerId();
 		try {
 			if (mastra === undefined || ownerId === null) throw new Error("Bolt's Slack channels are not bound to an agent.");
+			// AgentChannels is constructed with the underlying agent before Mastra wraps
+			// it for durability. Resolve the registered owner so turns use the wrapper.
+			const agent = mastra.getAgentById(ownerId);
 
-			const result = mastra.getAgentById(ownerId).sendMessage(
+			if (args.signalMetadata[REPLY_EXPECTED_METADATA_KEY] !== false) {
+				const result = agent.sendMessage(
+					{
+						contents: args.signalContents,
+						attributes: args.attributes,
+						...(Object.keys(args.signalMetadata).length > 0 ? { metadata: args.signalMetadata } : {}),
+						providerOptions: args.providerOptions,
+					},
+					{
+						resourceId: args.memory.resource,
+						threadId: args.memory.thread,
+						ifIdle: {
+							behavior: "wake",
+							streamOptions: {
+								requestContext: args.requestContext,
+								memory: args.memory,
+								autoResumeSuspendedTools: args.autoResumeSuspendedTools,
+							},
+						},
+					},
+				);
+				const accepted = await result.accepted;
+				if (accepted.action === "wake") await accepted.output.consumeStream();
+				return;
+			}
+
+			const result = agent.sendMessage(
 				{
 					contents: args.signalContents,
 					attributes: args.attributes,

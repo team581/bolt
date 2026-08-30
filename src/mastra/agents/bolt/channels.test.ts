@@ -110,6 +110,54 @@ describe("Bolt Slack channels", () => {
 		);
 	});
 
+	it("dispatches reply turns through the registered durable agent", async () => {
+		const channels = createBoltChannels();
+		const consumeStream = vi.fn(() => Promise.resolve());
+		const sendMessage = vi.fn(() => ({
+			accepted: Promise.resolve({ action: "wake" as const, output: { consumeStream } }),
+		}));
+		const internals = channels as unknown as {
+			dispatchInboundMessage(args: Record<string, unknown>): Promise<void>;
+			getMastra(): { getAgentById(id: string): { sendMessage: typeof sendMessage } };
+			getOwnerId(): string;
+		};
+		vi.spyOn(internals, "getMastra").mockReturnValue({ getAgentById: () => ({ sendMessage }) });
+		vi.spyOn(internals, "getOwnerId").mockReturnValue("bolt");
+		const requestContext = new RequestContext();
+
+		await internals.dispatchInboundMessage({
+			signalContents: "Keep going",
+			attributes: { authorName: "Jonah" },
+			signalMetadata: {},
+			providerOptions: {},
+			requestContext,
+			thread: {},
+			memory: { resource: "slack:thread", thread: "slack:thread" },
+			autoResumeSuspendedTools: true,
+		});
+
+		expect(sendMessage).toHaveBeenCalledWith(
+			{
+				contents: "Keep going",
+				attributes: { authorName: "Jonah" },
+				providerOptions: {},
+			},
+			{
+				resourceId: "slack:thread",
+				threadId: "slack:thread",
+				ifIdle: {
+					behavior: "wake",
+					streamOptions: {
+						requestContext,
+						memory: { resource: "slack:thread", thread: "slack:thread" },
+						autoResumeSuspendedTools: true,
+					},
+				},
+			},
+		);
+		expect(consumeStream).toHaveBeenCalledOnce();
+	});
+
 	it("deduplicates thread context and bounds reply-gate context", () => {
 		const history = Array.from({ length: 10 }, (_, index) => ({ id: String(index + 1) }));
 		expect(mergeMessages(history, [{ id: "10" }, { id: "11" }]).map(({ id }) => id)).toEqual([

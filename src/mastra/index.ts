@@ -2,10 +2,13 @@ import { Mastra } from "@mastra/core";
 import { registerApiRoute, SimpleAuth } from "@mastra/core/server";
 import { MastraPlatformExporter, Observability } from "@mastra/observability";
 import { SentryExporter } from "@mastra/sentry";
-import { config } from "../config.ts";
+import { config, isDevelopment } from "../config.ts";
 import { replyGateAgent } from "./agents/bolt/reply-gate.ts";
 import { requestContextFilter } from "./request-context-filter.ts";
 import { storage } from "./storage.ts";
+
+const DURABLE_RECOVERY_DELAY_MS = 20_000;
+let durableRecoveryStarted = false;
 
 export const mastra = new Mastra({
 	agents: { replyGateAgent },
@@ -36,7 +39,7 @@ export const mastra = new Mastra({
 	},
 	storage,
 	scheduler: { enabled: true },
-	recovery: { durableAgents: "auto" },
+	recovery: { durableAgents: isDevelopment ? "auto" : "off" },
 	observability: new Observability({
 		configs: {
 			default: {
@@ -64,8 +67,28 @@ export const mastra = new Mastra({
 			registerApiRoute("/health", {
 				method: "GET",
 				requiresAuth: false,
-				handler: () => Response.json({ ok: true }),
+				handler: () => {
+					startDurableRecovery();
+					return Response.json({ ok: true });
+				},
 			}),
 		],
 	},
 });
+
+function startDurableRecovery(): void {
+	if (isDevelopment || durableRecoveryStarted) return;
+	durableRecoveryStarted = true;
+	// Railway healthchecks complete before it terminates the old deployment. Wait
+	// past its 15-second drain window so both containers cannot recover one run.
+	setTimeout(() => {
+		mastra
+			.recoverAllDurableAgents()
+			.then((result) => {
+				mastra.getLogger().info("Recovered durable agent runs after startup", result);
+			})
+			.catch((error: unknown) => {
+				mastra.getLogger().error("Failed to recover durable agent runs after startup", { error });
+			});
+	}, DURABLE_RECOVERY_DELAY_MS);
+}
