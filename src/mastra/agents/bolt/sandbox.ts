@@ -1,6 +1,6 @@
 import type { RequestContext } from "@mastra/core/request-context";
-import type { CommandResult, ExecuteCommandOptions, MountResult, SandboxFileInput } from "@mastra/core/workspace";
-import { DaytonaSandbox, type DaytonaSandboxOptions } from "@mastra/daytona";
+import type { MountResult, SandboxFileInput } from "@mastra/core/workspace";
+import { DaytonaSandbox } from "@mastra/daytona";
 import { createHash } from "node:crypto";
 import type { Message } from "chat";
 import { config } from "../../../config.ts";
@@ -17,9 +17,17 @@ const REPOSITORY_PULL_FAILURE_MARKER = "[bolt] Failed to update sandbox reposito
 const BOLT_SLACK_THREAD_CONTEXT_KEY = "bolt.slackThreadId";
 
 interface SandboxSession {
-	sandbox: DaytonaSandbox;
+	sandbox: CommandDaytonaSandbox;
 	githubToken: string;
 	threadKey: string;
+}
+
+type CommandDaytonaSandbox = DaytonaSandbox & {
+	executeCommand: NonNullable<DaytonaSandbox["executeCommand"]>;
+};
+
+function supportsCommandExecution(sandbox: DaytonaSandbox): sandbox is CommandDaytonaSandbox {
+	return sandbox.executeCommand !== undefined;
 }
 
 const activeSandboxPreparations = new WeakMap<RequestContext, Promise<SandboxSession>>();
@@ -109,7 +117,7 @@ async function prepareSandboxSession(requestContext: RequestContext, messages: M
 	}
 }
 
-async function setupSandboxOnce(sandbox: DaytonaSandbox, threadKey: string): Promise<void> {
+async function setupSandboxOnce(sandbox: CommandDaytonaSandbox, threadKey: string): Promise<void> {
 	const setup = activeSandboxSetups.getOrInsertComputed(threadKey, () => setupSandbox(sandbox, threadKey));
 	try {
 		await setup;
@@ -126,26 +134,26 @@ async function revokeSandboxGitHubToken({ githubToken, threadKey }: SandboxSessi
 	}
 }
 
-function createDaytonaSandbox(threadKey: string, githubToken: string): DaytonaSandbox {
+function createDaytonaSandbox(threadKey: string, githubToken: string): CommandDaytonaSandbox {
 	const id = sandboxIdentity(threadKey);
-	return new AuthenticatedDaytonaSandbox(
-		{
-			id,
-			name: id,
-			apiKey: config.DAYTONA_API_KEY,
-			apiUrl: config.DAYTONA_API_URL,
-			target: config.DAYTONA_TARGET,
-			snapshot: SANDBOX_SNAPSHOT,
-			user: "root",
-			autoStopInterval: SANDBOX_AUTO_STOP_MINUTES,
-			autoDeleteInterval: SANDBOX_AUTO_DELETE_MINUTES,
-			labels: { "bolt-thread": id.slice("bolt-".length) },
-		},
-		{ GH_TOKEN: githubToken },
-	);
+	const sandbox = new DaytonaSandbox({
+		id,
+		name: id,
+		apiKey: config.DAYTONA_API_KEY,
+		apiUrl: config.DAYTONA_API_URL,
+		target: config.DAYTONA_TARGET,
+		snapshot: SANDBOX_SNAPSHOT,
+		user: "root",
+		env: { GH_TOKEN: githubToken },
+		autoStopInterval: SANDBOX_AUTO_STOP_MINUTES,
+		autoDeleteInterval: SANDBOX_AUTO_DELETE_MINUTES,
+		labels: { "bolt-thread": id.slice("bolt-".length) },
+	});
+	if (!supportsCommandExecution(sandbox)) throw new Error("Daytona sandbox does not support command execution.");
+	return sandbox;
 }
 
-async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise<void> {
+async function setupSandbox(sandbox: CommandDaytonaSandbox, threadKey: string): Promise<void> {
 	const setup = await sandbox.executeCommand("/usr/local/libexec/bolt-sandbox-setup", [], {
 		cwd: "/workspace",
 		env: {
@@ -172,23 +180,7 @@ async function setupSandbox(sandbox: DaytonaSandbox, threadKey: string): Promise
 	if (!mount.success) throw new Error("Failed to mount the Fetch GCS bucket.", { cause: mount.error });
 }
 
-class AuthenticatedDaytonaSandbox extends DaytonaSandbox {
-	constructor(
-		options: DaytonaSandboxOptions,
-		private readonly commandEnv: NodeJS.ProcessEnv,
-	) {
-		super(options);
-	}
-
-	override executeCommand(command: string, args?: string[], options?: ExecuteCommandOptions): Promise<CommandResult> {
-		return super.executeCommand(command, args, {
-			...options,
-			env: { ...options?.env, ...this.commandEnv },
-		});
-	}
-}
-
-async function uploadWpilogAttachments(sandbox: DaytonaSandbox, messages: Message[]): Promise<void> {
+async function uploadWpilogAttachments(sandbox: CommandDaytonaSandbox, messages: Message[]): Promise<void> {
 	const files: SandboxFileInput[] = [];
 	for (const message of messages) {
 		for (const [attachmentIndex, attachment] of message.attachments.entries()) {
