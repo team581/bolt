@@ -61,7 +61,9 @@ class BoltAgentChannels extends AgentChannels {
 					},
 				);
 				const accepted = await result.accepted;
-				if (accepted.action === "wake") await accepted.output.consumeStream();
+				if (accepted.action === "wake") {
+					await consumeDurableAgentStream(accepted.output);
+				}
 				return;
 			}
 
@@ -91,6 +93,21 @@ class BoltAgentChannels extends AgentChannels {
 			});
 		}
 	}
+}
+
+async function consumeDurableAgentStream(result: unknown): Promise<void> {
+	if (typeof result !== "object" || result === null || !("output" in result)) {
+		throw new TypeError("Durable agent did not return a stream result.");
+	}
+	const { output } = result;
+	if (typeof output !== "object" || output === null || !("consumeStream" in output)) {
+		throw new TypeError("Durable agent stream result did not include consumable output.");
+	}
+	const { consumeStream } = output;
+	if (typeof consumeStream !== "function") {
+		throw new TypeError("Durable agent output is not consumable.");
+	}
+	await consumeStream.call(output);
 }
 
 export function createBoltChannels(): AgentChannels {

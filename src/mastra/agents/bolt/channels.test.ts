@@ -114,7 +114,7 @@ describe("Bolt Slack channels", () => {
 		const channels = createBoltChannels();
 		const consumeStream = vi.fn(() => Promise.resolve());
 		const sendMessage = vi.fn(() => ({
-			accepted: Promise.resolve({ action: "wake" as const, output: { consumeStream } }),
+			accepted: Promise.resolve({ action: "wake" as const, output: { output: { consumeStream } } }),
 		}));
 		const internals = channels as unknown as {
 			dispatchInboundMessage(args: Record<string, unknown>): Promise<void>;
