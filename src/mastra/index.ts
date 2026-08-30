@@ -82,6 +82,9 @@ function startDurableRecovery(): void {
 	// Railway healthchecks complete before it terminates the old deployment. Wait
 	// past its 15-second drain window so both containers cannot recover one run.
 	setTimeout(() => {
+		mastra.restartAllActiveWorkflowRuns().catch((error: unknown) => {
+			mastra.getLogger().error("Failed to restart active workflow runs after startup", { error });
+		});
 		mastra
 			.recoverAllDurableAgents()
 			.then((result) => {
