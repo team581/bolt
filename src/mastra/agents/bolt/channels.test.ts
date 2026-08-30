@@ -235,18 +235,17 @@ describe("Bolt Slack channels", () => {
 		});
 	});
 
-	it("renders tool progress as a real message instead of a placeholder", async () => {
+	it("does not post placeholders or tool progress messages", async () => {
 		const outputProcessor = new AgentChannels({ adapters: {} }).getOutputProcessors()[0];
 		if (outputProcessor?.processOutputStream === undefined) throw new Error("Channel renderer is unavailable");
-		const harness = createRenderHarness(outputProcessor, "text");
+		const harness = createRenderHarness(outputProcessor, "hidden");
 		await harness.process({ type: "tool-call", payload: { toolCallId: "tool-1", toolName: "test_tool", args: {} } });
 		await harness.process({ type: "abort", payload: {} });
-		expect(harness.postMessage).toHaveBeenCalledOnce();
-		expect(harness.postMessage).not.toHaveBeenCalledWith("slack:C123:456.789", "...");
+		expect(harness.postMessage).not.toHaveBeenCalled();
 	});
 });
 
-function createRenderHarness(outputProcessor: OutputProcessor, toolDisplay: "grouped" | "text" = "grouped") {
+function createRenderHarness(outputProcessor: OutputProcessor, toolDisplay: "grouped" | "hidden" = "grouped") {
 	const streamEnded = vi.fn();
 	const postMessage = vi.fn().mockResolvedValue({ id: "message-1", threadId: "slack:C123:456.789" });
 	const editMessage = vi.fn(() => Promise.resolve());
