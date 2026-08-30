@@ -149,7 +149,7 @@ export function createBoltChannels(): AgentChannels {
 			slack: {
 				adapter: createConfiguredSlackAdapter(),
 				streaming: true,
-				toolDisplay: "grouped",
+				toolDisplay: "text",
 				typingStatus: true,
 				formatError: () => "I ran into an error while working on that. Please try again.",
 			},

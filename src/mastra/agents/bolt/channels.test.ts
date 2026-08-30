@@ -7,8 +7,6 @@ import { mergeMessages, mergeRecentMessages, shouldRunReplyGate } from "../../..
 import { boltChannels, createBoltChannels, replyGateAllowsReply } from "./channels.ts";
 import boltConfig from "./config.ts";
 
-const CHAT_CHANNEL_RENDER_CONTEXT_KEY = "__mastra_chat_channel_render";
-
 describe("Bolt Slack channels", () => {
 	it("configures native handlers", () => {
 		const channels = createBoltChannels();
@@ -236,9 +234,19 @@ describe("Bolt Slack channels", () => {
 			markdown: "labore sint ea mollit ipsum",
 		});
 	});
+
+	it("renders tool progress as a real message instead of a placeholder", async () => {
+		const outputProcessor = new AgentChannels({ adapters: {} }).getOutputProcessors()[0];
+		if (outputProcessor?.processOutputStream === undefined) throw new Error("Channel renderer is unavailable");
+		const harness = createRenderHarness(outputProcessor, "text");
+		await harness.process({ type: "tool-call", payload: { toolCallId: "tool-1", toolName: "test_tool", args: {} } });
+		await harness.process({ type: "abort", payload: {} });
+		expect(harness.postMessage).toHaveBeenCalledOnce();
+		expect(harness.postMessage).not.toHaveBeenCalledWith("slack:C123:456.789", "...");
+	});
 });
 
-function createRenderHarness(outputProcessor: OutputProcessor) {
+function createRenderHarness(outputProcessor: OutputProcessor, toolDisplay: "grouped" | "text" = "grouped") {
 	const streamEnded = vi.fn();
 	const postMessage = vi.fn().mockResolvedValue({ id: "message-1", threadId: "slack:C123:456.789" });
 	const editMessage = vi.fn(() => Promise.resolve());
@@ -259,7 +267,7 @@ function createRenderHarness(outputProcessor: OutputProcessor) {
 		chatThread,
 		platform: "slack",
 		streaming: { enabled: true },
-		toolDisplay: "grouped" as const,
+		toolDisplay,
 		channelToolNames: new Set<string>(),
 		onApprovalPosted: vi.fn(),
 		getPendingApproval: vi.fn(),
@@ -274,7 +282,7 @@ function createRenderHarness(outputProcessor: OutputProcessor) {
 		typingGate: { active: false },
 	};
 	const requestContext = new RequestContext();
-	requestContext.set(CHAT_CHANNEL_RENDER_CONTEXT_KEY, renderContext);
+	requestContext.set("__mastra_chat_channel_render", renderContext);
 	const state = {};
 	const process = (part: unknown) =>
 		outputProcessor.processOutputStream?.({
