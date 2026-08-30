@@ -118,7 +118,7 @@ overrides:
 packageExtensionsChecksum: sha256-n6PQeVp0eUgh1VDm3zxnT1gxeVNCDJm65mF/bm9/JFk=
 
 patchedDependencies:
-  '@mastra/daytona@0.8.0': 6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27
+  '@mastra/daytona@0.9.1': 6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27
   mastra@1.27.2: afba9d7f5bfdd678a6a6786b80813d9341865864add45f27d390f60119ad184d
 
 importers:
@@ -132,8 +132,8 @@ importers:
         specifier: 1.63.2
         version: 1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
       '@mastra/daytona':
-        specifier: 0.8.0
-        version: 0.8.0(patch_hash=6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27)(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
+        specifier: 0.9.1
+        version: 0.9.1(patch_hash=6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27)(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
       '@mastra/gcs':
         specifier: 0.3.2
         version: 0.3.2(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(supports-color@7.2.0)
@@ -844,11 +844,11 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  '@mastra/daytona@0.8.0':
-    resolution: {integrity: sha512-A8NHGdmtAgZOXmpRkC4/li8n1W/LSybsZyyr0+jn5GHcU4BE437SaFFSWwpSPV9zlTh+pVSCBc68dmLOx3jMbw==}
+  '@mastra/daytona@0.9.1':
+    resolution: {integrity: sha512-YbYjYb700CTK7QoPG7ZK5WFlLcYV5x/CDuXAiV0XaB9zU7rSubjbIjeoIpb3KpuquMy4hf6LvIp2FxM4ThKj8w==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
-      '@mastra/core': '>=1.12.0-0 <2.0.0-0'
+      '@mastra/core': '>=1.60.0-0 <2.0.0-0'
 
   '@mastra/deployer@1.63.2':
     resolution: {integrity: sha512-4lU+Vv9YnWOffX/GG1bDn7fMHild3cDR7YHuQqf2rUG3rMQvZV84Y+tlRlHR7VCl/sK1HsclxoYePGINmjAl/Q==}
@@ -5535,7 +5535,7 @@ snapshots:
       - utf-8-validate
       - workflow
 
-  '@mastra/daytona@0.8.0(patch_hash=6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27)(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)':
+  '@mastra/daytona@0.9.1(patch_hash=6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27)(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)':
     dependencies:
       '@daytonaio/sdk': 0.201.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
       '@mastra/core': 1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
