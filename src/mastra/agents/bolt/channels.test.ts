@@ -219,8 +219,8 @@ describe("Bolt Slack channels", () => {
 		});
 	});
 
-	it("flushes a scheduled reply once when the durable stream ends without a terminal step", async () => {
-		const channels = new AgentChannels({ adapters: {} });
+	it("flushes a durable reply when the stream ends without a terminal step", async () => {
+		const channels = createBoltChannels();
 		const outputProcessor = channels.getOutputProcessors()[0];
 		if (outputProcessor?.processOutputStream === undefined) throw new Error("Channel renderer is unavailable");
 		const harness = createRenderHarness(outputProcessor);
@@ -228,7 +228,6 @@ describe("Bolt Slack channels", () => {
 		await harness.process({ type: "text-delta", payload: { text: "labore sint" } });
 		await harness.process({ type: "text-delta", payload: { text: " ea mollit ipsum" } });
 		await harness.process({ type: "finish", payload: { finishReason: "stop" } });
-		await harness.process({ type: "abort", payload: {} });
 
 		expect(harness.streamEnded).toHaveBeenCalledOnce();
 		expect(harness.postMessage).toHaveBeenCalledOnce();

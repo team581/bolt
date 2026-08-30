@@ -1,6 +1,7 @@
 import type { AgentMessageInput, AgentSignalContents } from "@mastra/core/agent";
 import { AgentChannels, type ChannelHandler } from "@mastra/core/channels";
 import type { StorageThreadType } from "@mastra/core/memory";
+import type { OutputProcessor, OutputProcessorOrWorkflow } from "@mastra/core/processors";
 import type { RequestContext } from "@mastra/core/request-context";
 import type { Message, Thread } from "chat";
 import { createConfiguredSlackAdapter } from "../../../channels/slack-adapter.ts";
@@ -30,6 +31,10 @@ interface DispatchInboundMessageArgs {
 }
 
 class BoltAgentChannels extends AgentChannels {
+	public override getOutputProcessors(configuredProcessors: OutputProcessorOrWorkflow[] = []): OutputProcessor[] {
+		return super.getOutputProcessors(configuredProcessors).map((processor) => closeChannelRendererOnFinish(processor));
+	}
+
 	protected override async dispatchInboundMessage(args: DispatchInboundMessageArgs): Promise<void> {
 		const mastra = this.getMastra();
 		const ownerId = this.getOwnerId();
@@ -93,6 +98,22 @@ class BoltAgentChannels extends AgentChannels {
 			});
 		}
 	}
+}
+
+function closeChannelRendererOnFinish(processor: OutputProcessor): OutputProcessor {
+	if (processor.id !== "chat-channel-render" || processor.processOutputStream === undefined) return processor;
+	const processOutputStream = processor.processOutputStream.bind(processor);
+	return {
+		id: processor.id,
+		processDataParts: processor.processDataParts,
+		processOutputStream: async (args) => {
+			const result = await processOutputStream(args);
+			if (args.part.type === "finish" && args.state.session !== undefined) {
+				await processOutputStream({ ...args, part: { ...args.part, type: "abort", payload: {} } });
+			}
+			return result;
+		},
+	};
 }
 
 async function consumeDurableAgentStream(result: unknown): Promise<void> {
