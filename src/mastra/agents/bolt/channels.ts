@@ -32,7 +32,11 @@ interface DispatchInboundMessageArgs {
 
 class BoltAgentChannels extends AgentChannels {
 	public override getOutputProcessors(configuredProcessors: OutputProcessorOrWorkflow[] = []): OutputProcessor[] {
-		return super.getOutputProcessors(configuredProcessors).map((processor) => closeChannelRendererOnFinish(processor));
+		return super
+			.getOutputProcessors(configuredProcessors)
+			.map((processor) =>
+				closeChannelRendererOnFinish(processor, (message, data) => this.getMastra()?.getLogger().info(message, data)),
+			);
 	}
 
 	protected override async dispatchInboundMessage(args: DispatchInboundMessageArgs): Promise<void> {
@@ -100,7 +104,10 @@ class BoltAgentChannels extends AgentChannels {
 	}
 }
 
-function closeChannelRendererOnFinish(processor: OutputProcessor): OutputProcessor {
+function closeChannelRendererOnFinish(
+	processor: OutputProcessor,
+	log: (message: string, data: Record<string, unknown>) => void,
+): OutputProcessor {
 	if (processor.id !== "chat-channel-render" || processor.processOutputStream === undefined) return processor;
 	const processOutputStream = processor.processOutputStream.bind(processor);
 	return {
@@ -108,8 +115,13 @@ function closeChannelRendererOnFinish(processor: OutputProcessor): OutputProcess
 		processDataParts: processor.processDataParts,
 		processOutputStream: async (args) => {
 			const result = await processOutputStream(args);
-			if (args.part.type === "finish" && args.state.session !== undefined) {
-				await processOutputStream({ ...args, part: { ...args.part, type: "abort", payload: {} } });
+			if (args.part.type === "finish") {
+				const hasSession = args.state.session !== undefined;
+				log("Bolt channel renderer received finish", { runId: args.part.runId, hasSession });
+				if (hasSession) {
+					await processOutputStream({ ...args, part: { ...args.part, type: "abort", payload: {} } });
+					log("Bolt channel renderer completed synthetic close", { runId: args.part.runId });
+				}
 			}
 			return result;
 		},

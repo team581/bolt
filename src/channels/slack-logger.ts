@@ -7,6 +7,19 @@ export function createSlackLogger(): Logger {
 }
 
 class SentrySlackLogger extends ConsoleLogger {
+	override debug(message: string, ...args: unknown[]): void {
+		if (
+			message.startsWith("Slack API: chat.postMessage (plan)") ||
+			message.startsWith("Slack API: chat.update (plan)") ||
+			message.startsWith("Slack API: chat.update response") ||
+			message.startsWith("Slack: using fallback stream")
+		) {
+			super.info(`[render diagnostic] ${message}`, ...args);
+			return;
+		}
+		super.debug(message, ...args);
+	}
+
 	override warn(message: string, ...args: unknown[]): void {
 		super.warn(message, ...args);
 		const context = args[0];
