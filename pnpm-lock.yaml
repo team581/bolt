@@ -144,8 +144,8 @@ importers:
         specifier: 1.17.4
         version: 1.17.4(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(zod@4.4.3)
       '@mastra/pg':
-        specifier: 1.22.0
-        version: 1.22.0(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))
+        specifier: 1.22.2
+        version: 1.22.2(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))
       '@mastra/sentry':
         specifier: 1.2.13
         version: 1.2.13(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.4.3)
@@ -894,11 +894,11 @@ packages:
     peerDependencies:
       '@mastra/core': '>=1.16.0-0 <2.0.0-0'
 
-  '@mastra/pg@1.22.0':
-    resolution: {integrity: sha512-RCg6GIqL37FSgjRyj8HVL2FBvbOJsQu0s4u/EcKsAd9o1Wv9FVSoE84uInKdznQZPGj9Ok2FiXbbbsZQvRNQ7A==}
+  '@mastra/pg@1.22.2':
+    resolution: {integrity: sha512-h5qS6YFVa3y9tLFWciuWf6vjbZUhXMhm6En8GXL6TLociRG/bxIB3n7ZQjLyLVeZElYWE1MgGU8olKsvGmHgRw==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
-      '@mastra/core': '>=1.53.0-0 <2.0.0-0'
+      '@mastra/core': '>=1.63.1-0 <2.0.0-0'
 
   '@mastra/schema-compat@1.3.7':
     resolution: {integrity: sha512-06WfY+j9rulYnDp8CM7pL7JIyrntkMolqmyyb1VJNEzlYTQCIcJcY0SwQiubZv2tztmoYGikszDiRVyXp0E9gA==}
@@ -5646,7 +5646,7 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@mastra/pg@1.22.0(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))':
+  '@mastra/pg@1.22.2(@mastra/core@1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3))':
     dependencies:
       '@mastra/core': 1.63.2(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
       async-mutex: 0.5.0

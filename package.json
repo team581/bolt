@@ -18,7 +18,7 @@
 		"@mastra/gcs": "0.3.2",
 		"@mastra/memory": "1.28.1",
 		"@mastra/observability": "1.17.4",
-		"@mastra/pg": "1.22.0",
+		"@mastra/pg": "1.22.2",
 		"@mastra/sentry": "1.2.13",
 		"@octokit/auth-app": "8.3.0",
 		"@octokit/request": "10.0.15",
