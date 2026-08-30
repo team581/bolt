@@ -25,7 +25,13 @@ jobs:
       AI_GATEWAY_API_KEY: ci-ai-gateway-key
       DAYTONA_API_KEY: ci-daytona-key
       DATABASE_URL: postgresql://localhost:5432/postgres
+      GCS_SERVICE_ACCOUNT_KEY: "{}"
+      GITHUB_APP_ID: ci-github-app-id
+      GITHUB_INSTALLATION_ID: 1
       GITHUB_APP_PRIVATE_KEY: ci-github-private-key
+      MASTRA_API_KEY: ci-mastra-api-key
+      MASTRA_PLATFORM_ACCESS_TOKEN: ci-mastra-platform-access-token
+      MASTRA_PROJECT_ID: ci-mastra-project-id
       SLACK_BOT_TOKEN: xoxb-ci
       SLACK_SIGNING_SECRET: ci-slack-signing-secret
 
