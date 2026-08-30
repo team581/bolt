@@ -196,11 +196,13 @@ async function uploadWpilogAttachments(sandbox: DaytonaSandbox, messages: Messag
 			if (filename === undefined || !filename.toLowerCase().endsWith(".wpilog")) continue;
 			if (attachment.fetchData === undefined) throw new Error(`Slack attachment ${filename} cannot be downloaded.`);
 
+			const attachmentData = await attachment.fetchData();
+
 			const messageId = sanitizeFilename(message.id);
 			const safeName = sanitizeFilename(filename);
 			files.push({
 				path: `/workspace/uploads/${messageId}-${attachmentIndex}-${safeName}`,
-				content: await attachment.fetchData(),
+				content: attachmentData instanceof ArrayBuffer ? Buffer.from(attachmentData) : attachmentData,
 			});
 		}
 	}

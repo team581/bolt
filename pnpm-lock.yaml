@@ -126,8 +126,8 @@ importers:
   .:
     dependencies:
       '@chat-adapter/slack':
-        specifier: 4.38.1
-        version: 4.38.1(ai@7.0.65(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
+        specifier: 4.39.0
+        version: 4.39.0(ai@7.0.65(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
       '@mastra/core':
         specifier: 1.63.1
         version: 1.63.1(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.4.3))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)
@@ -159,8 +159,8 @@ importers:
         specifier: 10.71.0
         version: 10.71.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)
       chat:
-        specifier: 4.38.1
-        version: 4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+        specifier: 4.39.0
+        version: 4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
       chrono-node:
         specifier: 2.10.1
         version: 2.10.1
@@ -522,12 +522,12 @@ packages:
   '@blazediff/core@1.9.1':
     resolution: {integrity: sha512-ehg3jIkYKulZh+8om/O25vkvSsXXwC+skXmyA87FFx6A/45eqOkZsBltMw/TVteb0mloiGT8oGRTcjRAz66zaA==}
 
-  '@chat-adapter/shared@4.38.1':
-    resolution: {integrity: sha512-zJiMl43fiS3a2RjLFdCyTUTqcDY2xss1Acbzc9yfsw8YAkS0LZRdrNmp9/RjLhZB0+FzLarNAayvdKqF2GwnQg==}
+  '@chat-adapter/shared@4.39.0':
+    resolution: {integrity: sha512-zc5mB5rYqbp4ts+Z3tG/YwkCypPYphriYpG95ZMRNGiEYx3cYZJZFmAFFM4YLfdz3VIQ99Fd0HFDYVNyAMV7cg==}
     engines: {node: '>=20'}
 
-  '@chat-adapter/slack@4.38.1':
-    resolution: {integrity: sha512-xMZ43YUQKzqOAiePR5mEFjhJPI6/jsEHCMq9Y+Rrm+N4+DotBddQDpbGMzb5oiogZD6iyMVCMvWSPLST7ZX0sg==}
+  '@chat-adapter/slack@4.39.0':
+    resolution: {integrity: sha512-nDBYFEmD9MUobUH+HJbOYwKYcaeoCFJDXVvd41flh5sslpixSUG2SFcz7F3py62jJ9c0YYNEdwprIExO20IyZQ==}
     engines: {node: '>=20'}
 
   '@clack/core@1.4.3':
@@ -2720,8 +2720,8 @@ packages:
   character-entities@2.0.2:
     resolution: {integrity: sha512-shx7oQ0Awen/BRIdkjkvz54PnEEI/EjwXDSIZp86/KKdbafHh1Df/RYGBhn4hbe2+uKC9FnT5UCEdyPz3ai9hQ==}
 
-  chat@4.38.1:
-    resolution: {integrity: sha512-FD6vNLT8clXHKhN3I1m+3Bn2nz0rsB6/bmNPsJeh6Cr7kwWLg0MYl2uor9YaKBp38F77sBRVKdYKVA6ihUby3w==}
+  chat@4.39.0:
+    resolution: {integrity: sha512-o7D+oAbQAYFVoc9+OH8wya11609ybRThNTF3s/5C1LAABGGi6IrxoQQEN/aIe+4h5pmKYzUjXeqTcuOZcpIAZA==}
     engines: {node: '>=20'}
     peerDependencies:
       ai: ^6.0.182 || ^7.0.0
@@ -5139,21 +5139,21 @@ snapshots:
 
   '@blazediff/core@1.9.1': {}
 
-  '@chat-adapter/shared@4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)':
+  '@chat-adapter/shared@4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)':
     dependencies:
-      chat: 4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+      chat: 4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
     transitivePeerDependencies:
       - ai
       - supports-color
       - workflow
       - zod
 
-  '@chat-adapter/slack@4.38.1(ai@7.0.65(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)':
+  '@chat-adapter/slack@4.39.0(ai@7.0.65(zod@4.4.3))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.4.3)':
     dependencies:
-      '@chat-adapter/shared': 4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+      '@chat-adapter/shared': 4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
       '@slack/socket-mode': 2.0.7(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
       '@slack/web-api': 7.19.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
-      chat: 4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+      chat: 4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
     transitivePeerDependencies:
       - ai
       - bufferutil
@@ -5499,7 +5499,7 @@ snapshots:
       '@sindresorhus/slugify': 2.2.1
       '@standard-schema/spec': 1.1.0
       ajv: 8.20.0
-      chat: 4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
+      chat: 4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3)
       croner: 10.0.1
       dotenv: 17.4.2
       execa: 9.6.1
@@ -6658,13 +6658,13 @@ snapshots:
 
   '@slack/logger@4.0.1':
     dependencies:
-      '@types/node': 26.3.0
+      '@types/node': 26.4.0
 
   '@slack/socket-mode@2.0.7(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)':
     dependencies:
       '@slack/logger': 4.0.1
       '@slack/web-api': 7.19.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
-      '@types/node': 26.3.0
+      '@types/node': 26.4.0
       '@types/ws': 8.18.1
       eventemitter3: 5.0.4
       ws: 8.21.3
@@ -6680,7 +6680,7 @@ snapshots:
     dependencies:
       '@slack/logger': 4.0.1
       '@slack/types': 2.22.0
-      '@types/node': 26.3.0
+      '@types/node': 26.4.0
       '@types/retry': 0.12.0
       axios: 1.19.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
       eventemitter3: 5.0.4
@@ -6800,7 +6800,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 26.3.0
+      '@types/node': 26.4.0
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
@@ -7277,7 +7277,7 @@ snapshots:
 
   character-entities@2.0.2: {}
 
-  chat@4.38.1(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3):
+  chat@4.39.0(ai@7.0.65(zod@4.4.3))(supports-color@7.2.0)(zod@4.4.3):
     dependencies:
       '@workflow/serde': 4.1.0-beta.2
       mdast-util-to-string: 4.0.0
