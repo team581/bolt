@@ -64,7 +64,7 @@ export const mastra = new Mastra({
 			},
 		}),
 		apiRoutes: [
-			registerApiRoute("/health", {
+			registerApiRoute("/health/recovery", {
 				method: "GET",
 				requiresAuth: false,
 				handler: () => {
@@ -81,17 +81,21 @@ function startDurableRecovery(): void {
 	durableRecoveryStarted = true;
 	// Railway healthchecks complete before it terminates the old deployment. Wait
 	// past its 15-second drain window so both containers cannot recover one run.
-	setTimeout(() => {
-		mastra.restartAllActiveWorkflowRuns().catch((error: unknown) => {
-			mastra.getLogger().error("Failed to restart active workflow runs after startup", { error });
-		});
-		mastra
-			.recoverAllDurableAgents()
-			.then((result) => {
-				mastra.getLogger().info("Recovered durable agent runs after startup", result);
-			})
-			.catch((error: unknown) => {
-				mastra.getLogger().error("Failed to recover durable agent runs after startup", { error });
-			});
-	}, DURABLE_RECOVERY_DELAY_MS);
+	setTimeout(() => void recoverDurableRuns(), DURABLE_RECOVERY_DELAY_MS);
+}
+
+async function recoverDurableRuns(): Promise<void> {
+	try {
+		await mastra.restartAllActiveWorkflowRuns();
+	} catch (error: unknown) {
+		mastra.getLogger().error("Failed to restart active workflow runs after startup", { error });
+		return;
+	}
+
+	try {
+		const result = await mastra.recoverAllDurableAgents();
+		mastra.getLogger().info("Recovered durable agent runs after startup", result);
+	} catch (error: unknown) {
+		mastra.getLogger().error("Failed to recover durable agent runs after startup", { error });
+	}
 }

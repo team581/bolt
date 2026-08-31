@@ -2,7 +2,7 @@
 	"$schema": "https://railway.com/railway.schema.json",
 	"deploy": {
 		"drainingSeconds": 15,
-		"healthcheckPath": "/health",
+		"healthcheckPath": "/health/recovery",
 		"healthcheckTimeout": 60,
 		"restartPolicyType": "ON_FAILURE",
 		"startCommand": "node .mastra/output/index.mjs"
