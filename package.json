@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "mastra build",
+		"build": "mastra build && node scripts/copy-patched-mastra-core.ts",
 		"dev": "mastra dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config",

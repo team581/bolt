@@ -1,0 +1,26 @@
+diff --git a/dist/agent-B8m3ps7U.js b/dist/agent-B8m3ps7U.js
+index 3883f713563d5cc9873ede627619452888f11488..1882571249187088ac593b6133cfd09ee4ee48a0 100644
+--- a/dist/agent-B8m3ps7U.js
++++ b/dist/agent-B8m3ps7U.js
+@@ -22078,7 +22078,7 @@ function pruneAgentLoopSnapshot({ snapshot, workflowStatus }) {
+ 		if (strippedInput && typeof originalKind === "string") strippedInput.__workflowKind = originalKind;
+ 		context.input = strippedInput;
+ 	} else context[key] = pruneStepResult(value, { preserveTerminalPayloadState: activeStepIds.has(key) });
+-	if (isRunning) pruneRunningHistory(context, activeStepIds);
++	if (isRunning && activeStepIds.size > 0) pruneRunningHistory(context, activeStepIds);
+ 	const result = isPlainObject$1(snapshot.result) && typeof snapshot.result.status === "string" ? pruneResultMirror(snapshot.result) : snapshot.result;
+ 	return {
+ 		...snapshot,
+diff --git a/dist/agent-CKP-HU6l.cjs b/dist/agent-CKP-HU6l.cjs
+index b0d012e7795f2d7a6f88cc19c219a1028ca2ce34..cbbb22dcf02f8e1baa7154ab349b046814fed472 100644
+--- a/dist/agent-CKP-HU6l.cjs
++++ b/dist/agent-CKP-HU6l.cjs
+@@ -22080,7 +22080,7 @@ function pruneAgentLoopSnapshot({ snapshot, workflowStatus }) {
+ 		if (strippedInput && typeof originalKind === "string") strippedInput.__workflowKind = originalKind;
+ 		context.input = strippedInput;
+ 	} else context[key] = pruneStepResult(value, { preserveTerminalPayloadState: activeStepIds.has(key) });
+-	if (isRunning) pruneRunningHistory(context, activeStepIds);
++	if (isRunning && activeStepIds.size > 0) pruneRunningHistory(context, activeStepIds);
+ 	const result = isPlainObject$1(snapshot.result) && typeof snapshot.result.status === "string" ? pruneResultMirror(snapshot.result) : snapshot.result;
+ 	return {
+ 		...snapshot,

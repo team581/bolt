@@ -13,6 +13,7 @@ overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.11
 patchedDependencies:
+  "@mastra/core@1.63.2": patches/@mastra__core@1.63.2.patch
   "@mastra/daytona@0.9.1": patches/@mastra__daytona@0.9.1.patch
   mastra@1.27.2: patches/mastra@1.27.2.patch
 packageExtensions:
