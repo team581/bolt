@@ -1,10 +1,9 @@
 [tools]
-node = "26"
 pitchfork = "2.23.0"
-pnpm = "12.1.0"
 
 [settings]
 env_file = ".env.local"
+idiomatic_version_file_enable_tools = ["node", "pnpm"]
 
 [env]
 DATABASE_URL = { default = "postgresql://bolt:bolt@localhost:5432/bolt" }
