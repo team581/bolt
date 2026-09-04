@@ -38,7 +38,7 @@
 		"@types/node": "26.4.1",
 		"fallow": "3.21.0",
 		"handlebars": "4.7.9",
-		"p-retry": "8.0.0",
+		"p-retry": "8.0.1",
 		"typescript": "7.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:"
