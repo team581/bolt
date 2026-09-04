@@ -136,8 +136,8 @@ importers:
         specifier: 0.9.1
         version: 0.9.1(patch_hash=6cb0c0bbcf02add8e84daccf58e2f2906f8d00dafa206d8b07c852b6fe459e27)(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
       '@mastra/gcs':
-        specifier: 0.3.2
-        version: 0.3.2(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(supports-color@7.2.0)
+        specifier: 0.3.3
+        version: 0.3.3(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(supports-color@7.2.0)
       '@mastra/memory':
         specifier: 1.28.1
         version: 1.28.1(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(supports-color@7.2.0)
@@ -920,8 +920,8 @@ packages:
     peerDependencies:
       '@mastra/core': '>=1.50.0-0 <2.0.0-0'
 
-  '@mastra/gcs@0.3.2':
-    resolution: {integrity: sha512-oE9/1KHtEmWbS5jp5ruR29g0vpfyVmUrvFA/7vCcNCfoQHouA3WPThDLynZVsx7nNrMr2d9YgPpb8WNrNLgRHw==}
+  '@mastra/gcs@0.3.3':
+    resolution: {integrity: sha512-cWkJj04HchSSdSd0/Wnquvs6VC2VpvGOm/rlleJQ9MJ+eDBFP0YS+LVMH5+5gMmIBWrGIC/IGjnax7McfKbO+g==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
       '@mastra/core': '>=1.4.0-0 <2.0.0-0'
@@ -5789,7 +5789,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@mastra/gcs@0.3.2(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(supports-color@7.2.0)':
+  '@mastra/gcs@0.3.3(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(supports-color@7.2.0)':
     dependencies:
       '@google-cloud/storage': 7.22.0(supports-color@7.2.0)
       '@mastra/core': 1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4)
@@ -7019,7 +7019,7 @@ snapshots:
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 26.3.0
+      '@types/node': 26.4.1
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.6
 
