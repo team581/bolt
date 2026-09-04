@@ -148,8 +148,8 @@ importers:
         specifier: 1.22.3
         version: 1.22.3(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))
       '@mastra/sentry':
-        specifier: 1.2.14
-        version: 1.2.14(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.5.4)
+        specifier: 1.2.15
+        version: 1.2.15(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.5.4)
       '@octokit/auth-app':
         specifier: 8.3.1
         version: 8.3.1
@@ -938,13 +938,6 @@ packages:
     peerDependencies:
       '@mastra/core': '>=1.4.1-0 <2.0.0-0'
 
-  '@mastra/observability@1.17.4':
-    resolution: {integrity: sha512-7TzbNNPR6h1LPUPW+kPkqqBKyubF9fZapGWJF4Y2f5JAhGva8Qj/NX0hbDgx54hqtvkTNh56+flAerwuNf1mMw==}
-    engines: {node: '>=22.13.0'}
-    peerDependencies:
-      '@mastra/core': '>=1.16.0-0 <2.0.0-0'
-      zod: ^3.25.0 || ^4.0.0
-
   '@mastra/observability@1.17.5':
     resolution: {integrity: sha512-V7W+b1YSNtIR6aMlIPL72RInIi1hOV0IfH39i2vYm4Q4sy3BWhpcVDmvvZKmX4VlH82Jmt81UuuYqfPac8UFug==}
     engines: {node: '>=22.13.0'}
@@ -952,8 +945,8 @@ packages:
       '@mastra/core': '>=1.16.0-0 <2.0.0-0'
       zod: ^3.25.0 || ^4.0.0
 
-  '@mastra/otel-exporter@1.3.12':
-    resolution: {integrity: sha512-xrlMunorofb3//MiFsxSY7+oblrdqd8pKFviXwUFo7Lmi/nSVUlEvTUY+2SdfvCVXwz9exsOd/5ik2GChNA22w==}
+  '@mastra/otel-exporter@1.3.13':
+    resolution: {integrity: sha512-XZ8Qp2BEeQZI3ZQuApsIy+E8CcpKKU8D5UIh2QHEnfs8htzbhF0GgnrmnflZnmPDlcY9HOiMiCqs3Ez/YRpe0g==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
       '@mastra/core': '>=1.16.0-0 <2.0.0-0'
@@ -976,8 +969,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  '@mastra/sentry@1.2.14':
-    resolution: {integrity: sha512-NrVhesLdhTgznqtwSo46Yx1Ksq8uYKf0WU9qJf9kWdOVBGqYSkPa+zdVkc1XejYfscfg2ehn7g5tuNnTCQmlfg==}
+  '@mastra/sentry@1.2.15':
+    resolution: {integrity: sha512-LOh+7FydfbIc5daQQo6yZsPMu7MkSld/6cNPs/DsfdG0vHWO3vjEK+SBenNb5ERv67EKm4ceka4pmwUwnnil2w==}
     engines: {node: '>=22.13.0'}
     peerDependencies:
       '@mastra/core': '>=1.16.0-0 <2.0.0-0'
@@ -5831,20 +5824,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mastra/observability@1.17.4(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)':
-    dependencies:
-      '@mastra/core': 1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4)
-      zod: 4.5.4
-
   '@mastra/observability@1.17.5(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)':
     dependencies:
       '@mastra/core': 1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4)
       zod: 4.5.4
 
-  '@mastra/otel-exporter@1.3.12(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)':
+  '@mastra/otel-exporter@1.3.13(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)':
     dependencies:
       '@mastra/core': 1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4)
-      '@mastra/observability': 1.17.4(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
+      '@mastra/observability': 1.17.5(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.221.0
       '@opentelemetry/core': 2.10.0(@opentelemetry/api@1.9.1)
@@ -5887,11 +5875,11 @@ snapshots:
       zod: 4.5.4
       zod-from-json-schema: 0.5.6
 
-  '@mastra/sentry@1.2.14(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.5.4)':
+  '@mastra/sentry@1.2.15(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)(zod@4.5.4)':
     dependencies:
       '@mastra/core': 1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4)
-      '@mastra/observability': 1.17.4(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
-      '@mastra/otel-exporter': 1.3.12(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
+      '@mastra/observability': 1.17.5(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
+      '@mastra/otel-exporter': 1.3.13(@mastra/core@1.63.2(patch_hash=48ae5fa5c4360803969b20521924924c477f92da2d6a297cd330608ab8a012e3)(@grpc/grpc-js@1.14.4)(ai@7.0.65(zod@4.5.4))(express@5.2.1(supports-color@7.2.0))(supports-color@7.2.0)(zod@4.5.4))(zod@4.5.4)
       '@sentry/node': 10.73.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)
     transitivePeerDependencies:
       - '@opentelemetry/core'
