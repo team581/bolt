@@ -23,15 +23,18 @@ jobs:
     timeout-minutes: 5
     env:
       AI_GATEWAY_API_KEY: ci-ai-gateway-key
-      DAYTONA_API_KEY: ci-daytona-key
       DATABASE_URL: postgresql://localhost:5432/postgres
-      GCS_SERVICE_ACCOUNT_KEY: "{}"
+      GCS_SERVICE_ACCOUNT_KEY: '{"client_email":"bolt@example.com","private_key":"ci-private-key","token_uri":"https://oauth2.googleapis.com/token"}'
       GITHUB_APP_ID: ci-github-app-id
       GITHUB_INSTALLATION_ID: 1
       GITHUB_APP_PRIVATE_KEY: ci-github-private-key
-      MASTRA_API_KEY: ci-mastra-api-key
-      MASTRA_PLATFORM_ACCESS_TOKEN: ci-mastra-platform-access-token
-      MASTRA_PROJECT_ID: ci-mastra-project-id
+      GOOGLE_CLIENT_ID: ci-google-client-id
+      GOOGLE_CLIENT_SECRET: ci-google-client-secret
+      JUNIOR_BASE_URL: https://bolt.example.com
+      JUNIOR_DATABASE_DRIVER: postgres
+      JUNIOR_SECRET: ci-junior-secret
+      CRON_SECRET: ci-cron-secret
+      REDIS_URL: redis://localhost:6379
       SLACK_BOT_TOKEN: xoxb-ci
       SLACK_SIGNING_SECRET: ci-slack-signing-secret
 
@@ -42,6 +45,8 @@ jobs:
         uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
+      - name: Check Junior configuration
+        run: vp run check:junior
       - name: Check lint and formatting
         run: vp check
       - name: Test

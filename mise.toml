@@ -7,6 +7,11 @@ idiomatic_version_file_enable_tools = ["node", "pnpm"]
 
 [env]
 DATABASE_URL = { default = "postgresql://bolt:bolt@localhost:5432/bolt" }
+JUNIOR_DATABASE_DRIVER = { default = "postgres" }
+REDIS_URL = { default = "redis://localhost:6379" }
+JUNIOR_BASE_URL = { default = "http://localhost:3000" }
+JUNIOR_LOADING_MESSAGES = '["Thinking..."]'
+VERCEL_SANDBOX_WORKSPACE_DIR = { default = "/workspace" }
 GITHUB_APP_ID = { default = "3658873" }
 GITHUB_INSTALLATION_ID = { default = "130950814" }
 
@@ -14,11 +19,20 @@ GITHUB_INSTALLATION_ID = { default = "130950814" }
 run = "pitchfork start postgres"
 hide = true
 
+[tasks.redis]
+run = "pitchfork start redis"
+hide = true
+
 [tasks.dev]
 description = "Start Bolt's development server"
-depends = ["postgres"]
-run = "vp run dev"
+depends = ["postgres", "redis"]
+run = "vp exec junior upgrade && vp run dev"
 raw = true
 
 [tasks.dev.env]
 NODE_ENV = "development"
+
+[tasks."slack:socket"]
+description = "Connect the local Junior server to Slack using Socket Mode"
+run = "vp run slack:socket"
+raw = true

@@ -10,17 +10,7 @@ if (GITHUB_TOKEN === undefined || GITHUB_TOKEN === "") {
 	throw new Error("GH_TOKEN is required to generate GitHub project prompts.");
 }
 
-const REFERENCES_DIR = join(
-	import.meta.dirname,
-	"..",
-	"src",
-	"mastra",
-	"agents",
-	"bolt",
-	"skills",
-	"manage-github-projects",
-	"references",
-);
+const REFERENCES_DIR = join(import.meta.dirname, "..", "app", "skills", "manage-github-projects", "references");
 const ORGANIZATION_TEMPLATE = join(import.meta.dirname, "prompts", "manage-github-projects.organization.md.hbs");
 const PROJECT_TEMPLATE = join(import.meta.dirname, "prompts", "manage-github-projects.project.md.hbs");
 const github = request.defaults({

@@ -28,13 +28,9 @@ release. Add a tool name to select part of the graph. For example, run
 
 ## Tracing
 
-Bolt uses Sentry and Mastra Observability for tracing.
+Bolt uses Sentry and Junior's native traces, queue telemetry, and Dashboard reporting.
 There's one Sentry project configured for both production and local development, accessible via CLI and MCP (assuming auth is configured properly for our org).
-
-Mastra has one project for production and one for local development.
-Production project is in `.mastra-project.json`, development is in the `MASTRA_PROJECT_ID` environment variable.
 
 ## Sandboxes
 
-Daytona is used as our sandbox provider.
-You can access it via CLI or MCP.
+Junior uses persistent Vercel Sandboxes. The local `bolt-runtime` plugin owns Bolt-specific snapshot setup and sandbox preparation.

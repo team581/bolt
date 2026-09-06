@@ -1,4 +1,0 @@
-[tools]
-gh = "2.100.0"
-java = "temurin-21.0.12+101.0.LTS"
-node = "26"

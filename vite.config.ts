@@ -7,12 +7,7 @@ export default defineConfig({
 	fmt: {
 		useTabs: true,
 		printWidth: 120,
-		ignorePatterns: [
-			"**/*.hbs",
-			"src/mastra/agents/bolt/skills/analyze-wpilog/SKILL.md",
-			".agents/skills/**/*",
-			"skills-lock.json",
-		],
+		ignorePatterns: ["**/*.hbs", "app/skills/analyze-wpilog/SKILL.md", ".agents/skills/**/*", "skills-lock.json"],
 	},
 	lint: {
 		categories: {
@@ -38,21 +33,14 @@ export default defineConfig({
 	},
 	test: {
 		env: {
-			AI_GATEWAY_API_KEY: "test-ai-gateway-key",
-			DATABASE_URL: "postgresql://localhost:5432/bolt_test",
-			DAYTONA_API_KEY: "test-daytona-api-key",
 			GITHUB_APP_ID: "test-github-app-id",
 			GITHUB_APP_PRIVATE_KEY: "test-github-private-key",
 			GITHUB_INSTALLATION_ID: "12345",
 			GCS_SERVICE_ACCOUNT_KEY:
-				'{"client_email":"bolt@example.iam.gserviceaccount.com","private_key":"test-private-key","project_id":"test-gcs-project"}',
+				'{"client_email":"bolt@example.iam.gserviceaccount.com","private_key":"test-private-key","project_id":"test-gcs-project","token_uri":"https://oauth2.googleapis.com/token"}',
 			NODE_ENV: "test",
-			MASTRA_API_KEY: "test-mastra-api-key",
-			MASTRA_PLATFORM_ACCESS_TOKEN: "test-mastra-platform-access-token",
-			MASTRA_PROJECT_ID: "00000000-0000-0000-0000-000000000000",
-			SLACK_BOT_TOKEN: "xoxb-test",
-			SLACK_SIGNING_SECRET: "test-slack-signing-secret",
 		},
+		include: ["test/**/*.test.ts"],
 		passWithNoTests: true,
 	},
 });

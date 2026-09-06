@@ -4,54 +4,47 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "mastra build && node scripts/patch-built-mastra-core.ts",
-		"dev": "mastra dev",
+		"build": "nitro build",
+		"build:release": "junior snapshot create && nitro build",
+		"check:junior": "junior check",
+		"dev": "cross-env NODE_OPTIONS=--import=./instrument.mjs nitro dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config",
-		"publish:sandbox": "node scripts/publish-sandbox.ts",
-		"start": "mastra start"
+		"preview": "cross-env NODE_ENV=development NODE_OPTIONS=--import=./instrument.mjs nitro preview",
+		"slack:socket": "node scripts/slack-socket.ts"
 	},
 	"dependencies": {
-		"@chat-adapter/slack": "4.40.0",
-		"@mastra/core": "1.63.2",
-		"@mastra/daytona": "0.9.1",
-		"@mastra/gcs": "0.3.3",
-		"@mastra/memory": "1.28.2",
-		"@mastra/observability": "1.17.5",
-		"@mastra/pg": "1.22.3",
-		"@mastra/sentry": "1.2.15",
 		"@octokit/auth-app": "8.3.1",
 		"@octokit/request": "10.0.16",
-		"@sentry/node": "10.73.0",
-		"chat": "4.40.0",
-		"chrono-node": "2.10.1",
-		"croner": "10.0.1",
+		"@sentry/junior": "0.201.0",
+		"@sentry/junior-dashboard": "0.201.0",
+		"@sentry/junior-plugin-api": "0.201.0",
+		"@sentry/nitro": "10.73.0",
+		"@slack/socket-mode": "2.0.7",
 		"envalid": "8.2.0",
-		"mastra": "1.27.2",
-		"zod": "4.5.4"
+		"h3": "2.0.1-rc.31"
 	},
 	"devDependencies": {
-		"@ai-sdk/provider": "4.0.8",
-		"@daytona/sdk": "0.210.0",
 		"@sentry/cli": "3.7.0",
 		"@sindresorhus/slugify": "3.0.1",
-		"@types/node": "26.4.1",
-		"fallow": "3.22.0",
+		"@types/node": "24.13.3",
+		"cross-env": "10.1.0",
 		"handlebars": "4.7.9",
-		"p-retry": "8.0.1",
+		"nitro": "3.0.260522-beta",
 		"typescript": "7.0.2",
 		"vite": "catalog:",
-		"vite-plus": "catalog:"
+		"vite-plus": "catalog:",
+		"vitest": "4.1.11"
 	},
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": "26.x",
+			"version": "24.x",
 			"onFail": "warn"
 		}
 	},
 	"engines": {
-		"node": "26.x"
+		"node": "24.x"
 	},
 	"packageManager": "pnpm@12.3.4"
 }

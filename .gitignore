@@ -1,10 +1,12 @@
 node_modules/
 dist/
 .mastra/
+.nitro/
+.output/
 mise-oci/
 
 # GitHub App private key (never commit)
 *.pem
 github-app-private-key.*
-.vercel
+.vercel/
 .env*

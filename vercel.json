@@ -1,0 +1,4 @@
+{
+	"buildCommand": "vp exec junior upgrade && vp run build:release",
+	"framework": "nitro"
+}
