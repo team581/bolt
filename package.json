@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@chat-adapter/slack": "4.40.0",
-		"@mastra/core": "1.63.2",
+		"@mastra/core": "1.64.0",
 		"@mastra/daytona": "0.9.1",
 		"@mastra/gcs": "0.3.3",
 		"@mastra/memory": "1.28.2",
