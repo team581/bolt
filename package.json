@@ -12,7 +12,7 @@
 		"start": "mastra start"
 	},
 	"dependencies": {
-		"@chat-adapter/slack": "4.39.0",
+		"@chat-adapter/slack": "4.40.0",
 		"@mastra/core": "1.63.2",
 		"@mastra/daytona": "0.9.1",
 		"@mastra/gcs": "0.3.3",
@@ -23,7 +23,7 @@
 		"@octokit/auth-app": "8.3.1",
 		"@octokit/request": "10.0.16",
 		"@sentry/node": "10.73.0",
-		"chat": "4.39.0",
+		"chat": "4.40.0",
 		"chrono-node": "2.10.1",
 		"croner": "10.0.1",
 		"envalid": "8.2.0",
