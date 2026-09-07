@@ -31,6 +31,7 @@
 		"cross-env": "10.1.0",
 		"handlebars": "4.7.9",
 		"nitro": "3.0.260522-beta",
+		"railway": "3.11.0",
 		"typescript": "7.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:",

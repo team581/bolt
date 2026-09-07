@@ -1,0 +1,7 @@
+.env*
+.git
+.mastra
+.railway
+.vercel
+mise-oci
+node_modules

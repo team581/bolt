@@ -2,7 +2,15 @@
 
 ## Infrastructure
 
-1. Create fresh Railway Postgres and Redis services in a region close to the Vercel function region.
+1. Provision the `Junior Postgres` and `Junior Redis` resources declared in `.railway/railway.ts`:
+
+   ```bash
+   railway config plan
+   railway config apply
+   ```
+
+   Both databases run in Railway's US East region near the Vercel function region. The existing `Bolt` service and `Postgres` database remain declared for the rollback window.
+
 2. Create or connect a Vercel project for Bolt and enable project OIDC.
 3. Connect a private Vercel Blob store using OIDC.
 4. Configure the variables documented in `.env.example` in the Vercel Production environment.
