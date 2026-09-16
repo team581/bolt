@@ -1,5 +1,5 @@
 [tools]
-pitchfork = "2.24.2"
+pitchfork = "2.25.0"
 
 [settings]
 env_file = ".env.local"
