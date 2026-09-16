@@ -27,7 +27,7 @@
 	"devDependencies": {
 		"@sentry/cli": "3.7.0",
 		"@sindresorhus/slugify": "3.0.1",
-		"@types/node": "24.13.3",
+		"@types/node": "24.13.4",
 		"cross-env": "10.1.0",
 		"handlebars": "4.7.9",
 		"nitro": "3.0.260522-beta",
