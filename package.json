@@ -25,7 +25,7 @@
 		"h3": "2.0.1-rc.31"
 	},
 	"devDependencies": {
-		"@sentry/cli": "3.7.0",
+		"@sentry/cli": "3.8.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.13.3",
 		"cross-env": "10.1.0",
