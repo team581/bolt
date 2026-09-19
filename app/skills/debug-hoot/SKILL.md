@@ -1,37 +1,34 @@
 ---
 name: debug-hoot
-description: Convert CTRE Phoenix hoot (.hoot) signal logs to WPILOG using the owlet CLI so they can be analyzed. Use when a user asks to debug, inspect, or analyze a .hoot file.
+description: Convert and troubleshoot CTRE Phoenix .hoot signal logs with owlet, then analyze the resulting WPILOG. Use when a user asks to inspect, debug, or analyze a .hoot file.
 license: MIT
 ---
 
-# Debugging hoot files
+# Debug CTRE hoot logs
 
-`hoot` is CTRE Phoenix 6's binary signal log format. It is not directly parseable by our tooling; convert it to WPILOG with CTRE's `owlet` CLI, then analyze the result with the `analyze-wpilog` skill.
+Phoenix 6 writes device signals in CTRE's binary `.hoot` format. Convert the requested log with the preinstalled `owlet` CLI, then use the `analyze-wpilog` skill on the result.
 
-## Installing owlet
+## Convert the log
 
-`owlet` is preinstalled at `/usr/local/bin/owlet` in the Bolt sandbox (pinned in the bolt-runtime plugin). In other environments, resolve the latest Linux x86-64 build for the current season from CTRE's tools index and install it:
-
-```sh
-URL=$(curl -s https://redist.ctr-electronics.com/index.json | jq -r '
-  .LatestChannel as $ch
-  | ([.ChannelCompliancy[] | select(.Name == $ch) | .Compliancy] | .[0]) as $c
-  | [.Tools[] | select(.Name == "owlet") | .Items[] | select(.Compliancy == $c)]
-  | sort_by(.Version | split(".") | map(tonumber))
-  | last | .Urls["linuxx86-64"]')
-curl -sL "$URL" -o /usr/local/bin/owlet && chmod +x /usr/local/bin/owlet
-```
-
-## Converting
+Choose a writable output path that does not overwrite an existing file. Quote both paths because attachment names can contain spaces.
 
 ```sh
-owlet log.hoot log.wpilog --format=wpilog
+owlet "input.hoot" "output.wpilog" --format=wpilog
 ```
 
-Useful flags:
+Confirm that the command succeeded and produced a non-empty `.wpilog` before analyzing it. Keep the original `.hoot` file.
 
-- `--scan` lists available signals; pass their IDs to `--signals=` to export only what you need
-- `--enable-only=N` trims output to N seconds around robot enable/disable periods
-- `--unlicensed` skips Phoenix Pro license checks when the log has no Pro devices
+## Narrow large logs when useful
 
-After conversion, analyze the `.wpilog` output with the `analyze-wpilog` skill.
+- `--scan` lists available signals. Pass a comma-separated set of the reported IDs to `--signals=` when the question only needs a subset.
+- `--enable-only=N` retains the interval from `N` seconds before each enable through `N` seconds after disable. `N` must be at least 1.
+
+Apply these options to the conversion command, after the two file paths. Do not narrow the log when doing so could discard evidence relevant to the request.
+
+## Troubleshoot conversion failures
+
+- Run the same command with `--compliancy` to compare the installed owlet version with the log's format.
+- Run it with `--check-pro` to determine whether the log contains Phoenix Pro devices. Use `--full-scan` as well if the normal scan is inconclusive.
+- Use `--unlicensed` only after `--check-pro` confirms there are no Pro devices; otherwise it can decode the log incorrectly.
+
+Report the exact `owlet` error if conversion still fails. Do not fabricate analysis from an incomplete or missing WPILOG.
