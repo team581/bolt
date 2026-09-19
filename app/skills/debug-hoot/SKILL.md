@@ -10,7 +10,7 @@ license: MIT
 
 ## Installing owlet
 
-CTRE publishes a machine-readable index of their CLI tools. This resolves the latest `owlet` build for the current season and installs it (verified working on the Linux x86-64 sandbox):
+`owlet` is preinstalled at `/usr/local/bin/owlet` in the Bolt sandbox (pinned in the bolt-runtime plugin). In other environments, resolve the latest Linux x86-64 build for the current season from CTRE's tools index and install it:
 
 ```sh
 URL=$(curl -s https://redist.ctr-electronics.com/index.json | jq -r '

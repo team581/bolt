@@ -5,6 +5,8 @@ import { createGitHubInstallationToken } from "../../src/github-app.ts";
 const FETCH_BUCKET = "fetch_storage";
 const GCSFUSE_VERSION = "3.11.2";
 const GCS_KEY_PATH = "/tmp/bolt-fetch-service-account.json";
+const OWLET_VERSION = "26.3.0";
+const OWLET_SHA1 = "4b9655dfbeb7f0e48267a1dccc637ace5e78d69a";
 const REPOSITORY_URL = "https://github.com/team581/offseason-2026.git";
 
 type RuntimeConfig = Pick<typeof config, "GCS_SERVICE_ACCOUNT_KEY" | "GITHUB_APP_BOT_EMAIL" | "GITHUB_APP_BOT_NAME">;
@@ -106,6 +108,13 @@ const installGcsfuse = [
 	`dnf install -y gcsfuse-${GCSFUSE_VERSION}`,
 ].join("\n");
 
+const installOwlet = [
+	"set -eu",
+	`curl -sL https://redist.ctr-electronics.com/tools/owlet/${OWLET_VERSION}/owlet-${OWLET_VERSION}-linuxx86-64 -o /usr/local/bin/owlet`,
+	`printf '%s  /usr/local/bin/owlet\\n' ${OWLET_SHA1} | sha1sum -c -`,
+	"chmod +x /usr/local/bin/owlet",
+].join("\n");
+
 const warmRepository = [
 	"set -eu",
 	"mkdir -p /workspace",
@@ -135,6 +144,7 @@ export function boltRuntimePlugin() {
 			],
 			runtimePostinstall: [
 				{ args: ["-c", installGcsfuse], cmd: "sh", sudo: true },
+				{ args: ["-c", installOwlet], cmd: "sh", sudo: true },
 				{ args: ["-c", warmRepository], cmd: "sh" },
 			],
 		},
