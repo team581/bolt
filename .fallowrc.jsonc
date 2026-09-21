@@ -1,0 +1,16 @@
+{
+	// Entry points that are loaded by frameworks/tooling rather than static imports:
+	// - server.ts: registered as the Nitro route handler in nitro.config.ts
+	// - nitro.config.ts: read by the Nitro CLI
+	// - instrument.mjs: loaded via NODE_OPTIONS=--import in package.json scripts
+	// - plugins.ts: passed to juniorNitro as "./plugins" and dynamically imported by server.ts
+	"entry": ["instrument.mjs", "nitro.config.ts", "plugins.ts", "server.ts"],
+	// Dependencies used without a direct static import:
+	// - h3: Nitro's HTTP engine, bundled at runtime and pinned via traceDeps in nitro.config.ts
+	// - @sentry/junior-dashboard: dashboard assets served by the juniorNitro module
+	// - railway: CLI/IaC SDK imported by .railway/railway.ts; fallow does not traverse hidden directories
+	"ignoreDependencies": ["@sentry/junior-dashboard", "h3", "railway"],
+	// Railway IaC lives in a hidden directory that fallow does not traverse.
+	"ignorePatterns": [".railway/**"],
+	"ignoreDependencyOverrides": [{ "package": "vitest", "source": "pnpm-workspace.yaml" }],
+}
