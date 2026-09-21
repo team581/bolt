@@ -15,6 +15,16 @@ function requiredEnvironmentVariable(name: string): string {
 	return value;
 }
 
+const FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
+
+function serializeSlashCommand(body: Record<string, unknown>): string {
+	const params = new URLSearchParams();
+	for (const [key, value] of Object.entries(body)) {
+		if (typeof value === "string") params.set(key, value);
+	}
+	return params.toString();
+}
+
 function serializeEvent(
 	eventType: string,
 	body: Record<string, unknown>,
@@ -23,20 +33,13 @@ function serializeEvent(
 	contentType: string;
 } {
 	if (eventType === "slash_commands") {
-		const params = new URLSearchParams();
-		for (const [key, value] of Object.entries(body)) {
-			if (typeof value === "string") params.set(key, value);
-		}
-		return {
-			body: params.toString(),
-			contentType: "application/x-www-form-urlencoded",
-		};
+		return { body: serializeSlashCommand(body), contentType: FORM_CONTENT_TYPE };
 	}
 
 	if (eventType === "interactive") {
 		return {
 			body: new URLSearchParams({ payload: JSON.stringify(body) }).toString(),
-			contentType: "application/x-www-form-urlencoded",
+			contentType: FORM_CONTENT_TYPE,
 		};
 	}
 
