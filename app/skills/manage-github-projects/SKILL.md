@@ -6,7 +6,7 @@ license: MIT
 
 # Manage GitHub Projects
 
-Drive Team 581's GitHub Projects (v2) boards through the `gh` CLI. Each Bash command receives a fresh Team 581 GitHub App installation token.
+Drive Team 581's GitHub Projects (v2) boards through the `gh` CLI.
 
 The skill's resources include one reference file per open Team 581 project, named from the project title (for example, `references/fetch-2026.md`).
 
@@ -14,6 +14,7 @@ The skill's resources include one reference file per open Team 581 project, name
 - For project operations, select the resource whose filename or heading matches the user's request and read it before running commands.
 - Never assume the newest project is the main project. A repository also does not imply a project.
 - If more than one project could match a write operation, ask the user which project they mean.
+- Created issues should be short and not include any context/advice/references aside from what was directly mentioned in the thread.
 
 ## Team 581 conventions
 
