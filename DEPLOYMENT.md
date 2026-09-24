@@ -18,7 +18,7 @@
    - Set `JUNIOR_DATABASE_DRIVER=postgres`.
    - Set `JUNIOR_BASE_URL` to Bolt's stable production origin.
    - Generate independent, stable values for `JUNIOR_SECRET` and `CRON_SECRET`.
-   - Keep `VERCEL_SANDBOX_KEEPALIVE_MS=900000` and `VERCEL_SANDBOX_WORKSPACE_DIR=/workspace`.
+   - Keep `VERCEL_SANDBOX_KEEPALIVE_MS=0` and `VERCEL_SANDBOX_WORKSPACE_DIR=/workspace`.
    - Reuse the existing bucket-scoped read-only `GCS_SERVICE_ACCOUNT_KEY` and GitHub App credentials.
    - Configure Dashboard Google OAuth credentials and allow the production origin as an OAuth redirect/trusted origin.
 5. Deploy. Vercel runs Junior's SQL upgrade against the new database, prepares the sandbox snapshot, and builds Nitro.
