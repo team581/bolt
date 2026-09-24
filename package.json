@@ -24,7 +24,7 @@
 		"h3": "2.0.1-rc.32"
 	},
 	"devDependencies": {
-		"@sentry/nitro": "10.75.2",
+		"@sentry/nitro": "11.0.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.13.6",
 		"cross-env": "10.1.0",
