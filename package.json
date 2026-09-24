@@ -5,12 +5,12 @@
 	"type": "module",
 	"scripts": {
 		"build": "nitro build",
-		"build:release": "cross-env JUNIOR_STATE_ADAPTER=redis junior snapshot create && nitro build",
+		"build:release": "JUNIOR_STATE_ADAPTER=redis junior snapshot create && nitro build",
 		"check:junior": "junior check",
-		"dev": "cross-env NODE_OPTIONS=--import=./instrument.mjs nitro dev",
+		"dev": "NODE_OPTIONS=--import=./instrument.mjs nitro dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
 		"prepare": "vp config",
-		"preview": "cross-env NODE_ENV=development NODE_OPTIONS=--import=./instrument.mjs nitro preview",
+		"preview": "NODE_ENV=development NODE_OPTIONS=--import=./instrument.mjs nitro preview",
 		"slack:socket": "node scripts/slack-socket.ts"
 	},
 	"dependencies": {
@@ -27,7 +27,6 @@
 		"@sentry/nitro": "10.75.2",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.13.6",
-		"cross-env": "10.1.0",
 		"handlebars": "4.7.9",
 		"nitro": "3.0.260522-beta",
 		"railway": "3.11.0",
