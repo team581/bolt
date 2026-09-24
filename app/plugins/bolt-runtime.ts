@@ -5,7 +5,6 @@ import { createGitHubInstallationToken } from "../../src/github-app.ts";
 const FETCH_BUCKET = "fetch_storage";
 const GCSFUSE_VERSION = "3.11.2";
 const GCS_KEY_PATH = "/tmp/bolt-fetch-service-account.json";
-const MISE_PACKSLIP_VERSION = "2026.9.12";
 const OWLET_PACKAGE = "packslip:github.com/jonahsnider/ctre-packslip/owlet@26.3.0";
 const REPOSITORY_URL = "https://github.com/team581/offseason-2026.git";
 
@@ -110,12 +109,10 @@ const installGcsfuse = [
 
 const installOwlet = [
 	"set -eu",
-	"if ! mise backends ls | grep -qx packslip; then",
-	`  mise self-update ${MISE_PACKSLIP_VERSION} --yes --no-plugins`,
-	"fi",
-	`mise install "${OWLET_PACKAGE}"`,
-	`owlet_root="$(mise where "${OWLET_PACKAGE}")"`,
-	'ln -sfn "$owlet_root/.mise-bins/owlet" /usr/local/bin/owlet',
+	"curl -fsSL https://mise.run | sh",
+	`"$HOME/.local/bin/mise" install "${OWLET_PACKAGE}"`,
+	`owlet_root="$("$HOME/.local/bin/mise" where "${OWLET_PACKAGE}")"`,
+	'install -D -m 0755 "$owlet_root/.mise-bins/owlet" /usr/local/bin/owlet',
 	"/usr/local/bin/owlet --version",
 ].join("\n");
 
