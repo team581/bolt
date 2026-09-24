@@ -5,7 +5,7 @@ import { createGitHubInstallationToken } from "../../src/github-app.ts";
 const FETCH_BUCKET = "fetch_storage";
 const GCSFUSE_VERSION = "3.11.2";
 const GCS_KEY_PATH = "/tmp/bolt-fetch-service-account.json";
-const OWLET_PACKAGE = "packslip:github.com/jonahsnider/ctre-packslip/owlet@26.3.0";
+const OWLET_VERSION = "26.3.0";
 const REPOSITORY_URL = "https://github.com/team581/offseason-2026.git";
 
 type RuntimeConfig = Pick<typeof config, "GCS_SERVICE_ACCOUNT_KEY" | "GITHUB_APP_BOT_EMAIL" | "GITHUB_APP_BOT_NAME">;
@@ -109,10 +109,16 @@ const installGcsfuse = [
 
 const installOwlet = [
 	"set -eu",
-	"curl -fsSL https://mise.run | sh",
-	`"$HOME/.local/bin/mise" install "${OWLET_PACKAGE}"`,
-	`owlet_root="$("$HOME/.local/bin/mise" where "${OWLET_PACKAGE}")"`,
-	'install -D -m 0755 "$owlet_root/.mise-bins/owlet" /usr/local/bin/owlet',
+	'case "$(uname -m)" in',
+	'  x86_64) asset="linuxx86-64"; sha256="71fd0e9800375def86dc843b434434046793e3f25cf3a851c6b4c904a6a26461" ;;',
+	'  aarch64) asset="linuxarm64"; sha256="a7ad445abcd043f8868791e660cbdbb4dd0e10e5be6cb52fa37d2f1280d20564" ;;',
+	'  *) echo "unsupported Owlet architecture: $(uname -m)" >&2; exit 1 ;;',
+	"esac",
+	'tmp="$(mktemp)"',
+	"trap 'rm -f \"$tmp\"' EXIT",
+	`curl --fail --location --silent --show-error "https://redist.ctr-electronics.com/tools/owlet/${OWLET_VERSION}/owlet-${OWLET_VERSION}-\${asset}" --output "$tmp"`,
+	'echo "${sha256}  ${tmp}" | sha256sum --check --status',
+	'install -D -m 0755 "$tmp" /usr/local/bin/owlet',
 	"/usr/local/bin/owlet --version",
 ].join("\n");
 
