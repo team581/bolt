@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "nitro build",
-		"build:release": "junior snapshot create && nitro build",
+		"build:release": "cross-env JUNIOR_STATE_ADAPTER=redis junior snapshot create && nitro build",
 		"check:junior": "junior check",
 		"dev": "cross-env NODE_OPTIONS=--import=./instrument.mjs nitro dev",
 		"generate:prompts": "node scripts/generate-prompts.ts",
