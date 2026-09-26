@@ -16,9 +16,9 @@
 	"dependencies": {
 		"@octokit/auth-app": "8.3.1",
 		"@octokit/request": "10.0.16",
-		"@sentry/junior": "0.224.0",
-		"@sentry/junior-dashboard": "0.224.0",
-		"@sentry/junior-plugin-api": "0.224.0",
+		"@sentry/junior": "0.226.0",
+		"@sentry/junior-dashboard": "0.226.0",
+		"@sentry/junior-plugin-api": "0.226.0",
 		"@slack/socket-mode": "3.0.1",
 		"envalid": "8.2.0",
 		"h3": "2.0.1-rc.32"
