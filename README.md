@@ -37,4 +37,4 @@ vp run build:release
 - Sandbox setup: [`app/plugins/bolt-runtime.ts`](./app/plugins/bolt-runtime.ts)
 - Production rollout: [`DEPLOYMENT.md`](./DEPLOYMENT.md)
 
-The sandbox plugin installs Java 21, GitHub CLI, `jq`, and Cloud Storage FUSE into Junior's snapshot. It maintains `/workspace/offseason-2026`, mounts `fetch_storage` read-only at `/workspace/fetch`, and injects a fresh GitHub App installation token into each Bash command. Junior does not inspect or restrict those GitHub commands.
+The sandbox plugin installs Java 21, GitHub CLI, `jq`, Cloud Storage FUSE, and `wpilog-parser` (including its `wpilog` CLI) into Junior's snapshot. It maintains `/workspace/offseason-2026`, mounts `fetch_storage` read-only at `/workspace/fetch`, and injects a fresh GitHub App installation token into each Bash command. Junior does not inspect or restrict those GitHub commands.

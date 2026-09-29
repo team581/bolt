@@ -152,6 +152,7 @@ export function boltRuntimePlugin() {
 			runtimePostinstall: [
 				{ args: ["-c", installGcsfuse], cmd: "sh", sudo: true },
 				{ args: ["-c", installOwlet], cmd: "sh", sudo: true },
+				{ args: ["add", "--global", "wpilog-parser"], cmd: "pnpm" },
 				{ args: ["-c", warmRepository], cmd: "sh" },
 			],
 		},
