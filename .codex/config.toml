@@ -7,6 +7,5 @@ url = "https://mcp.sentry.dev/mcp/team581/bolt"
 command = "railway"
 args = ["mcp"]
 
-[mcp_servers.daytona]
-command = "daytona"
-args = ["mcp", "start"]
+[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
