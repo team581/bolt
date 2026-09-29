@@ -18,6 +18,16 @@ jobs:
         uses: voidzero-dev/setup-vp@v1.21.1
         with:
           cache: true
+      - name: Update WPILOG analysis skill
+        run: |
+          skill_dir="$(mktemp -d)"
+          skills_cli="$PWD/node_modules/.bin/skills"
+          git -C "$skill_dir" init --quiet
+          (
+            cd "$skill_dir"
+            "$skills_cli" add jonahsnider/wpilog-parser --skill analyze-wpilog --agent codex --copy --yes
+          )
+          cp "$skill_dir/.agents/skills/analyze-wpilog/SKILL.md" app/skills/analyze-wpilog/SKILL.md
       - name: Generate GitHub App installation token
         id: app-token
         uses: actions/create-github-app-token@v3
