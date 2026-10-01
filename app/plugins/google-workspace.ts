@@ -58,7 +58,7 @@ async function createGoogleWorkspaceAccessToken(): Promise<string> {
 		scopes: SCOPES,
 	});
 	const { token } = await client.getAccessToken();
-	if (token === null || token === undefined || token === "")
+	if (typeof token !== "string" || token === "")
 		throw new Error("Google Workspace service account returned no access token");
 	return token;
 }
