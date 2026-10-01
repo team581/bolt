@@ -16,7 +16,7 @@
 4. Configure the variables documented in `.env.example` in the Vercel Production environment.
    - Use Railway's public `DATABASE_URL` and `REDIS_URL`.
    - Set `JUNIOR_DATABASE_DRIVER=postgres`.
-   - Set `JUNIOR_BASE_URL` to Bolt's stable production origin.
+   - Set `JUNIOR_BASE_URL` to Bolt's stable production origin, `https://bolt.frc581.com`.
    - Generate independent, stable values for `JUNIOR_SECRET` and `CRON_SECRET`.
    - Keep `VERCEL_SANDBOX_KEEPALIVE_MS=0` and `VERCEL_SANDBOX_WORKSPACE_DIR=/workspace`.
    - Reuse the existing bucket-scoped read-only `GCS_SERVICE_ACCOUNT_KEY` and GitHub App credentials.
