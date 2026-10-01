@@ -9,7 +9,8 @@
 	// - h3: Nitro's HTTP engine, bundled at runtime and pinned via traceDeps in nitro.config.ts
 	// - @sentry/junior-dashboard: dashboard assets served by the juniorNitro module
 	// - railway: CLI/IaC SDK imported by .railway/railway.ts; fallow does not traverse hidden directories
-	"ignoreDependencies": ["@sentry/junior-dashboard", "h3", "railway"],
+	// - skills: CLI invoked from node_modules/.bin in .github/workflows/autofix.yml
+	"ignoreDependencies": ["@sentry/junior-dashboard", "h3", "railway", "skills"],
 	// Railway IaC lives in a hidden directory that fallow does not traverse.
 	"ignorePatterns": [".railway/**"],
 	"ignoreDependencyOverrides": [{ "package": "vitest", "source": "pnpm-workspace.yaml" }],
