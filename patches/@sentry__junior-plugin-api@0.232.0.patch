@@ -1,0 +1,17 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 6562f03715b3da74d6d6f4b8924a923115299cff..5457a8fe18cfe1762f60f9ce7949fa6b56875b13 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -2164,6 +2164,12 @@ interface PluginHooks {
+         objectAnnotations: ObjectAnnotation[];
+     } | void;
+     grantForEgress?(ctx: EgressHookContext): Promise<PluginGrant | undefined> | PluginGrant | undefined;
++    /** Return a bearer token for this plugin's hosted MCP server instead of per-actor OAuth. */
++    mcpAccessToken?(ctx: {
++        plugin: {
++            name: string;
++        };
++    }): Promise<string> | string;
+     heartbeat?(ctx: HeartbeatHookContext): Promise<HeartbeatResult | void> | HeartbeatResult | void;
+     unfinishedWork?(ctx: UnfinishedWorkHookContext): Promise<UnfinishedWorkResult> | UnfinishedWorkResult;
+     issueCredential?(ctx: IssueCredentialHookContext): Promise<PluginCredentialResult> | PluginCredentialResult;

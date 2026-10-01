@@ -1,0 +1,45 @@
+diff --git a/dist/agent-runner-D_FVvrwA.js b/dist/agent-runner-D_FVvrwA.js
+index 9fcc6641ba64b02ce6dd723981ef31a4451d7fef..d51aa8d8f12c15e88ef294cb6e29fcc131da64a8 100644
+--- a/dist/agent-runner-D_FVvrwA.js
++++ b/dist/agent-runner-D_FVvrwA.js
+@@ -18693,6 +18693,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
+ 		super("mcp", provider, providerDisplayName, disposition, requestText);
+ 	}
+ };
++/** Bot auth: the plugin's `mcpAccessToken` hook returns a bearer token for every MCP request. */
++function createHookTokenMcpClientProvider(provider, hook) {
++	const nonInteractive = () => {
++		throw new Error(`Plugin "${provider}" MCP access token hook auth is non-interactive`);
++	};
++	return {
++		redirectUrl: void 0,
++		clientMetadata: {
++			client_name: provider,
++			redirect_uris: []
++		},
++		clientInformation: () => void 0,
++		tokens: async () => ({
++			access_token: await hook({ plugin: { name: provider } }),
++			token_type: "Bearer"
++		}),
++		saveTokens: () => {},
++		redirectToAuthorization: nonInteractive,
++		saveCodeVerifier: nonInteractive,
++		codeVerifier: nonInteractive
++	};
++}
+ /** Create MCP authorization orchestration for a single agent run. */
+ function createMcpAuthOrchestration(input) {
+ 	let pendingPause;
+@@ -18700,6 +18722,11 @@ function createMcpAuthOrchestration(input) {
+ 	const botAuthProviders = /* @__PURE__ */ new Set();
+ 	const authProviderFactory = async (plugin) => {
+ 		const mcp = plugin.manifest.mcp;
++		const mcpAccessToken = pluginFor(plugin.manifest.name)?.hooks?.mcpAccessToken;
++		if (mcpAccessToken) {
++			botAuthProviders.add(plugin.manifest.name);
++			return createHookTokenMcpClientProvider(plugin.manifest.name, mcpAccessToken);
++		}
+ 		if (mcp?.auth) {
+ 			botAuthProviders.add(plugin.manifest.name);
+ 			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);

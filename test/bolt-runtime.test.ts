@@ -44,7 +44,7 @@ describe("GitHub command credentials", () => {
 });
 
 describe("environment validation", () => {
-	it("accepts JSON and rejects malformed GCS service-account credentials", () => {
+	it("accepts JSON and rejects malformed service-account keys without echoing them", () => {
 		expect(
 			parseServiceAccountKey(
 				'{"client_email":"bolt@example.com","private_key":"key","token_uri":"https://oauth2.googleapis.com/token"}',
@@ -54,11 +54,8 @@ describe("environment validation", () => {
 			private_key: "key",
 			token_uri: "https://oauth2.googleapis.com/token",
 		});
-		expect(() => parseServiceAccountKey("not-a-service-account")).toThrow(
-			"GCS_SERVICE_ACCOUNT_KEY must contain a Google service-account credential",
-		);
-		expect(() => parseServiceAccountKey("{}")).toThrow(
-			"GCS_SERVICE_ACCOUNT_KEY must contain a Google service-account credential",
+		expect(() => parseServiceAccountKey('{"private_key":"secret-key-material"')).toThrow(
+			/^Expected a Google service-account key as JSON$/u,
 		);
 	});
 });

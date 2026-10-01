@@ -33,6 +33,7 @@ jobs:
       GITHUB_APP_PRIVATE_KEY: ci-github-private-key
       GOOGLE_CLIENT_ID: ci-google-client-id
       GOOGLE_CLIENT_SECRET: ci-google-client-secret
+      GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY: '{"client_email":"bolt-drive-reader@example.com","private_key":"ci-private-key","token_uri":"https://oauth2.googleapis.com/token"}'
       JUNIOR_BASE_URL: https://bolt.example.com
       JUNIOR_DATABASE_DRIVER: postgres
       JUNIOR_SECRET: ci-junior-secret

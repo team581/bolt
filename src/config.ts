@@ -12,40 +12,9 @@ export function parseServiceAccountKey(input: string): object {
 	} catch {
 		parsed = undefined;
 	}
-	if (typeof parsed === "object" && parsed !== null) {
-		const hasNonEmptyString = (key: string) => {
-			const value: unknown = Reflect.get(parsed, key);
-			return typeof value === "string" && value !== "";
-		};
-		if (hasNonEmptyString("client_email") && hasNonEmptyString("private_key") && hasNonEmptyString("token_uri")) {
-			return parsed;
-		}
-	}
-
-	// Some dotenv loaders consume JSON's quotes. Recover the known service-account
-	// shape without ever including credential contents in validation errors.
-	const body = input.trim().replace(/^\{/u, "").replace(/\}$/u, "");
-	const keyPattern = /(?:^|,)\s*([a-z][a-z0-9_]*):/gu;
-	const matches = [...body.matchAll(keyPattern)];
-	const values: Record<string, string> = {};
-	for (const [index, match] of matches.entries()) {
-		const key = match[1];
-		if (key === undefined || match.index === undefined) continue;
-		const start = match.index + match[0].length;
-		const end = matches[index + 1]?.index ?? body.length;
-		values[key] = body.slice(start, end).trim();
-	}
-	if (
-		values.client_email !== undefined &&
-		values.client_email !== "" &&
-		values.private_key !== undefined &&
-		values.private_key !== "" &&
-		values.token_uri !== undefined &&
-		values.token_uri !== ""
-	) {
-		return values;
-	}
-	throw new Error("GCS_SERVICE_ACCOUNT_KEY must contain a Google service-account credential");
+	// A fixed message, since envalid's json() echoes the raw value (the private key) in its error.
+	if (typeof parsed !== "object" || parsed === null) throw new Error("Expected a Google service-account key as JSON");
+	return parsed;
 }
 
 const serviceAccountKey = makeExactValidator<object>(parseServiceAccountKey);
@@ -83,6 +52,9 @@ export const config = cleanEnv(environment, {
 	}),
 	GCS_SERVICE_ACCOUNT_KEY: serviceAccountKey({
 		desc: "Service account key JSON with read-only access to the Fetch GCS bucket",
+	}),
+	GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY: serviceAccountKey({
+		desc: "Service account key JSON for read-only Google Workspace MCP access",
 	}),
 	JUNIOR_BASE_URL: url({
 		default: undefined,

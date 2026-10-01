@@ -38,6 +38,8 @@ export default defineConfig({
 			GITHUB_INSTALLATION_ID: "12345",
 			GCS_SERVICE_ACCOUNT_KEY:
 				'{"client_email":"bolt@example.iam.gserviceaccount.com","private_key":"test-private-key","project_id":"test-gcs-project","token_uri":"https://oauth2.googleapis.com/token"}',
+			GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY:
+				'{"client_email":"bolt-drive-reader@example.iam.gserviceaccount.com","private_key":"test-private-key","token_uri":"https://oauth2.googleapis.com/token"}',
 			NODE_ENV: "test",
 		},
 		include: ["test/**/*.test.ts"],

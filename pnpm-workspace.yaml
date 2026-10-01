@@ -23,3 +23,6 @@ minimumReleaseAgeExclude:
   - "@sentry/junior"
   - "@sentry/junior-dashboard"
   - "@sentry/junior-plugin-api"
+patchedDependencies:
+  "@sentry/junior-plugin-api@0.232.0": patches/@sentry__junior-plugin-api@0.232.0.patch
+  "@sentry/junior@0.232.0": patches/@sentry__junior@0.232.0.patch
