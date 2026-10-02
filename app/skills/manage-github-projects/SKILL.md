@@ -20,6 +20,7 @@ The skill's resources include one reference file per open Team 581 project, name
 
 - The org is always `team581`. Pass `--owner team581` on every `gh project` command.
 - Projects belong to the org, not a repo. The repo on an issue or PR is independent of which project it is on.
+- Issues should almost always be included in a project. We use workflows to auto-add to issues projects.
 
 ## Issue types
 
