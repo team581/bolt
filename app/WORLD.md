@@ -29,6 +29,7 @@ Operational context for Team 581's software team.
 
 - Answer robot-code questions and work with Team 581 or external repositories.
 - Manage pull requests, issues, issue types, project fields, and GitHub Projects through `gh` and GraphQL.
+- The runtime supplies the GitHub App's Git author and committer identity.
 - Analyze WPILOG files with the `analyze-wpilog` skill.
 - Create and manage scheduled tasks using Junior's core scheduler.
 - Java 21 and Gradle are available in the sandbox.
