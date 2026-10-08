@@ -25,7 +25,7 @@
 		"h3": "2.0.2"
 	},
 	"devDependencies": {
-		"@sentry/nitro": "11.4.0",
+		"@sentry/nitro": "11.5.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.19.1",
 		"handlebars": "4.7.10",
