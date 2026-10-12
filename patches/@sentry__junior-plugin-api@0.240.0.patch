@@ -1,10 +1,10 @@
 diff --git a/dist/index.d.ts b/dist/index.d.ts
-index 6562f03715b3da74d6d6f4b8924a923115299cff..5457a8fe18cfe1762f60f9ce7949fa6b56875b13 100644
+index cb5d92a..fde37b9 100644
 --- a/dist/index.d.ts
 +++ b/dist/index.d.ts
-@@ -2164,6 +2164,12 @@ interface PluginHooks {
-         objectAnnotations: ObjectAnnotation[];
-     } | void;
+@@ -2223,6 +2223,12 @@ interface PluginHooks {
+      * return undefined to use those credentials for this request.
+      */
      grantForEgress?(ctx: EgressHookContext): Promise<PluginGrant | undefined> | PluginGrant | undefined;
 +    /** Return a bearer token for this plugin's hosted MCP server instead of per-actor OAuth. */
 +    mcpAccessToken?(ctx: {
