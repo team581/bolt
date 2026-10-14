@@ -224,8 +224,8 @@ importers:
         specifier: 3.0.260522-beta
         version: 3.0.260522-beta(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.0))(dotenv@17.4.2)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(kysely@0.29.5)(pg@8.23.0)(sql.js@1.14.2))(jiti@2.7.0)(rollup@4.62.4)
       railway:
-        specifier: 3.13.1
-        version: 3.13.1
+        specifier: 3.15.0
+        version: 3.15.0
       skills:
         specifier: 1.7.2
         version: 1.7.2
@@ -4312,8 +4312,8 @@ packages:
     resolution: {integrity: sha512-So0Sqw869y/S2oE3Nuc0uT3Dhqgvsj8FSrwBdsuTosVsG8ME5/OcudU1GxsrIFdFABgy17GHnTVO9TYV/bLQcA==}
     engines: {node: '>=16.0.0'}
 
-  railway@3.13.1:
-    resolution: {integrity: sha512-kfWBPCfHwLZthD5aFqIXODZTRKS0bJ2D19ibDdPOulinFly1Csdg+O24GrYfn3Z16+zARJxOADoVxn4czmjKCw==}
+  railway@3.15.0:
+    resolution: {integrity: sha512-GepNfVL/ht0I8LCYLeSXk6FUtzGf63+3FZ/JRmgepthqN3rCgTtQNndQti7LRiPHX7i4Rd5KfZv9y3S0OXx1LQ==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -8855,7 +8855,7 @@ snapshots:
       '@jitl/quickjs-wasmfile-release-sync': 0.32.0
       quickjs-emscripten-core: 0.32.0
 
-  railway@3.13.1:
+  railway@3.15.0:
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.2)
       graphql: 16.14.2
