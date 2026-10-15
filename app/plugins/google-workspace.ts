@@ -16,7 +16,7 @@ const toolsByServer: Record<string, string[]> = toolSnapshot;
 let client: JWT | undefined;
 
 async function createGoogleWorkspaceAccessToken(): Promise<string> {
-	const serviceAccount = config.GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY;
+	const serviceAccount = config.GOOGLE_SERVICE_ACCOUNT_KEY;
 	// google-auth-library caches the token and refreshes it before it expires.
 	client ??= new JWT({
 		email: String(Reflect.get(serviceAccount, "client_email")),

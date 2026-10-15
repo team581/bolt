@@ -53,8 +53,8 @@ export const config = cleanEnv(environment, {
 	GCS_SERVICE_ACCOUNT_KEY: serviceAccountKey({
 		desc: "Service account key JSON with read-only access to the Fetch GCS bucket",
 	}),
-	GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY: serviceAccountKey({
-		desc: "Service account key JSON for read-only Google Workspace MCP access",
+	GOOGLE_SERVICE_ACCOUNT_KEY: serviceAccountKey({
+		desc: "Server-side service account key JSON for Google Workspace access",
 	}),
 	JUNIOR_BASE_URL: url({
 		default: undefined,
