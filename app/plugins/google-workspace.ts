@@ -1,6 +1,8 @@
 import { defineJuniorPlugin } from "@sentry/junior-plugin-api";
 import { JWT } from "google-auth-library";
 import { config } from "../../src/config.ts";
+import { GOOGLE_WORKSPACE_SERVERS } from "../../src/google-workspace-servers.ts";
+import toolSnapshot from "./google-workspace-tools.json" with { type: "json" };
 
 const SCOPES = [
 	"https://www.googleapis.com/auth/drive.readonly",
@@ -9,43 +11,7 @@ const SCOPES = [
 	"https://www.googleapis.com/auth/presentations.readonly",
 ];
 
-const SERVERS = [
-	{
-		allowedTools: [
-			"search_files",
-			"list_recent_files",
-			"get_file_metadata",
-			"get_file_permissions",
-			"read_file_content",
-			"download_file_content",
-		],
-		description: "Read-only Google Drive search, metadata, and file content",
-		displayName: "Google Drive",
-		name: "google-drive",
-		url: "https://drivemcp.googleapis.com/mcp/v1",
-	},
-	{
-		allowedTools: ["read_doc"],
-		description: "Read-only Google Docs content",
-		displayName: "Google Docs",
-		name: "google-docs",
-		url: "https://docsmcp.googleapis.com/mcp/v1",
-	},
-	{
-		allowedTools: ["get_values", "get_spreadsheet"],
-		description: "Read-only Google Sheets values and spreadsheet content",
-		displayName: "Google Sheets",
-		name: "google-sheets",
-		url: "https://sheetsmcp.googleapis.com/mcp/v1",
-	},
-	{
-		allowedTools: ["read_presentation", "read_slide_page", "read_slide_page_thumbnail"],
-		description: "Read-only Google Slides presentation content",
-		displayName: "Google Slides",
-		name: "google-slides",
-		url: "https://slidesmcp.googleapis.com/mcp/v1",
-	},
-];
+const toolsByServer: Record<string, string[]> = toolSnapshot;
 
 let client: JWT | undefined;
 
@@ -64,7 +30,11 @@ async function createGoogleWorkspaceAccessToken(): Promise<string> {
 }
 
 export function googleWorkspacePlugins() {
-	return SERVERS.map(({ allowedTools, url, ...manifest }) => {
+	return GOOGLE_WORKSPACE_SERVERS.map(({ url, ...manifest }) => {
+		const allowedTools = toolsByServer[manifest.name];
+		if (allowedTools === undefined || allowedTools.length === 0) {
+			throw new Error(`Missing read-only Google Workspace tools for ${manifest.name}`);
+		}
 		return defineJuniorPlugin({
 			// `mcpAccessToken` comes from the @sentry/junior and @sentry/junior-plugin-api patches in patches/.
 			hooks: { mcpAccessToken: createGoogleWorkspaceAccessToken },

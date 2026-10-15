@@ -18,6 +18,8 @@ jobs:
         uses: voidzero-dev/setup-vp@v1.21.2
         with:
           cache: true
+      - name: Regenerate Google Workspace tool snapshot
+        run: vp run generate:google-workspace-tools
       - name: Update WPILOG analysis skill
         run: |
           skill_dir="$(mktemp -d)"
