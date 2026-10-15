@@ -11,6 +11,29 @@ export async function createGitHubInstallationToken(): Promise<string> {
 	const authentication = await auth({
 		type: "installation",
 		refresh: true,
+		// Explicit permissions keep membership writes out of the sandbox token.
+		permissions: {
+			actions: "write",
+			contents: "write",
+			issue_fields: "read",
+			issue_types: "read",
+			issues: "write",
+			members: "read",
+			metadata: "read",
+			organization_projects: "write",
+			pull_requests: "write",
+			repository_projects: "write",
+			workflows: "write",
+		},
+	});
+	return authentication.token;
+}
+
+export async function createGitHubMembershipToken(): Promise<string> {
+	const authentication = await auth({
+		type: "installation",
+		permissions: { members: "write" },
+		refresh: true,
 	});
 	return authentication.token;
 }

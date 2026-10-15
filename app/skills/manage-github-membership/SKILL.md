@@ -9,14 +9,13 @@ license: MIT
 - Organization: `team581`
   - Team `students` for students
   - Team `coaches` for coaches
-  - Use these slugs for `TEAM_SLUG` below
-- Check membership: `gh api orgs/team581/memberships/USERNAME` or `gh api orgs/team581/teams/TEAM_SLUG/memberships/USERNAME`
-- Invite to the organization: `gh api --method PUT orgs/team581/memberships/USERNAME -f role=member`
-- Add to a team: `gh api --method PUT orgs/team581/teams/TEAM_SLUG/memberships/USERNAME -f role=member`
+- Check organization membership: `gh api orgs/team581/memberships/USERNAME`
+- Read either team (`TEAM_SLUG` is `students` or `coaches`): `gh api --paginate orgs/team581/teams/TEAM_SLUG/members` or `gh api orgs/team581/teams/TEAM_SLUG/memberships/USERNAME`
+- Add a student: call `githubMembership_add_student` with their GitHub `username`
   - This also invites non-members to the organization; `pending` means they must accept
-- Remove from a team: `gh api --method DELETE orgs/team581/teams/TEAM_SLUG/memberships/USERNAME`
+- Remove a student: call `githubMembership_remove_student` with their GitHub `username`
   - Does not change organization membership
-- Remove from the organization or cancel a pending invitation: `gh api --method DELETE orgs/team581/memberships/USERNAME`
+- Coach team is read-only and will need to be manually updated if needed
 
 ## Workflow
 
