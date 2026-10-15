@@ -1,13 +1,22 @@
 #:schema https://pitchfork.jdx.dev/schema.json
 
+[daemons.dev]
+run = "vp exec junior upgrade && exec vp run dev"
+depends = ["postgres", "redis"]
+env = { NODE_ENV = "development" }
+port = { expect = [3000], bump = 10 }
+ready_cmd = { run = "curl -fsS -o /dev/null http://127.0.0.1:$PORT/", timeout = "60s" }
+
 [daemons.postgres]
 run = "docker compose up postgres"
 auto = ["start", "stop"]
-ready_output = "database system is ready to accept connections"
+ready_cmd = ["docker", "compose", "exec", "-T", "postgres", "pg_isready", "-U", "bolt", "-d", "bolt"]
 port = 5432
+proxy = false
 
 [daemons.redis]
 run = "docker compose up redis"
 auto = ["start", "stop"]
-ready_output = "Ready to accept connections"
+ready_cmd = ["docker", "compose", "exec", "-T", "redis", "redis-cli", "ping"]
 port = 6379
+proxy = false

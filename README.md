@@ -9,7 +9,7 @@ Junior owns Slack ingestion, durable conversations, scheduled tasks, attachments
 1. Install Docker and the mise tools with `mise install`.
 2. Run `vp install`.
 3. Copy `.env.example` to `.env.local` and fill in the required Slack, Junior, Google OAuth, GitHub App, GCS, and AI Gateway values.
-4. Run `mise run dev`. Pitchfork starts local Postgres and Redis, Junior applies its SQL migrations, and Nitro starts on port 3000.
+4. Run `mise run dev`. Pitchfork starts local Postgres and Redis, Junior applies its SQL migrations, and Nitro starts in the background on the first available port from 3000 through 3010. Use `pitchfork logs dev --tail` to follow logs and `pitchfork stop dev` to stop it.
 5. Enable Socket Mode on the test Slack app and create an app-level token with `connections:write`.
 6. In a second terminal, run `mise run slack:socket`. The listener forwards Slack events to Junior at `JUNIOR_BASE_URL`, which defaults to `http://localhost:3000`.
 

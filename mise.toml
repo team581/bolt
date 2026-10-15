@@ -25,8 +25,7 @@ hide = true
 
 [tasks.dev]
 description = "Start Bolt's development server"
-depends = ["postgres", "redis"]
-run = "vp exec junior upgrade && vp run dev"
+run = "pitchfork start dev"
 raw = true
 
 [tasks.dev.env]
