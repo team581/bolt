@@ -10,6 +10,7 @@ const dashboard = {
 const config = defineConfig({
 	modules: [juniorNitro({ dashboard, plugins: "./plugins" })],
 	preset: "vercel",
+	vercel: { skewProtection: false },
 	routes: { "/**": { handler: "./server.ts" } },
 	traceDeps: ["h3"],
 });
