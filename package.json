@@ -28,7 +28,7 @@
 		"zod": "4.5.4"
 	},
 	"devDependencies": {
-		"@modelcontextprotocol/sdk": "1.31.0",
+		"@modelcontextprotocol/sdk": "1.32.1",
 		"@sentry/nitro": "11.7.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.19.2",
