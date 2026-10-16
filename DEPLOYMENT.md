@@ -25,6 +25,18 @@
 
 Do not point the Slack app at the new deployment until `/health`, Dashboard sign-in, Railway connectivity, queue/cron bindings, Blob storage, and the sandbox snapshot have been verified.
 
+## Google student group membership
+
+The `google-groups` plugin uses the Cloud Identity Groups API with Bolt's existing server-side Google service account. Follow [Google's setup guide](https://docs.cloud.google.com/identity/docs/how-to/setup) for authentication without domain-wide delegation:
+
+1. Enable the Cloud Identity API in the existing Google service account's Google Cloud project.
+2. Make that service account an owner of **only** `students@team581.com`. Keep its existing read access to Workspace resources and keep a human group owner as well. Do not grant it a Workspace administrator role, domain-wide delegation, or membership in `coaches@team581.com`.
+3. Set `GOOGLE_SERVICE_ACCOUNT_KEY` to its JSON key in the server environment. When upgrading, rename `GOOGLE_WORKSPACE_SERVICE_ACCOUNT_KEY` to `GOOGLE_SERVICE_ACCOUNT_KEY`; the old variable is no longer read. Keep `GCS_SERVICE_ACCOUNT_KEY` separate because it is copied into the sandbox for the read-only Fetch mount. Do not expose the server-side Google key to the sandbox.
+4. Verify that `students@team581.com` permits external Google accounts, that regular members cannot manage membership or roles, and that this group is not nested in `coaches@team581.com` or any other privileged group.
+5. Use `googleGroups_list_students` to verify authentication before performing an explicitly requested student addition or removal.
+
+The Workspace plugins mint read-only tokens and the group plugin mints separate membership-write tokens from the same key. The group tools hardcode the student group and the `MEMBER` role. Coach changes remain manual because Bolt has no trusted mapping of Slack requesters to coach authorization. Junior's normal tool approval review also applies to student writes.
+
 ## Cutover
 
 1. Confirm the Vercel deployment is healthy and `JUNIOR_CONVERSATION_WORK_ENABLED` is not disabled.

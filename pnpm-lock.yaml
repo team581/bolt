@@ -180,6 +180,9 @@ importers:
 
   .:
     dependencies:
+      '@googleapis/cloudidentity':
+        specifier: 29.1.1
+        version: 29.1.1(supports-color@8.1.1)
       '@octokit/auth-app':
         specifier: 8.3.1
         version: 8.3.1
@@ -776,6 +779,10 @@ packages:
     peerDependenciesMeta:
       '@modelcontextprotocol/sdk':
         optional: true
+
+  '@googleapis/cloudidentity@29.1.1':
+    resolution: {integrity: sha512-UZ4FlRH8CI6AJrEJQ+azTsUn4HkplJoE+5AelhTxrxpeNxOk/yhlS+SZqEkYvleekgO+tB2Ep2rwqP+JQpFRrQ==}
+    engines: {node: '>=22.0.0'}
 
   '@graphql-typed-document-node/core@3.2.0':
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
@@ -3371,6 +3378,10 @@ packages:
     resolution: {integrity: sha512-HMhaQghlOTvbcb3c4T5jmmOMtG3JUF1iOQMezaJXL86CDS+Tm2vHd0IeLFRAx3+ewd+bo9E1HFHoy17X5aJa9A==}
     engines: {node: '>=22'}
 
+  googleapis-common@9.3.0:
+    resolution: {integrity: sha512-jgSY53R77I1zIGJ0uRx29KFQYj7pMGKWSecaOQiOeCdHu/8wHSiEWpt0G7RW2fttc+jd9pukoXbmq2VryvLxCg==}
+    engines: {node: '>=22'}
+
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
@@ -4683,6 +4694,9 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  url-template@2.0.8:
+    resolution: {integrity: sha512-XdVKMF4SJ0nP/O7XIPB0JwAEuT9lDIYnNsK8yGVe43y0AWoKeJNdv3ZNWh7ksJ6KqQFjOO6ox/VEitLnaVNufw==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -5519,6 +5533,12 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
+
+  '@googleapis/cloudidentity@29.1.1(supports-color@8.1.1)':
+    dependencies:
+      googleapis-common: 9.3.0(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
 
   '@graphql-typed-document-node/core@3.2.0(graphql@16.14.2)':
     dependencies:
@@ -7772,6 +7792,17 @@ snapshots:
 
   google-logging-utils@2.0.1: {}
 
+  googleapis-common@9.3.0(supports-color@8.1.1):
+    dependencies:
+      extend: 3.0.2
+      gaxios: 7.3.1(supports-color@8.1.1)
+      google-auth-library: 11.3.0(supports-color@8.1.1)
+      google-logging-utils: 2.0.1
+      qs: 6.15.3
+      url-template: 2.0.8
+    transitivePeerDependencies:
+      - supports-color
+
   gopd@1.2.0: {}
 
   graphql@16.14.2: {}
@@ -9355,6 +9386,8 @@ snapshots:
     dependencies:
       punycode: 2.3.1
     optional: true
+
+  url-template@2.0.8: {}
 
   util-deprecate@1.0.2:
     optional: true
