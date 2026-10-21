@@ -208,8 +208,8 @@ importers:
         specifier: 11.3.1
         version: 11.3.1(supports-color@8.1.1)
       h3:
-        specifier: 2.0.5
-        version: 2.0.5(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5)
+        specifier: 2.0.7
+        version: 2.0.7(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5)
       zod:
         specifier: 4.6.7
         version: 4.6.7
@@ -3574,8 +3574,8 @@ packages:
     resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  h3@2.0.5:
-    resolution: {integrity: sha512-AkTYaK8XhWlAAOhzEz8I6FAkhFPMrDYVq/PIV3GvJxtKiFmVyVDAAdGuNGMTHRrI3A6up3s1bND/dDPlQHlx6w==}
+  h3@2.0.7:
+    resolution: {integrity: sha512-00SVloxtViij9/JBsc/Ayd9H7GLXWB0KRfkReWG0dDwuUFKUKRrNGM3Csu+KZgppi5DD8Y1KpnfjtudWaRCoiQ==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -8141,7 +8141,7 @@ snapshots:
 
   graphql@16.14.2: {}
 
-  h3@2.0.5(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5):
+  h3@2.0.7(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5):
     dependencies:
       rou3: 1.0.0
       srvx: 1.0.6
@@ -8796,7 +8796,7 @@ snapshots:
       crossws: 0.4.12(srvx@0.11.22)
       db0: 0.3.4(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(kysely@0.29.5)(pg@8.23.0)(sql.js@1.14.2))
       env-runner: 0.1.16(@vercel/queue@0.2.1)
-      h3: 2.0.5(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5)
+      h3: 2.0.7(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5)
       hookable: 6.1.1
       nf3: 0.3.24
       ocache: 0.1.5
