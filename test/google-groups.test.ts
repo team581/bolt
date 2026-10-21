@@ -17,7 +17,10 @@ const { api, createClient, getAccessToken, config, serviceAccount } = vi.hoisted
 	};
 });
 vi.mock("../src/config.ts", () => ({ config }));
-vi.mock("@googleapis/cloudidentity", () => ({ cloudidentity: () => api }));
+vi.mock("@googleapis/cloudidentity", async () => ({
+	cloudidentity: () => api,
+	auth: await import("google-auth-library"),
+}));
 vi.mock("google-auth-library", () => ({
 	JWT: class {
 		constructor(options: unknown) {
