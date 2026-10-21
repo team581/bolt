@@ -13,5 +13,12 @@
 	"ignoreDependencies": ["@sentry/junior-dashboard", "h3", "railway", "skills"],
 	// Railway IaC lives in a hidden directory that fallow does not traverse.
 	"ignorePatterns": [".railway/**"],
+	// Google and GitHub membership tools are separate integrations imported by module path.
+	"ignoreExports": [
+		{
+			"file": "app/plugins/google-groups.ts",
+			"exports": ["createAddStudentTool", "createRemoveStudentTool"],
+		},
+	],
 	"ignoreDependencyOverrides": [{ "package": "vitest", "source": "pnpm-workspace.yaml" }],
 }
