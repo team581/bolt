@@ -40,7 +40,7 @@
 		"typescript": "7.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:",
-		"vitest": "5.0.4"
+		"vitest": "5.0.5"
 	},
 	"devEngines": {
 		"runtime": {
