@@ -1,8 +1,8 @@
-diff --git a/dist/agent-runner-0IjJxsL1.js b/dist/agent-runner-0IjJxsL1.js
-index ebc8f60..3ff60eb 100644
---- a/dist/agent-runner-0IjJxsL1.js
-+++ b/dist/agent-runner-0IjJxsL1.js
-@@ -18569,6 +18569,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
+diff --git a/dist/agent-runner-BWmnJ0dD.js b/dist/agent-runner-BWmnJ0dD.js
+index 2b02011..ed92b61 100644
+--- a/dist/agent-runner-BWmnJ0dD.js
++++ b/dist/agent-runner-BWmnJ0dD.js
+@@ -17141,6 +17141,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
  		super("mcp", provider, providerDisplayName, disposition, requestText);
  	}
  };
@@ -31,7 +31,7 @@ index ebc8f60..3ff60eb 100644
  /** Create MCP authorization orchestration for a single agent run. */
  function createMcpAuthOrchestration(input) {
  	let pendingPause;
-@@ -18576,6 +18598,11 @@ function createMcpAuthOrchestration(input) {
+@@ -17148,6 +17170,11 @@ function createMcpAuthOrchestration(input) {
  	const botAuthProviders = /* @__PURE__ */ new Set();
  	const authProviderFactory = async (plugin) => {
  		const mcp = plugin.manifest.mcp;
