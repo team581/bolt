@@ -1,5 +1,4 @@
-import { cloudidentity, type cloudidentity_v1 } from "@googleapis/cloudidentity";
-import { JWT } from "google-auth-library";
+import { auth, cloudidentity, type cloudidentity_v1 } from "@googleapis/cloudidentity";
 import { z } from "zod";
 import { config } from "./config.ts";
 
@@ -20,7 +19,7 @@ function getClient(): cloudidentity_v1.Cloudidentity {
 	// from read-only Workspace tokens. Keep the key outside the sandbox.
 	client ??= cloudidentity({
 		version: "v1",
-		auth: new JWT({
+		auth: new auth.JWT({
 			email: String(Reflect.get(serviceAccount, "client_email")),
 			key: String(Reflect.get(serviceAccount, "private_key")),
 			scopes: ["https://www.googleapis.com/auth/cloud-identity.groups"],
