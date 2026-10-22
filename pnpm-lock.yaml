@@ -227,8 +227,8 @@ importers:
         specifier: 24.19.2
         version: 24.19.2
       '@vercel/config':
-        specifier: 0.12.0
-        version: 0.12.0
+        specifier: 0.13.0
+        version: 0.13.0
       handlebars:
         specifier: 4.7.10
         version: 4.7.10
@@ -2507,8 +2507,8 @@ packages:
     resolution: {integrity: sha512-g9XerViJ/paZujufXYcu5XYI2vU2rtB4sgdpjUHde5RnOkdmpu0ngH46LCFGHoPXO/C+qDPSczIHIRN+8Q2YKQ==}
     engines: {node: '>= 18'}
 
-  '@vercel/config@0.12.0':
-    resolution: {integrity: sha512-VogSFNNBrUCbukjiZCZ6rkO52NLhv3Xspi9Rx54hTPqkVsp3v6V0M8+qdLDkducsenEEDRDPOJFXsRi9synvoA==}
+  '@vercel/config@0.13.0':
+    resolution: {integrity: sha512-Vepsfok6kmYdRYaw0kcx3+G/OnvtdbK2LYriHEbunkaAMa8QYgwZrP+OoLzl0z9LI5LlXsTkd0cmAw/SKG1K+g==}
     hasBin: true
 
   '@vercel/functions@3.9.5':
@@ -7211,7 +7211,7 @@ snapshots:
     dependencies:
       execa: 5.1.1
 
-  '@vercel/config@0.12.0':
+  '@vercel/config@0.13.0':
     dependencies:
       '@vercel/routing-utils': 6.6.0
       pretty-cache-header: 1.0.0
