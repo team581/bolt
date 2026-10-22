@@ -32,7 +32,7 @@
 		"@sentry/nitro": "11.8.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "24.19.2",
-		"@vercel/config": "0.12.0",
+		"@vercel/config": "0.13.0",
 		"handlebars": "4.7.10",
 		"nitro": "3.0.260522-beta",
 		"railway": "3.16.0",
