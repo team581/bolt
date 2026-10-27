@@ -43,3 +43,30 @@ index 98b4cb0..e8ea312 100644
  		if (mcp?.auth) {
  			botAuthProviders.add(plugin.manifest.name);
  			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);
+diff --git a/dist/client-D8HnkOQX.js b/dist/client-D8HnkOQX.js
+--- a/dist/client-D8HnkOQX.js
++++ b/dist/client-D8HnkOQX.js
+@@ -302,6 +302,23 @@
+ const GATEWAY_PROVIDER = "vercel-ai-gateway";
+ const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh";
+ const GATEWAY_MODEL_OVERRIDES = {
++	"moonshotai/kimi-k3.1-pro": {
++		id: "moonshotai/kimi-k3.1-pro",
++		name: "Kimi K3.1 Pro",
++		api: "anthropic-messages",
++		provider: GATEWAY_PROVIDER,
++		baseUrl: GATEWAY_BASE_URL,
++		reasoning: true,
++		input: ["text", "image"],
++		cost: {
++			input: 2,
++			output: 10,
++			cacheRead: .2,
++			cacheWrite: 2
++		},
++		contextWindow: 1048576,
++		maxTokens: 1048576
++	},
+ 	"anthropic/claude-opus-5.5": {
+ 		id: "anthropic/claude-opus-5.5",
+ 		name: "Claude Opus 5.5",

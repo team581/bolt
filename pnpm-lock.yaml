@@ -174,7 +174,7 @@ overrides:
 
 patchedDependencies:
   '@sentry/junior-plugin-api@0.257.0': e796cbf9378522a42d467c3f74c5ccb71c1061770d1930228a6a669ff7a6930a
-  '@sentry/junior@0.257.0': 97d1773f8846d9f9ebe87442ff2ebb698d3b07d3b35e021d33e008544e38e026
+  '@sentry/junior@0.257.0': 6e0c4f94080f74809ea14623c30b6235b50cdc261017c2217a687e11503025c6
 
 importers:
 
@@ -191,7 +191,7 @@ importers:
         version: 10.0.16
       '@sentry/junior':
         specifier: 0.257.0
-        version: 0.257.0(patch_hash=97d1773f8846d9f9ebe87442ff2ebb698d3b07d3b35e021d33e008544e38e026)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)
+        version: 0.257.0(patch_hash=6e0c4f94080f74809ea14623c30b6235b50cdc261017c2217a687e11503025c6)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)
       '@sentry/junior-dashboard':
         specifier: 0.257.0
         version: 0.257.0(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.0))(debug@4.4.3(supports-color@8.1.1))(dotenv@17.4.2)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(kysely@0.29.5)(pg@8.23.0)(sql.js@1.14.2))(jiti@2.7.0)(kysely@0.29.5)(rollup@4.62.4)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)
@@ -6397,7 +6397,7 @@ snapshots:
   '@sentry/junior-dashboard@0.257.0(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(@vercel/queue@0.2.1)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.0))(debug@4.4.3(supports-color@8.1.1))(dotenv@17.4.2)(drizzle-orm@0.45.2(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(kysely@0.29.5)(pg@8.23.0)(sql.js@1.14.2))(jiti@2.7.0)(kysely@0.29.5)(rollup@4.62.4)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)':
     dependencies:
       '@radix-ui/react-hover-card': 1.1.23(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@sentry/junior': 0.257.0(patch_hash=97d1773f8846d9f9ebe87442ff2ebb698d3b07d3b35e021d33e008544e38e026)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)
+      '@sentry/junior': 0.257.0(patch_hash=6e0c4f94080f74809ea14623c30b6235b50cdc261017c2217a687e11503025c6)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)
       '@sentry/junior-plugin-api': 0.257.0(patch_hash=e796cbf9378522a42d467c3f74c5ccb71c1061770d1930228a6a669ff7a6930a)
       '@tanstack/react-query': 5.102.8(react@19.2.8)
       hono: 4.13.1
@@ -6480,7 +6480,7 @@ snapshots:
       commander: 14.0.3
       zod: 4.6.7
 
-  '@sentry/junior@0.257.0(patch_hash=97d1773f8846d9f9ebe87442ff2ebb698d3b07d3b35e021d33e008544e38e026)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)':
+  '@sentry/junior@0.257.0(patch_hash=6e0c4f94080f74809ea14623c30b6235b50cdc261017c2217a687e11503025c6)(@aws-sdk/credential-provider-web-identity@3.972.76)(@opentelemetry/exporter-trace-otlp-http@0.221.0(@opentelemetry/api@1.9.1))(@types/node@24.19.2)(debug@4.4.3(supports-color@8.1.1))(kysely@0.29.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sql.js@1.14.2)(supports-color@8.1.1)(vitest@5.0.5)(ws@8.22.0)':
     dependencies:
       '@agentclientprotocol/sdk': 1.3.0(zod@4.6.7)
       '@ai-sdk/gateway': 3.0.188(zod@4.6.7)
