@@ -26,7 +26,7 @@ if (environment.JUNIOR_BASE_URL === undefined || environment.JUNIOR_BASE_URL.tri
 
 export const config = cleanEnv(environment, {
 	BOLT_MODEL_ID: nonEmptyString({
-		default: "alibaba/qwen3.8-max",
+		default: "moonshotai/kimi-k3.1-pro",
 		desc: "Model ID served by the Vercel AI Gateway",
 	}),
 	BOLT_REPLY_GATE_MODEL_ID: nonEmptyString({
