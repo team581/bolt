@@ -29,7 +29,6 @@
 	},
 	"devDependencies": {
 		"@modelcontextprotocol/sdk": "1.32.2",
-		"@sentry/nitro": "11.10.0",
 		"@sindresorhus/slugify": "3.0.1",
 		"@types/node": "26.6.6",
 		"@vercel/config": "0.14.1",

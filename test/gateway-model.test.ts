@@ -5,10 +5,10 @@ import { describe, expect, it } from "vitest";
 import { config } from "../src/config.ts";
 
 const require = createRequire(import.meta.url);
-// Junior 0.257.0's resolver is internal; exercise the same bundled function used by agent turns.
-const clientUrl = pathToFileURL(join(dirname(require.resolve("@sentry/junior")), "client-D8HnkOQX.js"));
-const { o: resolveGatewayModel } = (await import(clientUrl.href)) as {
-	o: (id: string) => { id: string; provider: string; reasoning: boolean; contextWindow: number };
+// Junior 0.266.0's resolver is internal; exercise the same bundled function used by agent turns.
+const clientUrl = pathToFileURL(join(dirname(require.resolve("@sentry/junior")), "client-B0YZfxNy.js"));
+const { s: resolveGatewayModel } = (await import(clientUrl.href)) as {
+	s: (id: string) => { id: string; provider: string; reasoning: boolean; contextWindow: number };
 };
 
 describe("Bolt's gateway model", () => {

@@ -1,0 +1,16 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -2444,6 +2444,12 @@
+    * return undefined to use those credentials for this request.
+    */
+   grantForEgress?(ctx: EgressHookContext): Promise<PluginGrant | undefined> | PluginGrant | undefined;
++  /** Return a bearer token for this plugin's hosted MCP server instead of per-actor OAuth. */
++  mcpAccessToken?(ctx: {
++    plugin: {
++      name: string;
++    };
++  }): Promise<string> | string;
+   heartbeat?(ctx: HeartbeatHookContext): Promise<HeartbeatResult | void> | HeartbeatResult | void;
+   unfinishedWork?(ctx: UnfinishedWorkHookContext): Promise<UnfinishedWorkResult> | UnfinishedWorkResult;
+   issueCredential?(ctx: IssueCredentialHookContext): Promise<PluginCredentialResult> | PluginCredentialResult;
