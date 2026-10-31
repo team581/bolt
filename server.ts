@@ -8,12 +8,11 @@ const [{ createApp }, { config }, { plugins }] = await Promise.all([
 	import("./plugins.ts"),
 ]);
 
-const dashboard = {
-	allowedGoogleDomains: ["team581.com"],
-	...(config.JUNIOR_BASE_URL === undefined ? {} : { trustedOrigins: [config.JUNIOR_BASE_URL] }),
-};
+const dashboard = config.JUNIOR_BASE_URL === undefined ? {} : { trustedOrigins: [config.JUNIOR_BASE_URL] };
 
 export default await createApp({
+	// The Junior runtime patch keeps Slack workspace access independent of this Dashboard allowlist.
+	allowedDomains: ["team581.com"],
 	dashboard,
 	defaultProfile: "bolt",
 	experimental: { "passive-routing": true },

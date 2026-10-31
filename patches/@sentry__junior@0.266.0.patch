@@ -1,8 +1,7 @@
-diff --git a/dist/agent-runner-D7OboVb3.js b/dist/agent-runner-D7OboVb3.js
-index 98b4cb0..e8ea312 100644
---- a/dist/agent-runner-D7OboVb3.js
-+++ b/dist/agent-runner-D7OboVb3.js
-@@ -17151,6 +17151,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
+diff --git a/dist/agent-runner-BtYK7bht.js b/dist/agent-runner-BtYK7bht.js
+--- a/dist/agent-runner-BtYK7bht.js
++++ b/dist/agent-runner-BtYK7bht.js
+@@ -15379,6 +15379,28 @@
  		super("mcp", provider, providerDisplayName, disposition, requestText);
  	}
  };
@@ -31,7 +30,7 @@ index 98b4cb0..e8ea312 100644
  /** Create MCP authorization orchestration for a single agent run. */
  function createMcpAuthOrchestration(input) {
  	let pendingPause;
-@@ -17158,6 +17180,11 @@ function createMcpAuthOrchestration(input) {
+@@ -15386,6 +15408,11 @@
  	const botAuthProviders = /* @__PURE__ */ new Set();
  	const authProviderFactory = async (plugin) => {
  		const mcp = plugin.manifest.mcp;
@@ -43,10 +42,10 @@ index 98b4cb0..e8ea312 100644
  		if (mcp?.auth) {
  			botAuthProviders.add(plugin.manifest.name);
  			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);
-diff --git a/dist/client-D8HnkOQX.js b/dist/client-D8HnkOQX.js
---- a/dist/client-D8HnkOQX.js
-+++ b/dist/client-D8HnkOQX.js
-@@ -302,6 +302,23 @@
+diff --git a/dist/client-B0YZfxNy.js b/dist/client-B0YZfxNy.js
+--- a/dist/client-B0YZfxNy.js
++++ b/dist/client-B0YZfxNy.js
+@@ -296,6 +296,23 @@
  const GATEWAY_PROVIDER = "vercel-ai-gateway";
  const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh";
  const GATEWAY_MODEL_OVERRIDES = {
@@ -70,3 +69,16 @@ diff --git a/dist/client-D8HnkOQX.js b/dist/client-D8HnkOQX.js
  	"anthropic/claude-opus-5.5": {
  		id: "anthropic/claude-opus-5.5",
  		name: "Claude Opus 5.5",
+diff --git a/dist/app.js b/dist/app.js
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -5299,7 +5299,8 @@
+ 			services: runtimeServiceOverrides
+ 		}),
+ 		allowedBotUserIds: options?.slack?.allowedBotUserIds ?? [],
+-		allowedDomains
++		// Bolt keeps Slack open to every workspace member; domains only restrict Dashboard access.
++		allowedDomains: []
+ 	};
+ 	const app = new Hono();
+ 	app.onError((err, c) => {

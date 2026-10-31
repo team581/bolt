@@ -25,6 +25,8 @@
 
 Do not point the Slack app at the new deployment until `/health`, Dashboard sign-in, Railway connectivity, queue/cron bindings, Blob storage, and the sandbox snapshot have been verified.
 
+Junior 0.266 normally shares `createApp({ allowedDomains })` between Dashboard and Slack. Bolt's Junior runtime patch keeps Slack open to every verified workspace member, including personal-email profiles, while `allowedDomains: ["team581.com"]` restricts Dashboard sign-in and authenticated APIs. Dashboard users need a Google Workspace account with the `team581.com` hosted domain. Slack webhook signatures and workspace-membership checks remain required; no `users:read.email` scope or Slack app reinstall is needed for this policy. Keep this separation when rebasing the Junior patch. Unset `JUNIOR_DASHBOARD_GOOGLE_DOMAINS` if previously configured: Junior rejects that legacy variable at startup.
+
 ## Google student group membership
 
 The `google-groups` plugin uses the Cloud Identity Groups API with Bolt's existing server-side Google service account. Follow [Google's setup guide](https://docs.cloud.google.com/identity/docs/how-to/setup) for authentication without domain-wide delegation:
