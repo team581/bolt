@@ -21,7 +21,7 @@
 		"@sentry/junior": "0.257.0",
 		"@sentry/junior-dashboard": "0.257.0",
 		"@sentry/junior-plugin-api": "0.257.0",
-		"@slack/socket-mode": "3.1.0",
+		"@slack/socket-mode": "3.1.1",
 		"envalid": "9.0.0",
 		"google-auth-library": "11.3.2",
 		"h3": "2.0.8",
