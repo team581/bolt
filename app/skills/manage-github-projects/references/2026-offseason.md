@@ -14,10 +14,11 @@ This file is generated from GitHub by `vp run generate:prompts`.
 
 ### Status options
 
-| Name             | Option ID  |
-| ---------------- | ---------- |
-| Todo             | `f75ad846` |
-| In progress      | `47fc9ee4` |
-| Ready for sim    | `300435aa` |
-| Ready for tuning | `9338b5a2` |
-| Done             | `98236657` |
+| Name        | Option ID  |
+| ----------- | ---------- |
+| Backlog     | `01b46660` |
+| Ready       | `f75ad846` |
+| In progress | `47fc9ee4` |
+| Review      | `300435aa` |
+| Test        | `9338b5a2` |
+| Done        | `98236657` |
