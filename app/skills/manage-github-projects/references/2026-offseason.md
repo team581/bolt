@@ -16,7 +16,6 @@ This file is generated from GitHub by `vp run generate:prompts`.
 
 | Name        | Option ID  |
 | ----------- | ---------- |
-| Backlog     | `01b46660` |
 | Ready       | `f75ad846` |
 | In progress | `47fc9ee4` |
 | Review      | `300435aa` |
