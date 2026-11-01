@@ -22,6 +22,7 @@ The skill's resources include one reference file per open Team 581 project, name
 - Projects belong to the org, not a repo. The repo on an issue or PR is independent of which project it is on.
 - Spot Vision, Team 581's Jetson Orin AprilTag service, is in [`team581/spot-2026`](https://github.com/team581/spot-2026).
 - Issues should almost always be included in a project. We use workflows to auto-add to issues projects.
+- When creating or editing an issue related to a spec doc, include a link to that doc in the issue body.
 
 ## Issue types
 
