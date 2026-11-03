@@ -11,7 +11,7 @@ catalog:
   vite-plus: latest
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: 5.0.5
+  vitest: 5.1.0
 peerDependencyRules:
   allowAny:
     - vite
