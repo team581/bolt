@@ -205,8 +205,8 @@ importers:
         specifier: 9.0.0
         version: 9.0.0
       google-auth-library:
-        specifier: 11.3.2
-        version: 11.3.2(supports-color@8.1.1)
+        specifier: 11.3.3
+        version: 11.3.3(supports-color@8.1.1)
       h3:
         specifier: 2.0.8
         version: 2.0.8(crossws@0.4.12(srvx@0.11.22))(ocache@0.1.5)
@@ -3284,8 +3284,8 @@ packages:
     resolution: {integrity: sha512-i1ydyHrqcIxXkWh/uBmVkzCvIuq5yiK2ATndIe5XxKholrG/MTYP9xGYka4sQhrbIAgGjL2B6NOE7rFaiF3fXw==}
     engines: {node: '>=18'}
 
-  google-auth-library@11.3.2:
-    resolution: {integrity: sha512-rbm+5boOZzFvDFg2tvCGkgHtG+RrmDqCDi6voK+ILpoCDqGxxc5pcMH6WZzCQXGNqQqZcYJl5WNvb159rkriuA==}
+  google-auth-library@11.3.3:
+    resolution: {integrity: sha512-VxjQ5+zHeR4RcRi001qnT/6KRKy2CIjQ5I7/wFErvRqr0+setlRqjDOAzvjzWEzyvsWswZE6WMQJtS8OpeTqAQ==}
     engines: {node: '>=22'}
 
   google-logging-utils@1.1.3:
@@ -7560,7 +7560,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  google-auth-library@11.3.2(supports-color@8.1.1):
+  google-auth-library@11.3.3(supports-color@8.1.1):
     dependencies:
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
@@ -7581,7 +7581,7 @@ snapshots:
     dependencies:
       extend: 3.0.2
       gaxios: 7.3.1(supports-color@8.1.1)
-      google-auth-library: 11.3.2(supports-color@8.1.1)
+      google-auth-library: 11.3.3(supports-color@8.1.1)
       google-logging-utils: 2.0.1
       qs: 6.15.3
       url-template: 2.0.8
