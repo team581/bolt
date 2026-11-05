@@ -17,7 +17,7 @@ jobs:
       - name: Checkout git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Run Fallow
-        uses: fallow-rs/fallow@v3
+        uses: fallow-rs/fallow@a6956af63dd896d6106a7d28361585e0ff1c250b # v3
 
   build:
     name: Build
