@@ -1,7 +1,16 @@
 diff --git a/dist/agent-runner-Cqr21pOU.js b/dist/agent-runner-Cqr21pOU.js
-index 14c4288..b203dc9 100644
+index 14c4288..68cf230 100644
 --- a/dist/agent-runner-Cqr21pOU.js
 +++ b/dist/agent-runner-Cqr21pOU.js
+@@ -16568,7 +16568,7 @@ function createTools(availableSkills, hooks = {}, context, options = {}) {
+ 		provider: "slack",
+ 		providerTenantId: slackContext.teamId
+ 	} : { kind: "public" }, context.conversationId, slackContext ? createSlackConversationBriefSearchPort(slackContext.teamId) : void 0);
+-	if (context.workspace.createPreview) tools.createPreview = createCreatePreviewTool(context.workspace.createPreview);
++	// Bolt does not expose public sandbox previews.
+ 	if (context.supportsImageInput) tools.viewImage = createViewImageTool(context.workspace, context.supportsImageInput, hooks.toolOverrides?.viewImage);
+ 	if (hooks.writeGeneratedArtifacts) tools.imageGenerate = createImageGenerateTool({ writeGeneratedArtifacts: hooks.writeGeneratedArtifacts }, {
+ 		modelId: botConfig.imageGenerationModelId,
 @@ -19062,6 +19062,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
  		super("mcp", provider, providerDisplayName, disposition, requestText);
  	}
