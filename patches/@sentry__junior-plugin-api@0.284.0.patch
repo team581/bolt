@@ -1,7 +1,8 @@
 diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 56a84d6..c59f249 100644
 --- a/dist/index.d.ts
 +++ b/dist/index.d.ts
-@@ -2444,6 +2444,12 @@
+@@ -2760,6 +2760,12 @@ export interface PluginHooks {
     * return undefined to use those credentials for this request.
     */
    grantForEgress?(ctx: EgressHookContext): Promise<PluginGrant | undefined> | PluginGrant | undefined;
