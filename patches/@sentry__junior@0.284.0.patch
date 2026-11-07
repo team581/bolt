@@ -1,0 +1,96 @@
+diff --git a/dist/agent-runner-Cqr21pOU.js b/dist/agent-runner-Cqr21pOU.js
+index 14c4288..68cf230 100644
+--- a/dist/agent-runner-Cqr21pOU.js
++++ b/dist/agent-runner-Cqr21pOU.js
+@@ -16568,7 +16568,7 @@ function createTools(availableSkills, hooks = {}, context, options = {}) {
+ 		provider: "slack",
+ 		providerTenantId: slackContext.teamId
+ 	} : { kind: "public" }, context.conversationId, slackContext ? createSlackConversationBriefSearchPort(slackContext.teamId) : void 0);
+-	if (context.workspace.createPreview) tools.createPreview = createCreatePreviewTool(context.workspace.createPreview);
++	// Bolt does not expose public sandbox previews.
+ 	if (context.supportsImageInput) tools.viewImage = createViewImageTool(context.workspace, context.supportsImageInput, hooks.toolOverrides?.viewImage);
+ 	if (hooks.writeGeneratedArtifacts) tools.imageGenerate = createImageGenerateTool({ writeGeneratedArtifacts: hooks.writeGeneratedArtifacts }, {
+ 		modelId: botConfig.imageGenerationModelId,
+@@ -19062,6 +19062,28 @@ var McpAuthorizationPauseError = class extends AuthorizationPauseError {
+ 		super("mcp", provider, providerDisplayName, disposition, requestText);
+ 	}
+ };
++/** Bot auth: the plugin's `mcpAccessToken` hook returns a bearer token for every MCP request. */
++function createHookTokenMcpClientProvider(provider, hook) {
++	const nonInteractive = () => {
++		throw new Error(`Plugin "${provider}" MCP access token hook auth is non-interactive`);
++	};
++	return {
++		redirectUrl: void 0,
++		clientMetadata: {
++			client_name: provider,
++			redirect_uris: []
++		},
++		clientInformation: () => void 0,
++		tokens: async () => ({
++			access_token: await hook({ plugin: { name: provider } }),
++			token_type: "Bearer"
++		}),
++		saveTokens: () => {},
++		redirectToAuthorization: nonInteractive,
++		saveCodeVerifier: nonInteractive,
++		codeVerifier: nonInteractive
++	};
++}
+ /** Create MCP authorization orchestration for a single agent run. */
+ function createMcpAuthOrchestration(input) {
+ 	let pendingPause;
+@@ -19069,6 +19091,11 @@ function createMcpAuthOrchestration(input) {
+ 	const botAuthProviders = /* @__PURE__ */ new Set();
+ 	const authProviderFactory = async (plugin) => {
+ 		const mcp = plugin.manifest.mcp;
++		const mcpAccessToken = getPlugins().find((candidate) => candidate.manifest.name === plugin.manifest.name)?.hooks?.mcpAccessToken;
++		if (mcpAccessToken) {
++			botAuthProviders.add(plugin.manifest.name);
++			return createHookTokenMcpClientProvider(plugin.manifest.name, mcpAccessToken);
++		}
+ 		if (mcp?.auth) {
+ 			botAuthProviders.add(plugin.manifest.name);
+ 			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);
+diff --git a/dist/app.js b/dist/app.js
+index 106501a..35f98ba 100644
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -7809,7 +7809,8 @@ async function createApp(options) {
+ 			services: runtimeServiceOverrides
+ 		}),
+ 		allowedBotUserIds: options?.slack?.allowedBotUserIds ?? [],
+-		allowedDomains,
++		// Bolt keeps Slack open to every workspace member; domains only restrict Dashboard access.
++		allowedDomains: [],
+ 		autoJoinNewChannels: options?.slack?.autoJoinNewChannels === true
+ 	};
+ 	const app = new Hono();
+diff --git a/dist/client-CMyH5rDz.js b/dist/client-CMyH5rDz.js
+index 4e1b409..aff0252 100644
+--- a/dist/client-CMyH5rDz.js
++++ b/dist/client-CMyH5rDz.js
+@@ -305,6 +305,23 @@ registerApiProvider({
+ const GATEWAY_PROVIDER = "vercel-ai-gateway";
+ const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh";
+ const GATEWAY_MODEL_OVERRIDES = {
++	"moonshotai/kimi-k3.1-pro": {
++		id: "moonshotai/kimi-k3.1-pro",
++		name: "Kimi K3.1 Pro",
++		api: "anthropic-messages",
++		provider: GATEWAY_PROVIDER,
++		baseUrl: GATEWAY_BASE_URL,
++		reasoning: true,
++		input: ["text", "image"],
++		cost: {
++			input: 2,
++			output: 10,
++			cacheRead: .2,
++			cacheWrite: 2
++		},
++		contextWindow: 1048576,
++		maxTokens: 1048576
++	},
+ 	"anthropic/claude-opus-5.5": {
+ 		id: "anthropic/claude-opus-5.5",
+ 		name: "Claude Opus 5.5",
