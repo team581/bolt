@@ -25,6 +25,8 @@
 
 Do not point the Slack app at the new deployment until `/health`, Dashboard sign-in, Railway connectivity, queue/cron bindings, Blob storage, and the sandbox snapshot have been verified.
 
+As a temporary Vercel Hobby mitigation, `nitro.config.ts` overrides Junior's heartbeat to `0 0 * * *` (00:00 UTC daily). The separate retention cron remains at 04:00 UTC. Scheduled tasks, timer watches, plugin heartbeat hooks, and stranded-work recovery wait for that daily tick. Junior 0.266 skips unclaimed scheduled occurrences more than 24 hours late and advances recurring schedules past the settlement time without replaying missed occurrences. Scheduled-run settlement also waits for a heartbeat, so recurring tasks can miss additional days. Live webhook ingress and normal queue processing continue independently of the heartbeat. Restore a frequent heartbeat or replace the scheduling mechanism before relying on precise task timing.
+
 Junior 0.266 normally shares `createApp({ allowedDomains })` between Dashboard and Slack. Bolt's Junior runtime patch keeps Slack open to every verified workspace member, including personal-email profiles, while `allowedDomains: ["team581.com"]` restricts Dashboard sign-in and authenticated APIs. Dashboard users need a Google Workspace account with the `team581.com` hosted domain. Slack webhook signatures and workspace-membership checks remain required; no `users:read.email` scope or Slack app reinstall is needed for this policy. Keep this separation when rebasing the Junior patch. Unset `JUNIOR_DASHBOARD_GOOGLE_DOMAINS` if previously configured: Junior rejects that legacy variable at startup.
 
 ## Google student group membership
