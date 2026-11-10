@@ -8,7 +8,14 @@ const dashboard = {
 const config = defineConfig({
 	modules: [juniorNitro({ dashboard, plugins: "./plugins" })],
 	preset: "vercel",
-	vercel: { skewProtection: false },
+	vercel: {
+		skewProtection: false,
+		config: {
+			version: 3,
+			// Temporary Vercel Hobby mitigation; scheduled work and recovery wait for this daily tick.
+			crons: [{ path: "/api/internal/heartbeat", schedule: "0 0 * * *" }],
+		},
+	},
 	routes: { "/**": { handler: "./server.ts" } },
 	traceDeps: ["h3"],
 });
