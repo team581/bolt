@@ -199,8 +199,8 @@ importers:
         specifier: 0.266.0
         version: 0.266.0(patch_hash=0aea05d838d43bce0681eb60d9649a722785a9d11af42fd5f2bcac3eb10a0cb7)
       '@slack/socket-mode':
-        specifier: 3.1.1
-        version: 3.1.1(undici@7.29.0)
+        specifier: 3.2.0
+        version: 3.2.0(undici@7.29.0)
       envalid:
         specifier: 9.0.0
         version: 9.0.0
@@ -1892,8 +1892,8 @@ packages:
     resolution: {integrity: sha512-qYy07je71WnEHgRwmw12DlAnZLi5HXmdlI2WUzUK2LH/rYXQpP6uEg462S5CwfE8FoCKUdIigHtYnOOfzZH1lQ==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
-  '@slack/socket-mode@3.1.1':
-    resolution: {integrity: sha512-PtPzxkKTGWw7RWZVlQziNHt8ktSctjpzaVyC30K8AvMwGWwCNT+M/vLAI3AQko6d8X9eWo+hA8eNO4k6j8Qrfw==}
+  '@slack/socket-mode@3.2.0':
+    resolution: {integrity: sha512-G5cp8+C1tNmQy7f3RC+ZgXbUcGmSch4bKcwcv7bYVZF9JDLbQZH9mvBhSKIi2lnhFRF6WwMFubsMM8QwUyVATA==}
     engines: {node: '>=20', npm: '>=9.6.4'}
     peerDependencies:
       undici: ^7.0.0 || ^8.0.0
@@ -6347,7 +6347,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@slack/socket-mode@3.1.1(undici@7.29.0)':
+  '@slack/socket-mode@3.2.0(undici@7.29.0)':
     dependencies:
       '@slack/logger': 5.0.0
       '@slack/web-api': 8.3.0
