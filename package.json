@@ -30,7 +30,7 @@
 	"devDependencies": {
 		"@modelcontextprotocol/sdk": "1.32.2",
 		"@sindresorhus/slugify": "4.0.1",
-		"@types/node": "26.6.7",
+		"@types/node": "26.6.10",
 		"@vercel/config": "0.15.0",
 		"handlebars": "4.7.10",
 		"nitro": "3.0.260522-beta",
