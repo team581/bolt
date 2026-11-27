@@ -1,7 +1,7 @@
 diff --git a/dist/index.d.ts b/dist/index.d.ts
 --- a/dist/index.d.ts
 +++ b/dist/index.d.ts
-@@ -2444,6 +2444,12 @@
+@@ -2763,6 +2763,12 @@
     * return undefined to use those credentials for this request.
     */
    grantForEgress?(ctx: EgressHookContext): Promise<PluginGrant | undefined> | PluginGrant | undefined;

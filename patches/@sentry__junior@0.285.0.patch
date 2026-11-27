@@ -1,7 +1,16 @@
-diff --git a/dist/agent-runner-BtYK7bht.js b/dist/agent-runner-BtYK7bht.js
---- a/dist/agent-runner-BtYK7bht.js
-+++ b/dist/agent-runner-BtYK7bht.js
-@@ -15379,6 +15379,28 @@
+diff --git a/dist/agent-runner-BsWhHe4N.js b/dist/agent-runner-BsWhHe4N.js
+--- a/dist/agent-runner-BsWhHe4N.js
++++ b/dist/agent-runner-BsWhHe4N.js
+@@ -15551,7 +15551,7 @@
+ 		provider: "slack",
+ 		providerTenantId: slackContext.teamId
+ 	} : { kind: "public" }, context.conversationId, slackContext ? createSlackConversationBriefSearchPort(slackContext.teamId) : void 0);
+-	if (context.workspace.createPreview) tools.createPreview = createCreatePreviewTool(context.workspace.createPreview);
++	// Bolt does not expose public sandbox previews.
+ 	if (context.supportsImageInput) tools.viewImage = createViewImageTool(context.workspace, context.supportsImageInput, hooks.toolOverrides?.viewImage);
+ 	if (hooks.writeGeneratedArtifacts) tools.imageGenerate = createImageGenerateTool({ writeGeneratedArtifacts: hooks.writeGeneratedArtifacts }, {
+ 		modelId: botConfig.imageGenerationModelId,
+@@ -17987,6 +17987,28 @@
  		super("mcp", provider, providerDisplayName, disposition, requestText);
  	}
  };
@@ -30,11 +39,11 @@ diff --git a/dist/agent-runner-BtYK7bht.js b/dist/agent-runner-BtYK7bht.js
  /** Create MCP authorization orchestration for a single agent run. */
  function createMcpAuthOrchestration(input) {
  	let pendingPause;
-@@ -15386,6 +15408,11 @@
+@@ -17994,6 +18016,11 @@
  	const botAuthProviders = /* @__PURE__ */ new Set();
  	const authProviderFactory = async (plugin) => {
  		const mcp = plugin.manifest.mcp;
-+		const mcpAccessToken = pluginFor(plugin.manifest.name)?.hooks?.mcpAccessToken;
++		const mcpAccessToken = getPlugins().find((candidate) => candidate.manifest.name === plugin.manifest.name)?.hooks?.mcpAccessToken;
 +		if (mcpAccessToken) {
 +			botAuthProviders.add(plugin.manifest.name);
 +			return createHookTokenMcpClientProvider(plugin.manifest.name, mcpAccessToken);
@@ -42,10 +51,23 @@ diff --git a/dist/agent-runner-BtYK7bht.js b/dist/agent-runner-BtYK7bht.js
  		if (mcp?.auth) {
  			botAuthProviders.add(plugin.manifest.name);
  			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);
-diff --git a/dist/client-B0YZfxNy.js b/dist/client-B0YZfxNy.js
---- a/dist/client-B0YZfxNy.js
-+++ b/dist/client-B0YZfxNy.js
-@@ -296,6 +296,23 @@
+diff --git a/dist/app.js b/dist/app.js
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -7849,7 +7849,8 @@
+ 			services: runtimeServiceOverrides
+ 		}),
+ 		allowedBotUserIds: options?.slack?.allowedBotUserIds ?? [],
+-		allowedDomains,
++		// Bolt keeps Slack open to every workspace member; domains only restrict Dashboard access.
++		allowedDomains: [],
+ 		autoJoinNewChannels: options?.slack?.autoJoinNewChannels === true
+ 	};
+ 	const app = new Hono();
+diff --git a/dist/client-DDbBucBw.js b/dist/client-DDbBucBw.js
+--- a/dist/client-DDbBucBw.js
++++ b/dist/client-DDbBucBw.js
+@@ -305,6 +305,23 @@
  const GATEWAY_PROVIDER = "vercel-ai-gateway";
  const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh";
  const GATEWAY_MODEL_OVERRIDES = {
@@ -69,16 +91,3 @@ diff --git a/dist/client-B0YZfxNy.js b/dist/client-B0YZfxNy.js
  	"anthropic/claude-opus-5.5": {
  		id: "anthropic/claude-opus-5.5",
  		name: "Claude Opus 5.5",
-diff --git a/dist/app.js b/dist/app.js
---- a/dist/app.js
-+++ b/dist/app.js
-@@ -5299,7 +5299,8 @@
- 			services: runtimeServiceOverrides
- 		}),
- 		allowedBotUserIds: options?.slack?.allowedBotUserIds ?? [],
--		allowedDomains
-+		// Bolt keeps Slack open to every workspace member; domains only restrict Dashboard access.
-+		allowedDomains: []
- 	};
- 	const app = new Hono();
- 	app.onError((err, c) => {

@@ -13,7 +13,10 @@ const config = defineConfig({
 		config: {
 			version: 3,
 			// Temporary Vercel Hobby mitigation; scheduled work and recovery wait for this daily tick.
-			crons: [{ path: "/api/internal/heartbeat", schedule: "0 0 * * *" }],
+			crons: [
+				{ path: "/api/internal/heartbeat", schedule: "0 0 * * *" },
+				{ path: "/api/internal/auto-archive", schedule: "17 0 * * *" },
+			],
 		},
 	},
 	routes: { "/**": { handler: "./server.ts" } },
