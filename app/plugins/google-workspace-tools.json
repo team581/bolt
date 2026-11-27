@@ -3,7 +3,10 @@
 		"download_file_content",
 		"get_file_metadata",
 		"get_file_permissions",
+		"get_shared_drive_metadata",
+		"list_file_revisions",
 		"list_recent_files",
+		"list_shared_drives",
 		"read_file_content",
 		"search_files"
 	],
