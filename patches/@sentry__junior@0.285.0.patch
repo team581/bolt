@@ -91,3 +91,12 @@ diff --git a/dist/client-DDbBucBw.js b/dist/client-DDbBucBw.js
  	"anthropic/claude-opus-5.5": {
  		id: "anthropic/claude-opus-5.5",
  		name: "Claude Opus 5.5",
+diff --git a/migrations/0077_drop_agent_invocation_model_profile.sql b/migrations/0077_drop_agent_invocation_model_profile.sql
+--- a/migrations/0077_drop_agent_invocation_model_profile.sql
++++ b/migrations/0077_drop_agent_invocation_model_profile.sql
+@@ -1 +1,3 @@
+-ALTER TABLE "junior_agent_invocations" DROP COLUMN "model_profile";
+\ No newline at end of file
++-- Bolt retains this legacy column while the old deployment may still serve requests.
++-- New Junior no longer reads it; keeping its data permits a safe deployment overlap.
++SELECT 1;
