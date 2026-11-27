@@ -30,11 +30,11 @@
 	"devDependencies": {
 		"@modelcontextprotocol/sdk": "1.32.2",
 		"@sindresorhus/slugify": "4.0.1",
-		"@types/node": "26.6.10",
+		"@types/node": "26.6.11",
 		"@vercel/config": "0.15.0",
 		"handlebars": "4.7.10",
 		"nitro": "3.0.260522-beta",
-		"railway": "3.17.0",
+		"railway": "3.18.0",
 		"skills": "1.9.0",
 		"typescript": "7.0.2",
 		"vite": "catalog:",
