@@ -91,6 +91,12 @@ diff --git a/dist/client-DDbBucBw.js b/dist/client-DDbBucBw.js
  	"anthropic/claude-opus-5.5": {
  		id: "anthropic/claude-opus-5.5",
  		name: "Claude Opus 5.5",
+diff --git a/dist/turn-session-routing-CGMKrYOj.js b/dist/turn-session-routing-CGMKrYOj.js
+--- a/dist/turn-session-routing-CGMKrYOj.js
++++ b/dist/turn-session-routing-CGMKrYOj.js
+@@ -352,0 +353,2 @@
++	// Keep new definitions readable by the previous deployment during overlap or rollback.
++	if (!record.trigger.identifier || !record.trigger.resourceType) throw new Error("Bolt event automations require a resource type and identifier for deployment compatibility.");
 diff --git a/migrations/0077_drop_agent_invocation_model_profile.sql b/migrations/0077_drop_agent_invocation_model_profile.sql
 --- a/migrations/0077_drop_agent_invocation_model_profile.sql
 +++ b/migrations/0077_drop_agent_invocation_model_profile.sql
