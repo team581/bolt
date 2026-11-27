@@ -14,18 +14,10 @@ export default await createApp({
 	// The Junior runtime patch keeps Slack workspace access independent of this Dashboard allowlist.
 	allowedDomains: ["team581.com"],
 	dashboard,
-	defaultProfile: "bolt",
 	experimental: { "passive-routing": true },
 	fastModelId: config.BOLT_REPLY_GATE_MODEL_ID,
 	guardianModelId: config.BOLT_REPLY_GATE_MODEL_ID,
+	modelId: config.BOLT_MODEL_ID,
 	plugins,
-	profiles: {
-		bolt: {
-			description:
-				"Use for Team 581 robot-code questions, debugging, GitHub project management, WPILOG analysis, and other software-team work.",
-			modelId: config.BOLT_MODEL_ID,
-			reasoningLevel: "high",
-		},
-	},
 	sandbox: { vcpus: 2 },
 });
