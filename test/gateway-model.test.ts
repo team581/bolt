@@ -1,14 +1,17 @@
-import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { describe, expect, it } from "vitest";
 import { config } from "../src/config.ts";
+import { juniorBundle } from "./junior-bundle.ts";
 
-const require = createRequire(import.meta.url);
-// Junior 0.266.0's resolver is internal; exercise the same bundled function used by agent turns.
-const clientUrl = pathToFileURL(join(dirname(require.resolve("@sentry/junior")), "client-B0YZfxNy.js"));
-const { s: resolveGatewayModel } = (await import(clientUrl.href)) as {
-	s: (id: string) => { id: string; provider: string; reasoning: boolean; contextWindow: number };
+const client = juniorBundle("client-");
+const exportName = /resolveGatewayModel as (\w+)/u.exec(client.source)?.[1];
+if (exportName === undefined) throw new Error("Junior no longer exports its gateway model resolver");
+const clientModule = (await import(pathToFileURL(client.path).href)) as Record<string, unknown>;
+const resolveGatewayModel = clientModule[exportName] as (id: string) => {
+	id: string;
+	provider: string;
+	reasoning: boolean;
+	contextWindow: number;
 };
 
 describe("Bolt's gateway model", () => {
@@ -18,5 +21,19 @@ describe("Bolt's gateway model", () => {
 		expect(model.provider).toBe("vercel-ai-gateway");
 		expect(model.reasoning).toBe(true);
 		expect(model.contextWindow).toBeGreaterThan(0);
+	});
+
+	it("preserves Kimi's transport, capabilities, limits, and cost reporting", () => {
+		expect(resolveGatewayModel("moonshotai/kimi-k3.1-pro")).toMatchObject({
+			id: "moonshotai/kimi-k3.1-pro",
+			api: "anthropic-messages",
+			provider: "vercel-ai-gateway",
+			baseUrl: "https://ai-gateway.vercel.sh",
+			reasoning: true,
+			input: ["text", "image"],
+			cost: { input: 2, output: 10, cacheRead: 0.2, cacheWrite: 2 },
+			contextWindow: 1048576,
+			maxTokens: 1048576,
+		});
 	});
 });

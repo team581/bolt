@@ -1,0 +1,108 @@
+diff --git a/dist/agent-runner-BsWhHe4N.js b/dist/agent-runner-BsWhHe4N.js
+--- a/dist/agent-runner-BsWhHe4N.js
++++ b/dist/agent-runner-BsWhHe4N.js
+@@ -15551,7 +15551,7 @@
+ 		provider: "slack",
+ 		providerTenantId: slackContext.teamId
+ 	} : { kind: "public" }, context.conversationId, slackContext ? createSlackConversationBriefSearchPort(slackContext.teamId) : void 0);
+-	if (context.workspace.createPreview) tools.createPreview = createCreatePreviewTool(context.workspace.createPreview);
++	// Bolt does not expose public sandbox previews.
+ 	if (context.supportsImageInput) tools.viewImage = createViewImageTool(context.workspace, context.supportsImageInput, hooks.toolOverrides?.viewImage);
+ 	if (hooks.writeGeneratedArtifacts) tools.imageGenerate = createImageGenerateTool({ writeGeneratedArtifacts: hooks.writeGeneratedArtifacts }, {
+ 		modelId: botConfig.imageGenerationModelId,
+@@ -17987,6 +17987,28 @@
+ 		super("mcp", provider, providerDisplayName, disposition, requestText);
+ 	}
+ };
++/** Bot auth: the plugin's `mcpAccessToken` hook returns a bearer token for every MCP request. */
++function createHookTokenMcpClientProvider(provider, hook) {
++	const nonInteractive = () => {
++		throw new Error(`Plugin "${provider}" MCP access token hook auth is non-interactive`);
++	};
++	return {
++		redirectUrl: void 0,
++		clientMetadata: {
++			client_name: provider,
++			redirect_uris: []
++		},
++		clientInformation: () => void 0,
++		tokens: async () => ({
++			access_token: await hook({ plugin: { name: provider } }),
++			token_type: "Bearer"
++		}),
++		saveTokens: () => {},
++		redirectToAuthorization: nonInteractive,
++		saveCodeVerifier: nonInteractive,
++		codeVerifier: nonInteractive
++	};
++}
+ /** Create MCP authorization orchestration for a single agent run. */
+ function createMcpAuthOrchestration(input) {
+ 	let pendingPause;
+@@ -17994,6 +18016,11 @@
+ 	const botAuthProviders = /* @__PURE__ */ new Set();
+ 	const authProviderFactory = async (plugin) => {
+ 		const mcp = plugin.manifest.mcp;
++		const mcpAccessToken = getPlugins().find((candidate) => candidate.manifest.name === plugin.manifest.name)?.hooks?.mcpAccessToken;
++		if (mcpAccessToken) {
++			botAuthProviders.add(plugin.manifest.name);
++			return createHookTokenMcpClientProvider(plugin.manifest.name, mcpAccessToken);
++		}
+ 		if (mcp?.auth) {
+ 			botAuthProviders.add(plugin.manifest.name);
+ 			return createJwtBearerMcpClientProvider(plugin.manifest.name, mcp.url, mcp.auth);
+diff --git a/dist/app.js b/dist/app.js
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -7849,7 +7849,8 @@
+ 			services: runtimeServiceOverrides
+ 		}),
+ 		allowedBotUserIds: options?.slack?.allowedBotUserIds ?? [],
+-		allowedDomains,
++		// Bolt keeps Slack open to every workspace member; domains only restrict Dashboard access.
++		allowedDomains: [],
+ 		autoJoinNewChannels: options?.slack?.autoJoinNewChannels === true
+ 	};
+ 	const app = new Hono();
+diff --git a/dist/client-DDbBucBw.js b/dist/client-DDbBucBw.js
+--- a/dist/client-DDbBucBw.js
++++ b/dist/client-DDbBucBw.js
+@@ -305,6 +305,23 @@
+ const GATEWAY_PROVIDER = "vercel-ai-gateway";
+ const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh";
+ const GATEWAY_MODEL_OVERRIDES = {
++	"moonshotai/kimi-k3.1-pro": {
++		id: "moonshotai/kimi-k3.1-pro",
++		name: "Kimi K3.1 Pro",
++		api: "anthropic-messages",
++		provider: GATEWAY_PROVIDER,
++		baseUrl: GATEWAY_BASE_URL,
++		reasoning: true,
++		input: ["text", "image"],
++		cost: {
++			input: 2,
++			output: 10,
++			cacheRead: .2,
++			cacheWrite: 2
++		},
++		contextWindow: 1048576,
++		maxTokens: 1048576
++	},
+ 	"anthropic/claude-opus-5.5": {
+ 		id: "anthropic/claude-opus-5.5",
+ 		name: "Claude Opus 5.5",
+diff --git a/dist/turn-session-routing-CGMKrYOj.js b/dist/turn-session-routing-CGMKrYOj.js
+--- a/dist/turn-session-routing-CGMKrYOj.js
++++ b/dist/turn-session-routing-CGMKrYOj.js
+@@ -352,0 +353,2 @@
++	// Keep new definitions readable by the previous deployment during overlap or rollback.
++	if (!record.trigger.identifier || !record.trigger.resourceType) throw new Error("Bolt event automations require a resource type and identifier for deployment compatibility.");
+diff --git a/migrations/0077_drop_agent_invocation_model_profile.sql b/migrations/0077_drop_agent_invocation_model_profile.sql
+--- a/migrations/0077_drop_agent_invocation_model_profile.sql
++++ b/migrations/0077_drop_agent_invocation_model_profile.sql
+@@ -1 +1,3 @@
+-ALTER TABLE "junior_agent_invocations" DROP COLUMN "model_profile";
+\ No newline at end of file
++-- Bolt retains this legacy column while the old deployment may still serve requests.
++-- New Junior no longer reads it; keeping its data permits a safe deployment overlap.
++SELECT 1;
